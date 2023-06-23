@@ -20,7 +20,6 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
   bool isLoading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getMemberInfo();
   }

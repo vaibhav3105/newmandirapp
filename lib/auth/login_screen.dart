@@ -99,14 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          // Padding(
-                          //   padding:
-                          //       const EdgeInsets.symmetric(horizontal: 40, vertical: 50),
-                          //   child: Lottie.network(
-                          //       "https://assets2.lottiefiles.com/packages/lf20_suywrczk.json",
-                          //       height: 200,
-                          //       width: 200),
-                          // ),
                           TextFormField(
                             onChanged: (newValue) {
                               email = newValue;
@@ -163,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-
                           const SizedBox(
                             height: 20,
                           ),
