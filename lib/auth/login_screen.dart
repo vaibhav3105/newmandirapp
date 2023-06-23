@@ -182,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.white,
                                   )
                                 : const Text(
-                                    "Login hat jaa yaha se",
+                                    "Login",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
