@@ -35,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
         'password': password,
         'ssnCode': ssnCode!,
       }, headers, context);
-      // setState(() {
-      //   isLoading = false;
-      // });
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
