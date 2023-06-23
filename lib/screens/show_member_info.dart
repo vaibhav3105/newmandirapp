@@ -41,39 +41,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
       item['items'] = response.where((x) => x['c'] == cat).toList();
       data.add(item);
     }
-    // var response = [
-    //   {
-    //     "cat": "Basic Info",
-    //     "items": [
-    //       {"C": "Basic Info", "K": "Name", "V": "Gaurav Jain"},
-    //       {"C": "Basic Info", "K": "Age", "V": "39 Years (24-OCT-1983)"},
-    //       {"C": "Basic Info", "K": "Relationship", "V": "Self"},
-    //       {"C": "Basic Info", "K": "Gender", "V": "Male"}
-    //     ]
-    //   },
-    //   {
-    //     "cat": "Contact Info",
-    //     "items": [
-    //       {"C": "Contact Info", "K": "Mobile", "V": "9560033422"},
-    //       {"C": "Contact Info", "K": "Email", "V": "jaingrv24@gmail.com"},
-    //       {
-    //         "C": "Contact Info",
-    //         "K": "Address",
-    //         "V": "434, FFB, Sec-35, AE-III"
-    //       },
-    //       {"C": "Contact Info", "K": "Native Place", "V": "Kosi, Mathura (UP)"}
-    //     ]
-    //   },
-    //   {
-    //     "cat": "Other Info",
-    //     "items": [
-    //       {"C": "Other Info", "K": "Are you the family head?", "V": "Yes"},
-    //       {"C": "Other Info", "K": "Occupation", "V": "Software Engineer"}
-    //     ]
-    //   }
-    // ];
-    // Map<String?, dynamic> parsedResponse = jsonDecode(response.body);
-    // List<dynamic> parsedResponse = jsonDecode(response.body);
+
     setState(() {
       memberInfo = data;
       isLoading = false;
