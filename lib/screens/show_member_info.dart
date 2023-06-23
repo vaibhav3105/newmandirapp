@@ -51,7 +51,6 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text("Member Info"),
       ),
