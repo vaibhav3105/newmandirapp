@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/screens/loginInfo.dart';
+import 'package:mandir_app/screens/myFamilyList.dart';
 
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/utils/helper.dart';
@@ -29,27 +30,40 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<DropdownMenuEntry<LookupItem>> dropDownItems =
-      <DropdownMenuEntry<LookupItem>>[];
-  LookupItem? selectedValue;
+  // List<DropdownMenuEntry<LookupItem>> dropDownItems =
+  //     <DropdownMenuEntry<LookupItem>>[];
+  // LookupItem? selectedValue;
   List<dynamic> members = [];
+  List allFilterOptions = [];
+
   int userType = 0;
   bool isLoading = false;
+  bool isLoadingMembers = false;
   void getMembers(LookupItem selectedItem) async {
-    var response = await ApiService().post(
-      "/api/family-member/search",
-      {
-        'searchBy': selectedItem.actualValue,
-        'searchText': textController.text.trim()
-      },
-      headers,
-      context,
-    );
+    try {
+      setState(() {
+        isLoadingMembers = true;
+      });
+      var response = await ApiService().post(
+        "/api/family-member/search",
+        {
+          'searchBy': selectedItem.actualValue,
+          'searchText': textController.text.trim()
+        },
+        headers,
+        context,
+      );
+      print(response);
 
-    setState(() {
-      members = response;
-      isLoading = false;
-    });
+      setState(() {
+        isLoadingMembers = false;
+        members = response;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   final TextEditingController textController = TextEditingController();
@@ -76,31 +90,40 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void getJsonFromApi() async {
+    setState(() {
+      isLoading = true;
+    });
     var response = await ApiService().post(
       "/api/lookup/key-details",
       {'keyName': "SEARCH_MEMBER_BY"},
       headers,
       context,
     );
-    print(response);
+
     var items = (response as List<dynamic>)
         .map((lookUpItem) => LookupItem(
             displayText: lookUpItem["displayText"],
             actualValue: lookUpItem["actualValue"]))
         .toList();
-
     setState(() {
-      dropDownItems = items
-          .map(
-            (LookupItem item) => DropdownMenuEntry<LookupItem>(
-              label: item.displayText,
-              value: item,
-            ),
-          )
-          .toList();
+      allFilterOptions = items;
       isLoading = false;
     });
+
+    // setState(() {
+    //   dropDownItems = items
+    //       .map(
+    //         (LookupItem item) => DropdownMenuEntry<LookupItem>(
+    //           label: item.displayText,
+    //           value: item,
+    //         ),
+    //       )
+    //       .toList();
+    //   isLoading = false;
+    // });
   }
+
+  LookupItem filterValue = LookupItem(displayText: "Name", actualValue: "NAME");
 
   @override
   Widget build(BuildContext context) {
@@ -119,236 +142,390 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      showMenu(
+                        constraints: const BoxConstraints(
+                          minWidth: 150,
                         ),
-                        child: DropdownMenu<LookupItem>(
-                          width: 130,
-                          label: const Text(
-                            "Search By",
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          dropdownMenuEntries: dropDownItems,
-                          onSelected: (LookupItem? item) {
-                            setState(() {
-                              selectedValue = item;
-                            });
+                        context: context,
+                        position: const RelativeRect.fromLTRB(10, 120, 10, 10),
+                        items: List.generate(allFilterOptions.length, (index) {
+                          return PopupMenuItem(
+                            onTap: () {
+                              setState(() {
+                                filterValue = allFilterOptions[index];
+                              });
+                            },
+                            value: allFilterOptions[index],
+                            child: Text(allFilterOptions[index].displayText),
+                          );
+                        }),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Search by ${filterValue.displayText}',
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showMenu(
+                              constraints: const BoxConstraints(
+                                minWidth: 150,
+                              ),
+                              context: context,
+                              position:
+                                  const RelativeRect.fromLTRB(10, 120, 10, 10),
+                              items: List.generate(allFilterOptions.length,
+                                  (index) {
+                                return PopupMenuItem(
+                                  onTap: () {
+                                    setState(() {
+                                      filterValue = allFilterOptions[index];
+                                    });
+                                  },
+                                  value: allFilterOptions[index],
+                                  child:
+                                      Text(allFilterOptions[index].displayText),
+                                );
+                              }),
+                            );
                           },
-                        ),
+                          child: const Icon(
+                            FontAwesomeIcons.caretDown,
+                            size: 15,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: TextFormField(
+                    controller: textController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 10,
                       ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: textController,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 18,
-                              horizontal: 10,
+                      suffixIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 1,
+                            color: Colors.grey,
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 5,
                             ),
-                            labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                            ),
-                            labelText: "Search",
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.search,
+                              ),
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                getMembers(filterValue);
+                              },
                             ),
                           ),
+                        ],
+                      ),
+                      hintText: "Enter your text...",
+                      hintStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          12,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => getMembers(selectedValue!),
-                          child: const Text("Go"),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 13,
                 ),
-                !isLoading
-                    ? Expanded(
-                        child: ListView.builder(
-                          itemCount: members.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: ListTile(
-                                      subtitle: members[index]['t3'] != null
-                                          ? Text(
-                                              members[index]['t3'],
-                                              style: const TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                            )
-                                          : const Text(""),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        horizontal: 30,
-                                        vertical: 1,
+                !isLoadingMembers
+                    ? members.isNotEmpty
+                        ? Expanded(
+                            child: ListView.builder(
+                              itemCount: members.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 19,
                                       ),
-                                      leading: CircleAvatar(
-                                        backgroundColor:
-                                            colors[index % colors.length],
-                                        child: Text(
-                                          members[index]['t1'][0],
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      title: Text(
-                                        members[index]['t1'],
-                                        style: const TextStyle(),
-                                      ),
-                                      trailing: GestureDetector(
-                                        onTap: () {
-                                          FocusScope.of(context).unfocus();
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) {
-                                                return SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.20,
-                                                  width: double.infinity,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 13,
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const SizedBox(
-                                                          height: 10,
+                                      child: GestureDetector(
+                                        onTap: () => nextScreen(
+                                            context,
+                                            ShowMemberInfo(
+                                                memberCode: members[index]
+                                                    ['code'])),
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: ListTile(
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      if (members[index]['age']
+                                                              .length >
+                                                          0)
+                                                        TextSpan(
+                                                          text: members[index]
+                                                              ['age'],
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.grey,
+                                                          ),
                                                         ),
-                                                        const Text(
-                                                          "     Select an action",
+                                                      if (members[index]['age']
+                                                              .length >
+                                                          0)
+                                                        const TextSpan(
+                                                          text: " • ",
                                                           style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                              255,
-                                                              106,
-                                                              78,
-                                                              179,
-                                                            ),
+                                                            color: Colors.grey,
                                                           ),
                                                         ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                            nextScreen(
-                                                              context,
-                                                              ShowMemberInfo(
-                                                                memberCode:
-                                                                    members[index]
-                                                                        [
-                                                                        'code'],
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: const ListTile(
-                                                            title: Text(
-                                                              "View Member Info",
-                                                            ),
-                                                            leading: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .circleInfo,
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                255,
-                                                                106,
-                                                                78,
-                                                                179,
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      TextSpan(
+                                                        text: members[index]
+                                                            ['resultText'],
+                                                        style: const TextStyle(
+                                                          color: Colors.grey,
                                                         ),
-                                                        if (userType == 99)
-                                                          GestureDetector(
-                                                            onTap: () =>
-                                                                nextScreen(
-                                                              context,
-                                                              LoginInfo(
-                                                                memberCode:
-                                                                    members[index]
-                                                                        [
-                                                                        'code'],
+                                                      ),
+                                                      const TextSpan(
+                                                        text: " • ",
+                                                        style: TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text: members[index]
+                                                            ['fullAddress'],
+                                                        style: const TextStyle(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 1,
+                                            ),
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  colors[index % colors.length],
+                                              child: Text(
+                                                members[index]['name'][0],
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            title: Text(
+                                              members[index]['name'],
+                                              style: const TextStyle(),
+                                            ),
+                                            trailing: GestureDetector(
+                                              onTap: () {
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.4,
+                                                        width: double.infinity,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                            horizontal: 13,
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 10,
                                                               ),
-                                                            ),
-                                                            child:
-                                                                const ListTile(
-                                                              title: Text(
-                                                                "View Login Info",
-                                                              ),
-                                                              leading: FaIcon(
-                                                                FontAwesomeIcons
-                                                                    .key,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                  255,
-                                                                  106,
-                                                                  78,
-                                                                  179,
+                                                              const Text(
+                                                                "     Select an action",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                    255,
+                                                                    106,
+                                                                    78,
+                                                                    179,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  nextScreen(
+                                                                    context,
+                                                                    ShowMemberInfo(
+                                                                      memberCode:
+                                                                          members[index]
+                                                                              [
+                                                                              'code'],
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const ListTile(
+                                                                  title: Text(
+                                                                    "View Member Info",
+                                                                  ),
+                                                                  leading:
+                                                                      FaIcon(
+                                                                    FontAwesomeIcons
+                                                                        .userLarge,
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                      255,
+                                                                      106,
+                                                                      78,
+                                                                      179,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  nextScreen(
+                                                                      context,
+                                                                      MyFamilyList(
+                                                                          code: members[index]
+                                                                              [
+                                                                              'code']));
+                                                                },
+                                                                child:
+                                                                    const ListTile(
+                                                                  title: Text(
+                                                                    "View Family",
+                                                                  ),
+                                                                  leading:
+                                                                      FaIcon(
+                                                                    FontAwesomeIcons
+                                                                        .userGroup,
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                      255,
+                                                                      106,
+                                                                      78,
+                                                                      179,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              if (userType ==
+                                                                  99)
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    nextScreen(
+                                                                      context,
+                                                                      LoginInfo(
+                                                                        memberCode:
+                                                                            members[index]['code'],
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                  child:
+                                                                      const ListTile(
+                                                                    title: Text(
+                                                                      "View Login Info",
+                                                                    ),
+                                                                    leading:
+                                                                        FaIcon(
+                                                                      FontAwesomeIcons
+                                                                          .key,
+                                                                      color: Color
+                                                                          .fromARGB(
+                                                                        255,
+                                                                        106,
+                                                                        78,
+                                                                        179,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                            ],
                                                           ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              });
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          color: Colors.white,
-                                          width: 30,
-                                          child: FaIcon(
-                                            FontAwesomeIcons.ellipsisVertical,
-                                            color: Colors.grey[600],
-                                            size: 20,
+                                                        ),
+                                                      );
+                                                    });
+                                              },
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                color: Colors.white,
+                                                width: 30,
+                                                child: FaIcon(
+                                                  FontAwesomeIcons
+                                                      .ellipsisVertical,
+                                                  color: Colors.grey[600],
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                const Divider(
-                                  color: Colors.transparent,
-                                  height: 3,
-                                ),
-                              ],
-                            );
-                          },
+                                    const Divider(
+                                      color: Colors.transparent,
+                                      height: 3,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          )
+                        : const Text('No record found')
+                    : const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
                         ),
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(),
                       )
               ],
             ),

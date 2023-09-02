@@ -15,7 +15,7 @@ class LoginInfo extends StatefulWidget {
 }
 
 class _LoginInfoState extends State<LoginInfo> {
-  var answer = {};
+  var answer = [];
   bool isLoading = false;
   @override
   void initState() {
@@ -49,11 +49,120 @@ class _LoginInfoState extends State<LoginInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Center(child: Text(answer.toString())),
-    );
+        appBar: AppBar(
+          title: const Text(
+            'Login Info',
+          ),
+        ),
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      'Associated with ${answer.length} logins',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: answer.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: const Text(
+                                    "Login Name",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    answer[index]['loginName'],
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 20,
+                                    right: 20,
+                                  ),
+                                  child: Divider(
+                                    height: 0,
+                                    thickness: 1,
+                                    color: Color(0xFFF0F1F3),
+                                  ),
+                                ),
+                                ListTile(
+                                  title: const Text(
+                                    "Password",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    answer[index]['password'],
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 20,
+                                    right: 20,
+                                  ),
+                                  child: Divider(
+                                    height: 0,
+                                    thickness: 1,
+                                    color: Color(0xFFF0F1F3),
+                                  ),
+                                ),
+                                ListTile(
+                                  title: const Text(
+                                    "User Type",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    answer[index]['userTypeText'],
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ));
   }
 }

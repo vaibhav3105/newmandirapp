@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.mandir_app-mergeReleaseResources-13:/values-v23/values-v23.xml",
+            "map": [
+                {
+                    "source": "/Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -84,4 +84,14 @@ class Helper {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getInt('userType');
   }
+
+  static Future<bool?> saveTokenValidity(int validity) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return await sp.setInt('validity', validity);
+  }
+
+  static Future<int?> getTokenValidity() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.getInt('validity');
+  }
 }

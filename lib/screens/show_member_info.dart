@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../service/api_service.dart';
 
@@ -17,11 +19,28 @@ class ShowMemberInfo extends StatefulWidget {
 
 class _ShowMemberInfoState extends State<ShowMemberInfo> {
   List<dynamic> memberInfo = [];
+  String mobile = '';
+  String email = '';
   bool isLoading = false;
   @override
   void initState() {
     super.initState();
     getMemberInfo();
+  }
+
+  bool isValidEmail(String email) {
+    RegExp regExp = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+
+    return regExp.hasMatch(email);
+  }
+
+  bool isMobileNumber10Digit(String mobileNumber) {
+    RegExp regExp = RegExp(r'^[0-9]{10}$');
+    return regExp.hasMatch(mobileNumber);
   }
 
   void getMemberInfo() async {
@@ -41,6 +60,16 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
       item['items'] = response.where((x) => x['c'] == cat).toList();
       data.add(item);
     }
+    for (var item in response) {
+      if (item['k'] == 'Mobile') {
+        mobile = item['v'];
+      }
+    }
+    for (var item in response) {
+      if (item['k'] == 'Email') {
+        email = item['v'];
+      }
+    }
 
     setState(() {
       memberInfo = data;
@@ -52,7 +81,59 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Member Info"),
+        actions: [
+          if (isMobileNumber10Digit(mobile) == true)
+            const SizedBox(
+              width: 30,
+            ),
+          if (isMobileNumber10Digit(mobile) == true)
+            GestureDetector(
+              onTap: () async {
+                await launchUrl(
+                  Uri(scheme: 'tel', path: mobile),
+                );
+              },
+              child: const FaIcon(
+                FontAwesomeIcons.phone,
+                size: 20,
+              ),
+            ),
+          if (isMobileNumber10Digit(mobile) == true)
+            const SizedBox(
+              width: 30,
+            ),
+          if (isMobileNumber10Digit(mobile) == true)
+            GestureDetector(
+              onTap: () async {
+                await launchUrl(Uri(scheme: 'https', path: 'wa.me/$mobile'),
+                    mode: LaunchMode.externalApplication);
+              },
+              child: const FaIcon(
+                FontAwesomeIcons.solidMessage,
+                size: 20,
+              ),
+            ),
+          if (isValidEmail(email) == true)
+            const SizedBox(
+              width: 30,
+            ),
+          if (isValidEmail(email) == true)
+            GestureDetector(
+              onTap: () async {
+                await launchUrl(
+                  Uri(scheme: 'mailto', path: email),
+                );
+              },
+              child: const FaIcon(
+                FontAwesomeIcons.solidEnvelope,
+                size: 20,
+              ),
+            ),
+          const SizedBox(
+            width: 30,
+          ),
+        ],
+        title: const Text("Details"),
       ),
       body: isLoading
           ? const Center(

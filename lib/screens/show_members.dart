@@ -8,22 +8,6 @@ import '../constants.dart';
 import '../service/api_service.dart';
 import '../utils/utils.dart';
 
-// List<Color> generateRandomColors(int count) {
-//   final random = Random();
-//   final List<Color> colors = [];
-
-//   for (int i = 0; i < count; i++) {
-//     final red = random.nextInt(156) + 100;
-//     final green = random.nextInt(156) + 100;
-//     final blue = random.nextInt(156) + 100;
-
-//     final color = Color.fromARGB(255, red, green, blue);
-//     colors.add(color);
-//   }
-//   print(colors);
-//   return colors;
-// }
-
 class Show_members_Screen extends StatefulWidget {
   final String? familyCode;
   final String address;

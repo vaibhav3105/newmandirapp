@@ -30,11 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
       ssnCode = randomssn;
 
       await Helper.saveUserSsnCode(randomssn);
+      await Future.delayed(const Duration(seconds: 5));
       ApiService.login({
         'loginName': loginName,
         'password': password,
         'ssnCode': ssnCode!,
       }, headers, context);
+
       setState(() {
         isLoading = false;
       });
@@ -180,6 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                             onPressed: () {
+                              FocusScope.of(context).unfocus();
                               login(email!.trim(), password!.trim());
                             },
                           ),
@@ -194,9 +197,6 @@ class _LoginScreenState extends State<LoginScreen> {
               )
             ],
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-          // ),
         ],
       ),
     );
