@@ -42,15 +42,21 @@ class _EditScreenState extends State<EditScreen> {
   );
   bool isLoading = false;
   bool? isFamilyHead = false;
-  bool? maskMobile = false;
+  // bool? maskMobile = false;
   APIDropDownItem? initialGender;
   APIDropDownItem? initialOccupation;
   APIDropDownItem? initialMask;
+  APIDropDownItem? initialMaritalStatus;
+  APIDropDownItem? initialMandir;
   List<DropdownMenuItem<APIDropDownItem>> genderOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
   List<DropdownMenuItem<APIDropDownItem>> ocuupationOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
   List<DropdownMenuItem<APIDropDownItem>> maskMobileOptionsButton =
+      <DropdownMenuItem<APIDropDownItem>>[];
+  List<DropdownMenuItem<APIDropDownItem>> maritalStatusOptionsButton =
+      <DropdownMenuItem<APIDropDownItem>>[];
+  List<DropdownMenuItem<APIDropDownItem>> mandirOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
   @override
   void initState() {
@@ -67,7 +73,7 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "maskMobile": maskMobile,
+          "maskConfig": initialMask != null ? initialMask!.actualValue : null,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -76,6 +82,12 @@ class _EditScreenState extends State<EditScreen> {
           "occType":
               initialOccupation != null ? initialOccupation!.actualValue : null,
           "occDetail": occupationDetailController.text.trim(),
+          'maritalStatus': initialMaritalStatus != null
+              ? initialMaritalStatus!.actualValue
+              : null,
+          "qualification": qualificationController.text.trim(),
+          'mandirCode':
+              initialMandir != null ? initialMandir!.actualValue : null,
           "isFamilyHead": isFamilyHead
         },
         headers,
@@ -111,7 +123,7 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "maskMobile": maskMobile,
+          "maskConfig": initialMask != null ? initialMask!.actualValue : null,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -120,6 +132,12 @@ class _EditScreenState extends State<EditScreen> {
           "occType":
               initialOccupation != null ? initialOccupation!.actualValue : null,
           "occDetail": occupationDetailController.text.trim(),
+          'maritalStatus': initialMaritalStatus != null
+              ? initialMaritalStatus!.actualValue
+              : null,
+          "qualification": qualificationController.text.trim(),
+          'mandirCode':
+              initialMandir != null ? initialMandir!.actualValue : null,
           "isFamilyHead": isFamilyHead
         },
         headers,
@@ -158,6 +176,7 @@ class _EditScreenState extends State<EditScreen> {
   final TextEditingController otherPhoneController = TextEditingController();
   final TextEditingController nativePlaceController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
+  final TextEditingController qualificationController = TextEditingController();
   final TextEditingController occupationDetailController =
       TextEditingController();
   var result = {};
@@ -177,7 +196,23 @@ class _EditScreenState extends State<EditScreen> {
             ),
           )
           .toList();
+      var mandirItems = (response['mandirList'] as List<dynamic>)
+          .map(
+            (apiItem) => APIDropDownItem(
+              displayText: apiItem['name'],
+              actualValue: apiItem['code'],
+            ),
+          )
+          .toList();
       var maskItems = (response['mobileConfigList'] as List<dynamic>)
+          .map(
+            (apiItem) => APIDropDownItem(
+              displayText: apiItem['text'],
+              actualValue: apiItem['value'],
+            ),
+          )
+          .toList();
+      var maritalItems = (response['maritalStatus'] as List<dynamic>)
           .map(
             (apiItem) => APIDropDownItem(
               displayText: apiItem['text'],
@@ -204,6 +239,19 @@ class _EditScreenState extends State<EditScreen> {
               (item) => item.actualValue == initialGenderValue,
             );
           } else {}
+          var initialMandirValue = response['info'][0]['mandirCode'];
+
+          if (initialMandirValue.toString().isNotEmpty) {
+            initialMandir = mandirItems.firstWhere(
+              (item) => item.actualValue == initialMandirValue,
+            );
+          } else {}
+          var initialMaritalValue = response['info'][0]['maritalStatus'];
+          if (initialMaritalValue.toString().isNotEmpty) {
+            initialMaritalStatus = maritalItems.firstWhere(
+              (item) => item.actualValue == initialMaritalValue,
+            );
+          } else {}
 
           var initialOccupationValue = response['info'][0]['occType'];
           if (initialOccupationValue != "") {
@@ -224,6 +272,28 @@ class _EditScreenState extends State<EditScreen> {
           }
           result = response;
           genderOptionsButton = genderItems
+              .map(
+                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+                  value: item,
+                  child: Text(
+                    item.displayText,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
+                ),
+              )
+              .toList();
+          mandirOptionsButton = mandirItems
+              .map(
+                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+                  value: item,
+                  child: Text(
+                    item.displayText,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
+                ),
+              )
+              .toList();
+          maritalStatusOptionsButton = maritalItems
               .map(
                 (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
                   value: item,
@@ -258,11 +328,12 @@ class _EditScreenState extends State<EditScreen> {
               .toList();
 
           isFamilyHead = response['info'][0]['isFamilyHead'];
-          maskMobile = response['info'][0]['maskMobile'];
+          // maskMobile = response['info'][0]['maskMobile'];
           dateController.text = response['info'][0]['dob'] != null
               ? DateFormat('dd-MMM-yyyy')
                   .format(DateTime.parse(response['info'][0]['dob']))
               : DateFormat('dd-MMM-yyyy').format(DateTime.now());
+          qualificationController.text = response['info'][0]['qualification'];
           nameController.text = response['info'][0]['name'];
           relationshipController.text = response['info'][0]['relationship'];
           mobileController.text = response['info'][0]['mobile'];
@@ -277,6 +348,28 @@ class _EditScreenState extends State<EditScreen> {
           dateController.text =
               DateFormat('dd-MMM-yyyy').format(DateTime.now());
           genderOptionsButton = genderItems
+              .map(
+                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+                  value: item,
+                  child: Text(
+                    item.displayText,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
+                ),
+              )
+              .toList();
+          mandirOptionsButton = mandirItems
+              .map(
+                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+                  value: item,
+                  child: Text(
+                    item.displayText,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
+                ),
+              )
+              .toList();
+          maritalStatusOptionsButton = maritalItems
               .map(
                 (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
                   value: item,
@@ -359,6 +452,17 @@ class _EditScreenState extends State<EditScreen> {
                         labelText: 'Relationship',
                       ),
                       const SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        'e.g. Son of Gaurav Jain, Wife of Gaurav Jain, etc.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[500],
+                        ),
+                      ),
+
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -377,10 +481,10 @@ class _EditScreenState extends State<EditScreen> {
                         height: 20,
                       ),
                       DropdownButtonFormField(
-                        hint: const Text("Show/Hide Mobile number"),
+                        hint: const Text("Show or Hide Mobile number"),
                         value: initialMask,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Show/Hide Mobile number',
+                          labelText: 'Show or Hide Mobile number',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -440,7 +544,7 @@ class _EditScreenState extends State<EditScreen> {
                         hint: const Text("Select a gender"),
                         value: initialGender,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'gender',
+                          labelText: 'Gender',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -454,9 +558,34 @@ class _EditScreenState extends State<EditScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      DropdownButtonFormField(
+                        hint: const Text("Select a marital status"),
+                        value: initialMaritalStatus,
+                        decoration: textInputDecoration.copyWith(
+                          labelText: 'Marital Status',
+                          fillColor: Colors.white,
+                          filled: true,
+                        ),
+                        items: maritalStatusOptionsButton,
+                        onChanged: (APIDropDownItem? item) {
+                          setState(() {
+                            initialMaritalStatus = item!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       CustomTextField(
                         controller: otherPhoneController,
                         labelText: 'Other Phone Number',
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomTextAreaField(
+                        controller: qualificationController,
+                        labelText: 'Qualification',
                       ),
                       const SizedBox(
                         height: 20,
@@ -513,9 +642,50 @@ class _EditScreenState extends State<EditScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      CustomTextField(
+                      CustomTextAreaField(
                         controller: occupationDetailController,
                         labelText: 'Occupation Detail',
+                      ),
+
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        'e.g. Your company or business name with address.',
+                        style: TextStyle(
+                          color: Colors.grey[500],
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      DropdownButtonFormField(
+                        isExpanded: true,
+                        isDense: false,
+                        hint: const Text("Select near by Jain Mandir"),
+                        value: initialMandir,
+                        decoration: textInputDecoration.copyWith(
+                          labelText: 'Near by Jain Mandir',
+                          fillColor: Colors.white,
+                          filled: true,
+                        ),
+                        items: mandirOptionsButton,
+                        onChanged: (APIDropDownItem? item) {
+                          setState(() {
+                            initialMandir = item!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        'Note: Only admin can edit this field.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[500],
+                        ),
                       ),
                       const SizedBox(
                         height: 10,

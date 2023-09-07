@@ -7,6 +7,7 @@ import 'package:mandir_app/screens/changeAddressScreen.dart';
 import 'package:mandir_app/screens/editScreen.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/utils/utils.dart';
+import 'package:mandir_app/widgets/custom_textfield.dart';
 import 'package:mandir_app/widgets/drawer.dart';
 
 import '../service/api_service.dart';
@@ -120,11 +121,22 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                         ),
                                       );
                                     },
-                                    child: const CircleAvatar(
-                                        child: FaIcon(
-                                      FontAwesomeIcons.pencil,
-                                      size: 18,
-                                    )),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(
+                                        5,
+                                      ),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            5,
+                                          ),
+                                          color: Colors.grey[300]),
+                                      child: FaIcon(
+                                        FontAwesomeIcons.pencil,
+                                        size: 18,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),
@@ -400,27 +412,31 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                                                                   const SizedBox(
                                                                                     height: 13,
                                                                                   ),
-                                                                                  TextFormField(
+                                                                                  CustomTextAreaField(
+                                                                                    labelText: "Please enter a remark",
                                                                                     controller: remarkController,
-                                                                                    decoration: InputDecoration(
-                                                                                      hintText: "Please enter a remark",
-                                                                                      hintStyle: const TextStyle(
-                                                                                        fontSize: 13,
-                                                                                      ),
-                                                                                      filled: true,
-                                                                                      fillColor: Colors.white,
-                                                                                      contentPadding: const EdgeInsets.symmetric(
-                                                                                        vertical: 5,
-                                                                                        horizontal: 10,
-                                                                                      ),
-                                                                                      border: OutlineInputBorder(
-                                                                                        borderRadius: BorderRadius.circular(
-                                                                                          12,
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                    maxLines: 4,
-                                                                                  ),
+                                                                                  )
+                                                                                  // TextFormField(
+                                                                                  //   controller: remarkController,
+                                                                                  //   decoration: InputDecoration(
+                                                                                  //     hintText: "Please enter a remark",
+                                                                                  //     hintStyle: const TextStyle(
+                                                                                  //       fontSize: 13,
+                                                                                  //     ),
+                                                                                  //     filled: true,
+                                                                                  //     fillColor: Colors.white,
+                                                                                  //     contentPadding: const EdgeInsets.symmetric(
+                                                                                  //       vertical: 5,
+                                                                                  //       horizontal: 10,
+                                                                                  //     ),
+                                                                                  //     border: OutlineInputBorder(
+                                                                                  //       borderRadius: BorderRadius.circular(
+                                                                                  //         12,
+                                                                                  //       ),
+                                                                                  //     ),
+                                                                                  //   ),
+                                                                                  //   maxLines: 4,
+                                                                                  // ),
                                                                                 ],
                                                                               ),
                                                                             );

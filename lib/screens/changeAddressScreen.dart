@@ -121,7 +121,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Change Address',
+          'Edit Address',
         ),
       ),
       body: Form(
@@ -130,13 +130,24 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
             horizontal: 20,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 30,
               ),
-              CustomTextField(
+              CustomTextAreaField(
                 labelText: 'Address',
                 controller: addressController,
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              Text(
+                'Note: Please enter your full address here.',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[500],
+                ),
               ),
               const SizedBox(
                 height: 20,

@@ -24,3 +24,27 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+class CustomTextAreaField extends StatelessWidget {
+  final String labelText;
+  final TextEditingController controller;
+  const CustomTextAreaField({
+    Key? key,
+    required this.labelText,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      maxLines: 5,
+      minLines: 1,
+      decoration: textInputDecoration.copyWith(
+        filled: true,
+        fillColor: Colors.white,
+        labelText: labelText,
+      ),
+    );
+  }
+}

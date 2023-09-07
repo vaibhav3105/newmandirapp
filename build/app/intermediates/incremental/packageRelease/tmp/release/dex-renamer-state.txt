@@ -1,4 +1,4 @@
-#Thu Aug 31 15:13:48 IST 2023
+#Wed Sep 06 21:45:02 IST 2023
 base.0=/Users/DELL/Desktop/newmandirapp/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

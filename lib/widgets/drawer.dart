@@ -4,7 +4,7 @@ import 'package:mandir_app/auth/login_screen.dart';
 import 'package:mandir_app/screens/birthdayScreen.dart';
 import 'package:mandir_app/screens/changePasswordScreen.dart';
 import 'package:mandir_app/screens/myFamilyList.dart';
-import 'package:mandir_app/screens/reminderList.dart';
+import 'package:mandir_app/screens/assistant.dart';
 import 'package:mandir_app/screens/search_screen.dart';
 import 'package:mandir_app/utils/utils.dart';
 
@@ -145,7 +145,7 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.of(context).pop();
               nextScreen(
                 context,
-                const ReminderList(
+                const AssistantScreen(
                     // date: '',
                     ),
               );

@@ -1,4 +1,4 @@
-#Fri Sep 01 18:18:31 IST 2023
+#Wed Sep 06 14:16:30 IST 2023
 base.1=/Users/DELL/Desktop/newmandirapp/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
 base.0=/Users/DELL/Desktop/newmandirapp/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex

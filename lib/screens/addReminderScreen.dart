@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mandir_app/screens/assistant.dart';
 
 import 'package:mandir_app/screens/editScreen.dart';
-import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/service/api_service.dart';
 import 'package:mandir_app/utils/styling.dart';
 import 'package:mandir_app/utils/utils.dart';
@@ -65,13 +65,14 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
             "title": titleController.text.trim(),
             "desc": descriptionController.text.trim(),
             "remindOn": dateController.text.trim(),
-            "repeatFlag": initialRepeat!.actualValue
+            "repeatFlag": initialRepeat!.actualValue,
+            'category': initialCategory!.actualValue
           },
           headers,
           context);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const ReminderList(
+            builder: (context) => const AssistantScreen(
                 // date: dateController.text,
                 ),
           ),
@@ -98,7 +99,8 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
             "title": titleController.text.trim(),
             "desc": descriptionController.text.trim(),
             "remindOn": dateController.text.trim(),
-            "repeatFlag": initialRepeat!.actualValue
+            "repeatFlag": initialRepeat!.actualValue,
+            'category': initialCategory!.actualValue
           },
           headers,
           context);
@@ -106,7 +108,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const ReminderList(
+            builder: (context) => const AssistantScreen(
                 // date: dateController.text,
                 ),
           ),
@@ -132,14 +134,15 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       var response = await ApiService().post('/api/reminder/item',
           {"reminderCode": widget.reminderCode}, headers, context);
       var initialRepeatValue = response['repeatFlag'];
-      var initialCategoryValue = response['repeatFlag'];
+      print(response);
+      var initialCategoryValue = response['category'];
       setState(() {
         result = response;
         initialRepeat = repeatItemss.firstWhere(
           (element) => element.actualValue == initialRepeatValue,
         );
         initialCategory = categoryItemss.firstWhere(
-          (element) => element.actualValue == initialRepeatValue,
+          (element) => element.actualValue == initialCategoryValue,
         );
 
         titleController.text = response['title'];
@@ -299,6 +302,23 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                DropdownButtonFormField(
+                  value: initialCategory,
+                  decoration: textInputDecoration.copyWith(
+                    labelText: 'Category',
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  items: categoryOptionsButton,
+                  onChanged: (APIDropDownItem? item) {
+                    setState(() {
+                      initialCategory = item!;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 20,

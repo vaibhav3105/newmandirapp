@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/screens/addReminderScreen.dart';
+import 'package:mandir_app/screens/notes.dart';
 
 import '../constants.dart';
 import '../service/api_service.dart';
@@ -19,10 +20,14 @@ class ReminderList extends StatefulWidget {
   State<ReminderList> createState() => _ReminderListState();
 }
 
-class _ReminderListState extends State<ReminderList> {
+class _ReminderListState extends State<ReminderList>
+    with AutomaticKeepAliveClientMixin<ReminderList> {
+  @override
+  bool get wantKeepAlive => true;
   bool isLoadingDropControls = false;
   bool gettingReminders = false;
   List<dynamic> reminders = [];
+  String? reminderCaption;
   final textController = TextEditingController();
   // final dateController = TextEditingController(
   //   text: DateFormat('dd-MMM-yyyy').format(
@@ -40,7 +45,6 @@ class _ReminderListState extends State<ReminderList> {
     //   dateController.text = widget.date;
     // }
     getSearchByControls();
-    getListOfReminders();
   }
 
   getListOfReminders() async {
@@ -59,7 +63,8 @@ class _ReminderListState extends State<ReminderList> {
           context);
       setState(() {
         reminders = response['reminders'];
-        print(reminders);
+        reminderCaption = response['status'][0]['errorMessage'];
+
         gettingReminders = false;
       });
     } catch (e) {
@@ -99,6 +104,7 @@ class _ReminderListState extends State<ReminderList> {
             .toList();
         isLoadingDropControls = false;
       });
+      getListOfReminders();
     } catch (e) {
       isLoadingDropControls = false;
       showCustomSnackbar(
@@ -112,19 +118,11 @@ class _ReminderListState extends State<ReminderList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "My Reminders",
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add,
-            ),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     "Personal Assistant",
+      //   ),
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           nextScreen(
@@ -139,15 +137,6 @@ class _ReminderListState extends State<ReminderList> {
           Icons.add,
           color: Colors.white,
         ),
-        // label: const Text(
-        //   "Add",
-        //   style: TextStyle(
-        //     fontSize: 20,
-        //   ),
-        // ),
-        // icon: const Icon(
-        //   Icons.add,
-        // ),
       ),
       body: isLoadingDropControls == true
           ? const Center(
@@ -158,10 +147,12 @@ class _ReminderListState extends State<ReminderList> {
                 horizontal: 20,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 20,
                   ),
+
                   DropdownButtonFormField(
                     value: initialSearchBy,
                     decoration: InputDecoration(
@@ -186,13 +177,16 @@ class _ReminderListState extends State<ReminderList> {
                         //   DateTime.now(),
                         // );
                         textController.text = '';
-                        getListOfReminders();
+                        if (initialSearchBy!.actualValue != 'SEARCH_BY_TEXT') {
+                          getListOfReminders();
+                        }
                       });
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
+
                   // if (initialSearchBy!.actualValue == 'SEARCH_BY_DATE')
                   //   TextFormField(
                   //     readOnly: true,
@@ -274,8 +268,15 @@ class _ReminderListState extends State<ReminderList> {
                         ),
                       ),
                     ),
+                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  Text(
+                    reminderCaption == null ? '' : reminderCaption!,
+                  ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   gettingReminders == true
                       ? const Expanded(
@@ -459,6 +460,40 @@ class _ReminderListState extends State<ReminderList> {
                                                               leading: FaIcon(
                                                                 FontAwesomeIcons
                                                                     .pencil,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                  255,
+                                                                  106,
+                                                                  78,
+                                                                  179,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        if (reminders[index]
+                                                                ['type'] ==
+                                                            'REM')
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              nextScreen(
+                                                                  context,
+                                                                  NotesScreen(
+                                                                    reminderCode:
+                                                                        reminders[index]
+                                                                            [
+                                                                            'code'],
+                                                                  ));
+                                                            },
+                                                            child:
+                                                                const ListTile(
+                                                              title: Text(
+                                                                "View Reminder Notes",
+                                                              ),
+                                                              leading: FaIcon(
+                                                                FontAwesomeIcons
+                                                                    .noteSticky,
                                                                 color: Color
                                                                     .fromARGB(
                                                                   255,
