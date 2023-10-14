@@ -7,6 +7,7 @@ List<Color> colors = [
   const Color(0xff8eb564),
   const Color(0xffebe6b4)
 ];
+Color themeVeryLightColor = const Color.fromARGB(255, 186, 181, 199);
 
 // List<Color> colors = [
 //   Color(int.parse("4C52FF".substring(0, 6), radix: 16) + 0xFF000000),

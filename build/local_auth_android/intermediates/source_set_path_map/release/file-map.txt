@@ -1,0 +1,28 @@
+io.flutter.plugins.localauth.local_auth_android-jetified-window-java-1.0.0-beta04-0 /Users/DELL/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/res
+io.flutter.plugins.localauth.local_auth_android-jetified-profileinstaller-1.3.0-1 /Users/DELL/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/res
+io.flutter.plugins.localauth.local_auth_android-lifecycle-viewmodel-2.6.1-2 /Users/DELL/.gradle/caches/transforms-3/4817204ab7acc54a5f2c041737b3ebbd/transformed/lifecycle-viewmodel-2.6.1/res
+io.flutter.plugins.localauth.local_auth_android-jetified-appcompat-resources-1.2.0-3 /Users/DELL/.gradle/caches/transforms-3/5ebaeb5d364ce2c623be4262cc3b2f87/transformed/jetified-appcompat-resources-1.2.0/res
+io.flutter.plugins.localauth.local_auth_android-core-runtime-2.2.0-4 /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/res
+io.flutter.plugins.localauth.local_auth_android-jetified-lifecycle-viewmodel-savedstate-2.6.1-5 /Users/DELL/.gradle/caches/transforms-3/7c1fedf36a262d80afd033982dc78c54/transformed/jetified-lifecycle-viewmodel-savedstate-2.6.1/res
+io.flutter.plugins.localauth.local_auth_android-core-1.10.1-6 /Users/DELL/.gradle/caches/transforms-3/9c9ab1a476c120097a79d748cec7161f/transformed/core-1.10.1/res
+io.flutter.plugins.localauth.local_auth_android-jetified-savedstate-1.2.1-7 /Users/DELL/.gradle/caches/transforms-3/acc0a4ed60db051ae6d4cb2c458aa935/transformed/jetified-savedstate-1.2.1/res
+io.flutter.plugins.localauth.local_auth_android-lifecycle-runtime-2.6.1-8 /Users/DELL/.gradle/caches/transforms-3/ad9f1a2743e3eaf4aa449a5b2d8828b3/transformed/lifecycle-runtime-2.6.1/res
+io.flutter.plugins.localauth.local_auth_android-lifecycle-livedata-2.6.1-9 /Users/DELL/.gradle/caches/transforms-3/b365cbbdc580e3f264ee929243b93252/transformed/lifecycle-livedata-2.6.1/res
+io.flutter.plugins.localauth.local_auth_android-biometric-1.1.0-10 /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/res
+io.flutter.plugins.localauth.local_auth_android-jetified-window-1.0.0-beta04-11 /Users/DELL/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/res
+io.flutter.plugins.localauth.local_auth_android-appcompat-1.2.0-12 /Users/DELL/.gradle/caches/transforms-3/e937b68345cad7d61818d312b6b4c7ca/transformed/appcompat-1.2.0/res
+io.flutter.plugins.localauth.local_auth_android-jetified-annotation-experimental-1.3.0-13 /Users/DELL/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/res
+io.flutter.plugins.localauth.local_auth_android-jetified-activity-1.5.1-14 /Users/DELL/.gradle/caches/transforms-3/f095873b18dd36b667d9dc3ab696f170/transformed/jetified-activity-1.5.1/res
+io.flutter.plugins.localauth.local_auth_android-fragment-1.6.0-15 /Users/DELL/.gradle/caches/transforms-3/f5f615dbf739ddfded50486a65871186/transformed/fragment-1.6.0/res
+io.flutter.plugins.localauth.local_auth_android-jetified-core-ktx-1.10.1-16 /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/res
+io.flutter.plugins.localauth.local_auth_android-lifecycle-livedata-core-2.6.1-17 /Users/DELL/.gradle/caches/transforms-3/fb13d994a9c57675c3797fdb5edd3dc7/transformed/lifecycle-livedata-core-2.6.1/res
+io.flutter.plugins.localauth.local_auth_android-jetified-startup-runtime-1.1.1-18 /Users/DELL/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/res
+io.flutter.plugins.localauth.local_auth_android-main-19 /Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/main/res
+io.flutter.plugins.localauth.local_auth_android-release-20 /Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/release/res
+io.flutter.plugins.localauth.local_auth_android-packaged_res-21 /Users/DELL/Desktop/newmandirapp 2/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/release
+io.flutter.plugins.localauth.local_auth_android-pngs-22 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/generated/res/pngs/release
+io.flutter.plugins.localauth.local_auth_android-resValues-23 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/generated/res/resValues/release
+io.flutter.plugins.localauth.local_auth_android-rs-24 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/generated/res/rs/release
+io.flutter.plugins.localauth.local_auth_android-mergeReleaseResources-25 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.flutter.plugins.localauth.local_auth_android-mergeReleaseResources-26 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.flutter.plugins.localauth.local_auth_android-merged_res-27 /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_res/release

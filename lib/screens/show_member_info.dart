@@ -1,10 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mandir_app/services/docs_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../service/api_service.dart';
+import '../services/advertisementService.dart';
+import '../utils/utils.dart';
+import '../widgets/advertisement.dart';
+import '../widgets/custom_textfield.dart';
+import 'editScreen.dart';
+import 'loginInfo.dart';
+import 'myFamilyList.dart';
 
 class ShowMemberInfo extends StatefulWidget {
   final String memberCode;
@@ -18,6 +33,21 @@ class ShowMemberInfo extends StatefulWidget {
 }
 
 class _ShowMemberInfoState extends State<ShowMemberInfo> {
+  var advertisementResponse = [];
+  getRandomAdvertisement() async {
+    try {
+      var response =
+          await AdvertisementService().getRandomAdvertisement(context);
+      setState(() {
+        advertisementResponse = response;
+      });
+      print(response);
+    } catch (e) {}
+  }
+
+  Uint8List? _byteImage;
+  File? imageFile;
+  final remarkController = TextEditingController();
   List<dynamic> memberInfo = [];
   String mobile = '';
   String email = '';
@@ -25,113 +55,88 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
   @override
   void initState() {
     super.initState();
-    getMemberInfo();
+    getProfilePic();
+    getRandomAdvertisement();
   }
 
-  bool isValidEmail(String email) {
-    RegExp regExp = RegExp(
-      r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
-      caseSensitive: false,
-      multiLine: false,
-    );
-
-    return regExp.hasMatch(email);
-  }
-
-  bool isMobileNumber10Digit(String mobileNumber) {
-    RegExp regExp = RegExp(r'^[0-9]{10}$');
-    return regExp.hasMatch(mobileNumber);
-  }
-
-  void getMemberInfo() async {
+  getProfilePic() async {
     setState(() {
       isLoading = true;
     });
+    try {
+      var response = await DocsService().getDoc(widget.memberCode, context);
+      Uint8List byteImage =
+          const Base64Decoder().convert(response['fileBytes']);
+      setState(() {
+        _byteImage = byteImage;
+      });
+    } catch (e) {}
+
+    getMemberInfo();
+  }
+
+  var menus = [];
+  bool containsUpdateProfilePhoto = false;
+  void getMemberInfo() async {
     var response = await ApiService().post(
       "/api/family-member/view-info",
       {'familyMemberCode': widget.memberCode},
       headers,
       context,
     );
-    var cats = List.from(Set.from(response.map((e) => e['c'])));
+    menus = response['menu'];
+    bool flag = menus.any((item) => item['menu'] == 'UPDATE_PROFILE_PHOTO');
+
+    var cats = List.from(Set.from(response['data'].map((e) => e['c'])));
     var data = [];
     for (var cat in cats) {
       var item = {"cat": cat};
-      item['items'] = response.where((x) => x['c'] == cat).toList();
+      item['items'] = response['data'].where((x) => x['c'] == cat).toList();
       data.add(item);
     }
-    for (var item in response) {
-      if (item['k'] == 'Mobile') {
-        mobile = item['v'];
-      }
-    }
-    for (var item in response) {
-      if (item['k'] == 'Email') {
-        email = item['v'];
-      }
-    }
+    mobile = response['otherInfo'][0]['mobileText'];
+    email = response['otherInfo'][0]['emailText'];
+    // for (var item in response['data']) {
+    //   if (item['k'] == 'Mobile') {
+    //     mobile = item['v'];
+    //   }
+    // }
+    // for (var item in response['data']) {
+    //   if (item['k'] == 'Email') {
+    //     email = item['v'];
+    //   }
+    // }
 
     setState(() {
       memberInfo = data;
       isLoading = false;
+      containsUpdateProfilePhoto = flag;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: advertisementResponse.isNotEmpty
+          ? AdvertisementBanner(
+              title: advertisementResponse[0]['title'],
+              subTitle: advertisementResponse[0]['subTitle'],
+              url: advertisementResponse[0]['url'],
+              mobile: advertisementResponse[0]['mobile'],
+            )
+          : null,
+      // bottomNavigationBar: const AdvertisementBanner(),
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          if (isMobileNumber10Digit(mobile) == true)
-            const SizedBox(
-              width: 30,
+          IconButton(
+            onPressed: () {
+              _showMenuBottomSheet(context, menus);
+            },
+            icon: const Icon(
+              FontAwesomeIcons.bars,
             ),
-          if (isMobileNumber10Digit(mobile) == true)
-            GestureDetector(
-              onTap: () async {
-                await launchUrl(
-                  Uri(scheme: 'tel', path: mobile),
-                );
-              },
-              child: const FaIcon(
-                FontAwesomeIcons.phone,
-                size: 20,
-              ),
-            ),
-          if (isMobileNumber10Digit(mobile) == true)
-            const SizedBox(
-              width: 30,
-            ),
-          if (isMobileNumber10Digit(mobile) == true)
-            GestureDetector(
-              onTap: () async {
-                await launchUrl(Uri(scheme: 'https', path: 'wa.me/$mobile'),
-                    mode: LaunchMode.externalApplication);
-              },
-              child: const FaIcon(
-                FontAwesomeIcons.solidMessage,
-                size: 20,
-              ),
-            ),
-          if (isValidEmail(email) == true)
-            const SizedBox(
-              width: 30,
-            ),
-          if (isValidEmail(email) == true)
-            GestureDetector(
-              onTap: () async {
-                await launchUrl(
-                  Uri(scheme: 'mailto', path: email),
-                );
-              },
-              child: const FaIcon(
-                FontAwesomeIcons.solidEnvelope,
-                size: 20,
-              ),
-            ),
-          const SizedBox(
-            width: 30,
-          ),
+          )
         ],
         title: const Text("Details"),
       ),
@@ -139,13 +144,104 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: ListView.builder(
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: 180,
+                        width: double.infinity,
+                        color: Theme.of(context).primaryColor,
+                        child: Image.asset(
+                          'assets/images/network.jpeg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Stack(
+                        children: [
+                          Positioned(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(200),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 3,
+                                    ),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: 6.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 90,
+                                    backgroundImage: _byteImage != null
+                                        ? MemoryImage(
+                                            _byteImage!,
+                                          )
+                                        : const AssetImage(
+                                                'assets/images/person.jpeg')
+                                            as ImageProvider,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // const Positioned(
+                          //   right: 140,
+                          //   top: 150,
+                          //   child: CircleAvatar(
+                          //     backgroundColor: Colors.blue,
+                          //     child: Icon(
+                          //       FontAwesomeIcons.pencil,
+                          //       size: 20,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // )
+                        ],
+                      ),
+                      if (containsUpdateProfilePhoto)
+                        Positioned(
+                          right: MediaQuery.of(context).size.width / 3.5,
+                          top: 150,
+                          child: GestureDetector(
+                            onTap: () async {
+                              Map<Permission, PermissionStatus> statuses =
+                                  await [
+                                // Permission.storage,
+                                Permission.camera
+                              ].request();
+
+                              if (statuses[Permission.camera]!.isGranted) {
+                                showImagePicker(context);
+                              }
+                            },
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.blue,
+                              child: Icon(
+                                FontAwesomeIcons.pencil,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: memberInfo.length,
                     itemBuilder: (context, outerIndex) {
                       return Column(
@@ -236,9 +332,472 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
                       );
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
     );
+  }
+
+  void _showMenuBottomSheet(BuildContext context, menuItems) {
+    print(menuItems.length);
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+              ),
+              child: Center(
+                child: Container(
+                  height: 6,
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(
+                          0.7,
+                        ),
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "     Select an action",
+              style: TextStyle(
+                color: Color.fromARGB(
+                  255,
+                  106,
+                  78,
+                  179,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: menuItems.length * 60.0,
+              child: ListView.builder(
+                itemCount: menuItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final menuItem = menuItems[index];
+                  String title = '';
+                  Function? onTap;
+                  Icon? icon;
+
+                  // Assign titles and functions based on menu item
+                  if (menuItem['menu'] == 'SHOW_CALL') {
+                    title = 'Make Call';
+                    icon = Icon(
+                      FontAwesomeIcons.phone,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      // Implement the call functionality here
+
+                      Navigator.pop(context);
+                      await launchUrl(
+                        Uri(scheme: 'tel', path: mobile),
+                      );
+                    };
+                  } else if (menuItem['menu'] == 'SHOW_WHATSAPP') {
+                    title = 'Send WhatsApp';
+                    icon = Icon(
+                      FontAwesomeIcons.whatsapp,
+                      color: Theme.of(context).primaryColor,
+                      size: 30,
+                    );
+                    onTap = () async {
+                      // Implement the WhatsApp functionality here
+
+                      Navigator.pop(context);
+                      await launchUrl(
+                          Uri(scheme: 'https', path: 'wa.me/$mobile'),
+                          mode: LaunchMode.externalApplication);
+                    };
+                  } else if (menuItem['menu'] == 'SHOW_EMAIL') {
+                    title = 'Send Email';
+                    icon = Icon(
+                      FontAwesomeIcons.solidEnvelope,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      // Implement the email functionality here
+
+                      Navigator.pop(context);
+                      await launchUrl(
+                        Uri(scheme: 'mailto', path: email),
+                      );
+                    };
+                  } else if (menuItem['menu'] == "VIEW_FAMILY") {
+                    title = 'View Family';
+                    icon = Icon(
+                      FontAwesomeIcons.userGroup,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () {
+                      Navigator.pop(context);
+                      nextScreen(
+                        context,
+                        MyFamilyList(
+                          code: widget.memberCode,
+                        ),
+                      );
+                    };
+                  } else if (menuItem['menu'] == "EDIT_MEMBER") {
+                    title = 'Edit Member';
+                    icon = Icon(
+                      FontAwesomeIcons.pencil,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () {
+                      Navigator.pop(context);
+                      nextScreen(
+                        context,
+                        EditScreen(
+                          groupCode: '',
+                          membercode: widget.memberCode,
+                        ),
+                      );
+                    };
+                  } else if (menuItem['menu'] == "DELETE_MEMBER") {
+                    title = 'Delete Member';
+                    icon = Icon(
+                      FontAwesomeIcons.trash,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () {
+                      // Implement the email functionality here
+
+                      Navigator.pop(context);
+                      remarkController.text = '';
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text(
+                                "Delete Member",
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  onPressed: () async {
+                                    var response = await ApiService().post(
+                                      '/api/family-member/delete',
+                                      {
+                                        "familyMemberCode": widget.memberCode,
+                                        'remark': remarkController.text.trim()
+                                      },
+                                      headers,
+                                      context,
+                                    );
+                                    if (response['errorCode'] == 0) {
+                                      Navigator.pop(context);
+                                      remarkController.text = '';
+                                      showCustomSnackbar(
+                                        context,
+                                        Colors.black,
+                                        response['message'],
+                                      );
+                                      Navigator.pushAndRemoveUntil(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return MyFamilyList(code: '');
+                                      }), (route) => false);
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    "Are you sure you want to delete this member?",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 13,
+                                  ),
+                                  CustomTextAreaField(
+                                    labelText: "Please enter a remark",
+                                    controller: remarkController,
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                    };
+                  } else if (menuItem['menu'] == "SHOW_LOGIN_INFO") {
+                    title = 'Show Login Info';
+                    icon = Icon(
+                      FontAwesomeIcons.key,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () {
+                      // Implement the email functionality here
+
+                      Navigator.pop(context);
+                      nextScreen(
+                        context,
+                        LoginInfo(
+                          memberCode: widget.memberCode,
+                        ),
+                      );
+                    };
+                  } else if (menuItem['menu'] == "SHOW_FM_BDAY_PIN") {
+                    title = 'Add this birthday to my reminder';
+                    icon = Icon(
+                      FontAwesomeIcons.cakeCandles,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      // Implement the email functionality here
+                      var response = await ApiService().post(
+                          '/api/family-member/toggle-birthday-reminder',
+                          {"familyMemberCode": widget.memberCode},
+                          headers,
+                          context);
+
+                      Navigator.pop(context);
+                      getMemberInfo();
+                    };
+                  } else if (menuItem['menu'] == "SHOW_FM_BDAY_UNPIN") {
+                    title = 'Remove this birthday from my reminder';
+                    icon = Icon(
+                      FontAwesomeIcons.cakeCandles,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      // Implement the email functionality here
+                      var response = await ApiService().post(
+                          '/api/family-member/toggle-birthday-reminder',
+                          {"familyMemberCode": widget.memberCode},
+                          headers,
+                          context);
+                      Navigator.pop(context);
+                      getMemberInfo();
+                    };
+                  } else if (menuItem['menu'] == "UPDATE_PROFILE_PHOTO") {
+                    title = 'Update Profile Photo';
+                    icon = Icon(
+                      FontAwesomeIcons.image,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      Map<Permission, PermissionStatus> statuses = await [
+                        // Permission.storage,
+                        Permission.camera
+                      ].request();
+                      print('object');
+                      if (statuses[Permission.camera]!.isGranted) {
+                        Navigator.pop(context);
+                        print('object');
+                        showImagePicker(context);
+                      }
+                    };
+                  }
+
+                  // Add more menu items as needed
+
+                  return ListTile(
+                    title: Text(title),
+                    onTap: () {
+                      onTap!();
+                    },
+                    leading: icon,
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  final picker = ImagePicker();
+
+  void showImagePicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.2,
+              margin: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.all(12),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: InkWell(
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            // backgroundColor: Color(0xff35769F),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            radius: 40,
+                            child: const Icon(
+                              FontAwesomeIcons.image,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 12.0),
+                          Text(
+                            "Gallery",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[800]),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        _imgFromGallery();
+                        // Navigator.pop(context);
+                      },
+                    )),
+                    Expanded(
+                        child: InkWell(
+                      child: SizedBox(
+                        child: Column(
+                          children: [
+                            const CircleAvatar(
+                              // backgroundColor: Color(0xff662E57),
+                              backgroundColor: Color(0xff35769F),
+                              radius: 40,
+                              child: Icon(
+                                FontAwesomeIcons.camera,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
+                            const SizedBox(height: 12.0),
+                            Text(
+                              "Camera",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[800]),
+                            )
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        _imgFromCamera();
+                        // Navigator.pop(context);
+                      },
+                    ))
+                  ],
+                ),
+              ));
+        });
+  }
+
+  _imgFromGallery() async {
+    await picker
+        .pickImage(source: ImageSource.gallery, imageQuality: 50)
+        .then((value) {
+      if (value != null) {
+        _cropImage(File(value.path));
+      }
+    });
+  }
+
+  _imgFromCamera() async {
+    await picker
+        .pickImage(source: ImageSource.camera, imageQuality: 50)
+        .then((value) {
+      if (value != null) {
+        _cropImage(File(value.path));
+      }
+    });
+  }
+
+  _cropImage(File imgFile) async {
+    final croppedFile = await ImageCropper().cropImage(
+        compressQuality: 90,
+        sourcePath: imgFile.path,
+        aspectRatio: const CropAspectRatio(
+          ratioX: 1.0,
+          ratioY: 1.0,
+        ),
+        maxHeight: 300,
+        maxWidth: 300,
+        // aspectRatioPresets: Platform.isAndroid
+        //     ? [
+        //         CropAspectRatioPreset.square,
+        //         // CropAspectRatioPreset.ratio3x2,
+        //         // CropAspectRatioPreset.original,
+        //         // CropAspectRatioPreset.ratio4x3,
+        //         // CropAspectRatioPreset.ratio16x9
+        //       ]
+        //     : [
+        //         // CropAspectRatioPreset.original,
+        //         CropAspectRatioPreset.square,
+        //         // CropAspectRatioPreset.ratio3x2,
+        //         // CropAspectRatioPreset.ratio4x3,
+        //         // CropAspectRatioPreset.ratio5x3,
+        //         // CropAspectRatioPreset.ratio5x4,
+        //         // CropAspectRatioPreset.ratio7x5,
+        //         // CropAspectRatioPreset.ratio16x9
+        //       ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: "Crop your image",
+            toolbarColor: Theme.of(context).primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            // lockAspectRatio: false,
+          ),
+          IOSUiSettings(
+            title: "Crop your image",
+          )
+        ]);
+    if (croppedFile != null) {
+      imageCache.clear();
+      setState(() {
+        imageFile = File(croppedFile.path);
+      });
+      Navigator.of(context).pop();
+      try {
+        var response = await DocsService()
+            .uploadDoc(context, widget.memberCode, 'PROFILE_PHOTO', imageFile!);
+        if (response['errorCode'] == 0) {
+          showCustomSnackbar(
+            context,
+            Colors.black,
+            response['message'],
+          );
+          getProfilePic();
+        }
+      } catch (e) {}
+    }
   }
 }

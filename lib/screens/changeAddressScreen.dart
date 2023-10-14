@@ -22,15 +22,20 @@ class ChangeAddressScreen extends StatefulWidget {
 
 class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   APIDropDownItem? initialArea;
+  APIDropDownItem? initialMandir;
+  bool isLoading = false;
+  var areaItemss = [];
 
   List<DropdownMenuItem<APIDropDownItem>> areaOptionsButton =
+      <DropdownMenuItem<APIDropDownItem>>[];
+  List<DropdownMenuItem<APIDropDownItem>> mandirOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
   final addressController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAreaList();
+    getAreaAndMandirList();
   }
 
   updateAddress() async {
@@ -40,7 +45,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
           {
             "familyGroupCode": widget.groupCode,
             "areaCode": initialArea!.actualValue,
-            "address": addressController.text.trim()
+            "address": addressController.text.trim(),
+            'mandirCode': initialMandir!.actualValue
           },
           headers,
           context);
@@ -62,7 +68,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
     }
   }
 
-  getCurrentAddress(var areaList) async {
+  getCurrentAddressAndMandir(var areaList, var mandirList) async {
     try {
       var response = await ApiService().post('/api/family-group/item',
           {"familyGroupCode": widget.groupCode}, headers, context);
@@ -70,9 +76,15 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
       setState(() {
         addressController.text = response[0]['address'];
         var initialAreaValue = response[0]['areaCode'];
-
+        var initialMandirValue = response[0]['mandirCode'];
         initialArea = areaList
             .firstWhere((element) => element.actualValue == initialAreaValue);
+        initialMandir = mandirList
+            .firstWhere((element) => element.actualValue == initialMandirValue);
+      });
+
+      setState(() {
+        isLoading = false;
       });
     } catch (e) {
       print(
@@ -81,7 +93,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
     }
   }
 
-  getAreaList() async {
+  getAreaAndMandirList() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       var response = await ApiService().post(
         '/api/master-data/area/list',
@@ -98,6 +113,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
           )
           .toList();
       setState(() {
+        areaItemss = areaItems;
         areaOptionsButton = areaItems
             .map(
               (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
@@ -109,8 +125,44 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
               ),
             )
             .toList();
-        getCurrentAddress(areaItems);
+
+        getMandirList();
       });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getMandirList() async {
+    try {
+      var response = await ApiService().post(
+        '/api/master-data/mandir-ji/list',
+        {},
+        headers,
+        context,
+      );
+      var mandirItems = (response as List<dynamic>)
+          .map(
+            (apiItem) => APIDropDownItem(
+              displayText: apiItem['name'],
+              actualValue: apiItem['mandirCode'],
+            ),
+          )
+          .toList();
+      setState(() {
+        mandirOptionsButton = mandirItems
+            .map(
+              (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+                value: item,
+                child: Text(
+                  item.displayText,
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                ),
+              ),
+            )
+            .toList();
+      });
+      getCurrentAddressAndMandir(areaItemss, mandirItems);
     } catch (e) {
       print(e.toString());
     }
@@ -119,89 +171,114 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Edit Address',
         ),
       ),
-      body: Form(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              CustomTextAreaField(
-                labelText: 'Address',
-                controller: addressController,
-              ),
-              const SizedBox(
-                height: 3,
-              ),
-              Text(
-                'Note: Please enter your full address here.',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[500],
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Form(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              DropdownButtonFormField(
-                hint: const Text("Select an Area"),
-                value: initialArea,
-                decoration: textInputDecoration.copyWith(
-                  labelText: 'Area',
-                  fillColor: Colors.white,
-                  filled: true,
-                ),
-                items: areaOptionsButton,
-                onChanged: (APIDropDownItem? item) {
-                  setState(() {
-                    initialArea = item!;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        updateAddress();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        fixedSize: const Size(170, 40),
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          106,
-                          78,
-                          179,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    CustomTextAreaField(
+                      labelText: 'Address',
+                      controller: addressController,
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      'Note: Please enter your full address here.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[500],
                       ),
-                      child: const Text(
-                        "Update",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      )),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    DropdownButtonFormField(
+                      hint: const Text("Select an Area"),
+                      value: initialArea,
+                      decoration: textInputDecoration.copyWith(
+                        labelText: 'Area',
+                        fillColor: Colors.white,
+                        filled: true,
+                      ),
+                      items: areaOptionsButton,
+                      onChanged: (APIDropDownItem? item) {
+                        setState(() {
+                          initialArea = item!;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    DropdownButtonFormField(
+                      isExpanded: true,
+                      isDense: false,
+                      hint: const Text("Select Mandir Ji"),
+                      value: initialMandir,
+                      decoration: textInputDecoration.copyWith(
+                        labelText: 'Near by Jain Mandir',
+                        fillColor: Colors.white,
+                        filled: true,
+                      ),
+                      items: mandirOptionsButton,
+                      onChanged: (APIDropDownItem? item) {
+                        setState(() {
+                          initialMandir = item!;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              updateAddress();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              fixedSize: const Size(170, 40),
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                106,
+                                78,
+                                179,
+                              ),
+                            ),
+                            child: const Text(
+                              "Update",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

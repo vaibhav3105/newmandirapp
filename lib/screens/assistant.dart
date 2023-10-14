@@ -28,7 +28,7 @@ class _AssistantScreenState extends State<AssistantScreen>
         text: 'Reminders',
       ),
       const Tab(
-        text: 'ToDo',
+        text: 'Todo List',
       )
     ];
     tabBarViews = [const ReminderList(), const TodoScreen()];

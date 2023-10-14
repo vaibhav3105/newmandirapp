@@ -1,15 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:mandir_app/screens/myFamilyList.dart';
-import 'package:mandir_app/service/api_service.dart';
-import 'package:mandir_app/utils/helper.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'auth/login_screen.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
+
   await FlutterDownloader.initialize(
       debug:
           true, // optional: set to false to disable printing logs to console (default: true)
@@ -17,6 +17,18 @@ void main() async {
           true // option: set to false to disable working with http links (default: false)
       );
   runApp(const MyApp());
+  myCustomConfig();
+}
+
+myCustomConfig() {
+  //TODO:  https://pub.dev/packages/flutter_easyloading/example
+  EasyLoading.instance
+    ..indicatorType = EasyLoadingIndicatorType.ring
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow;
 }
 
 class MyApp extends StatefulWidget {
@@ -27,73 +39,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int? expirationTime = 0;
-  String? accessToken;
+  bool? showBiometric;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getExpirationTime();
-    getAccessToken();
-  }
-
-  getAccessToken() async {
-    String? accessTokenFromHelper = await Helper.getUserAccessToken();
-    updateHeaders();
-    setState(() {
-      accessToken = accessTokenFromHelper;
-    });
-  }
-
-  getExpirationTime() async {
-    int? expirationMilliSinceEpoch = await Helper.getTokenValidity();
-    setState(() {
-      expirationTime = expirationMilliSinceEpoch;
-      print(expirationTime);
-    });
-    checkTokenAndInitiateTimer();
-  }
-
-  checkTokenAndInitiateTimer() async {
-    // if (DateTime.now().millisecondsSinceEpoch >= expirationTime!) {
-    //   refreshToken();
-    // } else {
-    Timer(
-        Duration(
-            milliseconds:
-                expirationTime! - DateTime.now().millisecondsSinceEpoch), () {
-      refreshToken();
-    });
-    // }
-  }
-
-  refreshToken() async {
-    try {
-      var response = await ApiService()
-          .post("/api/account/new-token", {}, headers, context);
-      print(response);
-      int tokenExpirationTime =
-          Duration(minutes: response['validity']).inMilliseconds +
-              DateTime.now().millisecondsSinceEpoch;
-      await Helper.saveTokenValidity(tokenExpirationTime);
-      await Helper.saveUserAccessToken(response['accessToken']);
-      updateHeaders();
-      // checkTokenAndInitiateTimer();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: EasyLoading.init(),
       title: 'Mandir App',
       theme: ThemeData(
         useMaterial3: true,
@@ -108,11 +65,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: accessToken != null
-          ? MyFamilyList(
-              code: '',
-            )
-          : const LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }

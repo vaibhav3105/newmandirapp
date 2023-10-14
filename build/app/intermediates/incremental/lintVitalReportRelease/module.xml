@@ -1,11 +1,11 @@
 <lint-module
     format="1"
-    dir="/Users/DELL/Desktop/newmandirapp/android/app"
+    dir="/Users/DELL/Desktop/newmandirapp 2/android/app"
     name=":app"
     type="APP"
     maven="android:app:"
     gradle="7.2.0"
-    buildFolder="/Users/DELL/Desktop/newmandirapp/build/app"
+    buildFolder="/Users/DELL/Desktop/newmandirapp 2/build/app"
     bootClassPath="/Users/DELL/Library/Android/sdk/platforms/android-33/android.jar:/Users/DELL/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar"
     javaSourceLevel="1.8"
     compileTarget="android-33">

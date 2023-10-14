@@ -1,9 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+
 import 'package:mandir_app/screens/myFamilyList.dart';
 import 'package:mandir_app/utils/styling.dart';
-
 import 'package:mandir_app/widgets/custom_textfield.dart';
 
 import '../service/api_service.dart';
@@ -11,9 +12,11 @@ import '../service/api_service.dart';
 class APIDropDownItem {
   String displayText;
   String? actualValue;
+  bool? isDefault;
   APIDropDownItem({
     required this.displayText,
     required this.actualValue,
+    this.isDefault,
   });
 }
 
@@ -47,7 +50,7 @@ class _EditScreenState extends State<EditScreen> {
   APIDropDownItem? initialOccupation;
   APIDropDownItem? initialMask;
   APIDropDownItem? initialMaritalStatus;
-  APIDropDownItem? initialMandir;
+  // APIDropDownItem? initialMandir;
   List<DropdownMenuItem<APIDropDownItem>> genderOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
   List<DropdownMenuItem<APIDropDownItem>> ocuupationOptionsButton =
@@ -56,8 +59,8 @@ class _EditScreenState extends State<EditScreen> {
       <DropdownMenuItem<APIDropDownItem>>[];
   List<DropdownMenuItem<APIDropDownItem>> maritalStatusOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
-  List<DropdownMenuItem<APIDropDownItem>> mandirOptionsButton =
-      <DropdownMenuItem<APIDropDownItem>>[];
+  // List<DropdownMenuItem<APIDropDownItem>> mandirOptionsButton =
+  //     <DropdownMenuItem<APIDropDownItem>>[];
   @override
   void initState() {
     // TODO: implement initState
@@ -73,7 +76,7 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "maskConfig": initialMask != null ? initialMask!.actualValue : null,
+          "mobileConfig": initialMask != null ? initialMask!.actualValue : null,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -86,8 +89,8 @@ class _EditScreenState extends State<EditScreen> {
               ? initialMaritalStatus!.actualValue
               : null,
           "qualification": qualificationController.text.trim(),
-          'mandirCode':
-              initialMandir != null ? initialMandir!.actualValue : null,
+          // 'mandirCode':
+          //     initialMandir != null ? initialMandir!.actualValue : null,
           "isFamilyHead": isFamilyHead
         },
         headers,
@@ -123,7 +126,7 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "maskConfig": initialMask != null ? initialMask!.actualValue : null,
+          "mobileConfig": initialMask != null ? initialMask!.actualValue : null,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -136,8 +139,8 @@ class _EditScreenState extends State<EditScreen> {
               ? initialMaritalStatus!.actualValue
               : null,
           "qualification": qualificationController.text.trim(),
-          'mandirCode':
-              initialMandir != null ? initialMandir!.actualValue : null,
+          // 'mandirCode':
+          //     initialMandir != null ? initialMandir!.actualValue : null,
           "isFamilyHead": isFamilyHead
         },
         headers,
@@ -188,6 +191,7 @@ class _EditScreenState extends State<EditScreen> {
       });
       var response = await ApiService().post("/api/family-member/edit-info",
           {"familyMemberCode": widget.membercode}, headers, context);
+      print(response);
       var genderItems = (response['gender'] as List<dynamic>)
           .map(
             (apiItem) => APIDropDownItem(
@@ -196,14 +200,14 @@ class _EditScreenState extends State<EditScreen> {
             ),
           )
           .toList();
-      var mandirItems = (response['mandirList'] as List<dynamic>)
-          .map(
-            (apiItem) => APIDropDownItem(
-              displayText: apiItem['name'],
-              actualValue: apiItem['code'],
-            ),
-          )
-          .toList();
+      // // var mandirItems = (response['mandirList'] as List<dynamic>)
+      // //     .map(
+      // //       (apiItem) => APIDropDownItem(
+      // //         displayText: apiItem['name'],
+      // //         actualValue: apiItem['code'],
+      // //       ),
+      // //     )
+      //     .toList();
       var maskItems = (response['mobileConfigList'] as List<dynamic>)
           .map(
             (apiItem) => APIDropDownItem(
@@ -239,13 +243,13 @@ class _EditScreenState extends State<EditScreen> {
               (item) => item.actualValue == initialGenderValue,
             );
           } else {}
-          var initialMandirValue = response['info'][0]['mandirCode'];
+          // var initialMandirValue = response['info'][0]['mandirCode'];
 
-          if (initialMandirValue.toString().isNotEmpty) {
-            initialMandir = mandirItems.firstWhere(
-              (item) => item.actualValue == initialMandirValue,
-            );
-          } else {}
+          // if (initialMandirValue.toString().isNotEmpty) {
+          //   initialMandir = mandirItems.firstWhere(
+          //     (item) => item.actualValue == initialMandirValue,
+          //   );
+          // } else {}
           var initialMaritalValue = response['info'][0]['maritalStatus'];
           if (initialMaritalValue.toString().isNotEmpty) {
             initialMaritalStatus = maritalItems.firstWhere(
@@ -282,17 +286,17 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               )
               .toList();
-          mandirOptionsButton = mandirItems
-              .map(
-                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
-                  value: item,
-                  child: Text(
-                    item.displayText,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                ),
-              )
-              .toList();
+          // mandirOptionsButton = mandirItems
+          //     .map(
+          //       (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+          //         value: item,
+          //         child: Text(
+          //           item.displayText,
+          //           style: const TextStyle(fontWeight: FontWeight.normal),
+          //         ),
+          //       ),
+          //     )
+          //     .toList();
           maritalStatusOptionsButton = maritalItems
               .map(
                 (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
@@ -358,17 +362,17 @@ class _EditScreenState extends State<EditScreen> {
                 ),
               )
               .toList();
-          mandirOptionsButton = mandirItems
-              .map(
-                (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
-                  value: item,
-                  child: Text(
-                    item.displayText,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                ),
-              )
-              .toList();
+          // mandirOptionsButton = mandirItems
+          //     .map(
+          //       (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+          //         value: item,
+          //         child: Text(
+          //           item.displayText,
+          //           style: const TextStyle(fontWeight: FontWeight.normal),
+          //         ),
+          //       ),
+          //     )
+          //     .toList();
           maritalStatusOptionsButton = maritalItems
               .map(
                 (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
@@ -660,36 +664,24 @@ class _EditScreenState extends State<EditScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      DropdownButtonFormField(
-                        isExpanded: true,
-                        isDense: false,
-                        hint: const Text("Select near by Jain Mandir"),
-                        value: initialMandir,
-                        decoration: textInputDecoration.copyWith(
-                          labelText: 'Near by Jain Mandir',
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                        items: mandirOptionsButton,
-                        onChanged: (APIDropDownItem? item) {
-                          setState(() {
-                            initialMandir = item!;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        'Note: Only admin can edit this field.',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // DropdownButtonFormField(
+                      //   isExpanded: true,
+                      //   isDense: false,
+                      //   hint: const Text("Select nearby Jain Mandir"),
+                      //   value: initialMandir,
+                      //   decoration: textInputDecoration.copyWith(
+                      //     labelText: 'Nearby Jain Mandir',
+                      //     fillColor: Colors.white,
+                      //     filled: true,
+                      //   ),
+                      //   items: mandirOptionsButton,
+                      //   onChanged: (APIDropDownItem? item) {
+                      //     setState(() {
+                      //       initialMandir = item!;
+                      //     });
+                      //   },
+                      // ),
+
                       SizedBox(
                         height: 60,
                         child: Row(

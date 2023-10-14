@@ -1,16 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:mandir_app/constants.dart';
-import 'package:mandir_app/screens/changeAddressScreen.dart';
+import 'package:mandir_app/screens/assistant.dart';
+import 'package:mandir_app/screens/discrepancy.dart';
 import 'package:mandir_app/screens/editScreen.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
+import 'package:mandir_app/services/advertisementService.dart';
+
 import 'package:mandir_app/utils/utils.dart';
-import 'package:mandir_app/widgets/custom_textfield.dart';
 import 'package:mandir_app/widgets/drawer.dart';
 
 import '../service/api_service.dart';
+import '../widgets/advertisement.dart';
+import 'changeAddressScreen.dart';
 
 class MyFamilyList extends StatefulWidget {
   String code;
@@ -24,14 +30,31 @@ class MyFamilyList extends StatefulWidget {
 }
 
 class _MyFamilyListState extends State<MyFamilyList> {
+  File? imageFile;
+  var menus = [];
+  var discrepancyCount = 0;
   final remarkController = TextEditingController();
   var answer = [];
+
   bool isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getRandomAdvertisement();
     getMyFamily();
+  }
+
+  var advertisementResponse = [];
+  getRandomAdvertisement() async {
+    try {
+      var response =
+          await AdvertisementService().getRandomAdvertisement(context);
+      setState(() {
+        advertisementResponse = response;
+      });
+      print(response);
+    } catch (e) {}
   }
 
   @override
@@ -57,9 +80,14 @@ class _MyFamilyListState extends State<MyFamilyList> {
             .where((x) => x['fgc'] == familyGroup['code'])
             .toList();
       }
+      menus = familyGroups[0]['menu']
+          .split(',')
+          .map((menu) => menu.trim())
+          .toList();
       setState(() {
         isLoading = false;
         answer = familyGroups;
+        discrepancyCount = response['config'][0]['discrepancyCount'];
       });
     } catch (e) {
       setState(() {
@@ -71,10 +99,42 @@ class _MyFamilyListState extends State<MyFamilyList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: advertisementResponse.isNotEmpty
+          ? AdvertisementBanner(
+              title: advertisementResponse[0]['title'],
+              subTitle: advertisementResponse[0]['subTitle'],
+              url: advertisementResponse[0]['url'],
+              mobile: advertisementResponse[0]['mobile'],
+            )
+          : const AdvertisementBanner(
+              title: 'Vaibhav',
+              subTitle: 'App Developer',
+              url: 'www.google.com',
+              mobile: '7900322592',
+            ),
       appBar: AppBar(
         title: widget.code == ''
             ? const Text("My Family")
             : const Text("Their Family"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                nextScreen(
+                  context,
+                  const AssistantScreen(),
+                );
+              },
+              child: Icon(
+                FontAwesomeIcons.bell,
+                color: themeVeryLightColor,
+              ),
+            ),
+          )
+        ],
       ),
       drawer: widget.code == '' ? const MyDrawer() : null,
       body: isLoading
@@ -85,13 +145,74 @@ class _MyFamilyListState extends State<MyFamilyList> {
               onRefresh: () async {
                 getMyFamily();
               },
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    if (discrepancyCount > 0)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            nextScreen(
+                              context,
+                              const DiscrepancyScreen(),
+                            );
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            width: double.infinity,
+                            // height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.red,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                15,
+                              ),
+                              color: Colors.red[100],
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.only(
+                                left: 10,
+                                top: 5,
+                                bottom: 5,
+                                right: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      'Click here to enter your missing details…',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.angleRight,
+                                    color: Colors.red,
+                                    size: 14,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: answer.length,
                       itemBuilder: (context, outerIndex) {
                         return Column(
@@ -112,32 +233,35 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      nextScreen(
-                                        context,
-                                        ChangeAddressScreen(
-                                          groupCode: answer[outerIndex]['code'],
+                                  if (menus[0].isNotEmpty)
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showMenuBottomSheet(
+                                            context, menus, outerIndex);
+                                        // nextScreen(
+                                        //   context,
+                                        //   ChangeAddressScreen(
+                                        //     groupCode: answer[outerIndex]['code'],
+                                        //   ),
+                                        // );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(
+                                          5,
                                         ),
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(
-                                        5,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              5,
+                                            ),
+                                            color: Colors.grey[300]),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.gear,
+                                          size: 18,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
                                       ),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            5,
-                                          ),
-                                          color: Colors.grey[300]),
-                                      child: FaIcon(
-                                        FontAwesomeIcons.pencil,
-                                        size: 18,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                  )
+                                    )
                                 ],
                               ),
                             ),
@@ -186,298 +310,14 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                               title: Text(answer[outerIndex]
                                                       ['familyMembers']
                                                   [innerIndex]['name']),
-                                              trailing: GestureDetector(
-                                                onTap: () {
-                                                  FocusScope.of(context)
-                                                      .unfocus();
-                                                  showModalBottomSheet(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return SizedBox(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.4,
-                                                          width:
-                                                              double.infinity,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              horizontal: 13,
-                                                            ),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                const SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                const Text(
-                                                                  "     Select an action",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                      255,
-                                                                      106,
-                                                                      78,
-                                                                      179,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    nextScreen(
-                                                                        context,
-                                                                        ShowMemberInfo(
-                                                                            memberCode:
-                                                                                answer[outerIndex]['familyMembers'][innerIndex]['code']));
-                                                                  },
-                                                                  child:
-                                                                      const ListTile(
-                                                                    title: Text(
-                                                                      "View Member Info",
-                                                                    ),
-                                                                    leading:
-                                                                        FaIcon(
-                                                                      FontAwesomeIcons
-                                                                          .userLarge,
-                                                                      color: Color
-                                                                          .fromARGB(
-                                                                        255,
-                                                                        106,
-                                                                        78,
-                                                                        179,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                if (widget
-                                                                        .code ==
-                                                                    '')
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      nextScreen(
-                                                                        context,
-                                                                        EditScreen(
-                                                                          groupCode:
-                                                                              answer[outerIndex]['familyMembers'][innerIndex]['fgc'],
-                                                                          membercode:
-                                                                              answer[outerIndex]['familyMembers'][innerIndex]['code'],
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                    child:
-                                                                        const ListTile(
-                                                                      title:
-                                                                          Text(
-                                                                        "Edit Member Info",
-                                                                      ),
-                                                                      leading:
-                                                                          FaIcon(
-                                                                        FontAwesomeIcons
-                                                                            .pencil,
-                                                                        color: Color
-                                                                            .fromARGB(
-                                                                          255,
-                                                                          106,
-                                                                          78,
-                                                                          179,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if (widget
-                                                                        .code ==
-                                                                    '')
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      nextScreen(
-                                                                        context,
-                                                                        EditScreen(
-                                                                          groupCode:
-                                                                              answer[outerIndex]['familyMembers'][innerIndex]['fgc'],
-                                                                          membercode:
-                                                                              '',
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                    child:
-                                                                        const ListTile(
-                                                                      title:
-                                                                          Text(
-                                                                        "Add new member",
-                                                                      ),
-                                                                      leading:
-                                                                          FaIcon(
-                                                                        FontAwesomeIcons
-                                                                            .squarePlus,
-                                                                        color: Color
-                                                                            .fromARGB(
-                                                                          255,
-                                                                          106,
-                                                                          78,
-                                                                          179,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                if (widget
-                                                                        .code ==
-                                                                    '')
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      showDialog(
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (context) {
-                                                                            return AlertDialog(
-                                                                              title: const Text(
-                                                                                "Delete Member",
-                                                                              ),
-                                                                              actions: [
-                                                                                ElevatedButton(
-                                                                                  style: ElevatedButton.styleFrom(
-                                                                                    backgroundColor: Colors.red,
-                                                                                  ),
-                                                                                  onPressed: () async {
-                                                                                    var response = await ApiService().post(
-                                                                                      '/api/family-member/delete',
-                                                                                      {
-                                                                                        "familyMemberCode": answer[outerIndex]['familyMembers'][innerIndex]['code'],
-                                                                                        'remark': remarkController.text.trim()
-                                                                                      },
-                                                                                      headers,
-                                                                                      context,
-                                                                                    );
-                                                                                    if (response['errorCode'] == 0) {
-                                                                                      Navigator.pop(context);
-                                                                                      remarkController.text = '';
-                                                                                      showCustomSnackbar(
-                                                                                        context,
-                                                                                        Colors.black,
-                                                                                        response['message'],
-                                                                                      );
-                                                                                      getMyFamily();
-                                                                                    }
-                                                                                  },
-                                                                                  child: const Text(
-                                                                                    "Delete",
-                                                                                    style: TextStyle(
-                                                                                      color: Colors.white,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                ElevatedButton(
-                                                                                  // style: ElevatedButton.styleFrom(
-                                                                                  //   backgroundColor: const Color.fromARGB(
-                                                                                  //     255,
-                                                                                  //     106,
-                                                                                  //     78,
-                                                                                  //     179,
-                                                                                  //   ),
-                                                                                  // ),
-                                                                                  onPressed: () {
-                                                                                    Navigator.pop(context);
-                                                                                  },
-                                                                                  child: const Text(
-                                                                                    "Cancel",
-                                                                                    style: TextStyle(
-                                                                                      color: Colors.black,
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                              content: Column(
-                                                                                mainAxisSize: MainAxisSize.min,
-                                                                                children: [
-                                                                                  const Text(
-                                                                                    "Are you sure you want to delete this member?",
-                                                                                    style: TextStyle(
-                                                                                      fontSize: 15,
-                                                                                    ),
-                                                                                  ),
-                                                                                  const SizedBox(
-                                                                                    height: 13,
-                                                                                  ),
-                                                                                  CustomTextAreaField(
-                                                                                    labelText: "Please enter a remark",
-                                                                                    controller: remarkController,
-                                                                                  )
-                                                                                  // TextFormField(
-                                                                                  //   controller: remarkController,
-                                                                                  //   decoration: InputDecoration(
-                                                                                  //     hintText: "Please enter a remark",
-                                                                                  //     hintStyle: const TextStyle(
-                                                                                  //       fontSize: 13,
-                                                                                  //     ),
-                                                                                  //     filled: true,
-                                                                                  //     fillColor: Colors.white,
-                                                                                  //     contentPadding: const EdgeInsets.symmetric(
-                                                                                  //       vertical: 5,
-                                                                                  //       horizontal: 10,
-                                                                                  //     ),
-                                                                                  //     border: OutlineInputBorder(
-                                                                                  //       borderRadius: BorderRadius.circular(
-                                                                                  //         12,
-                                                                                  //       ),
-                                                                                  //     ),
-                                                                                  //   ),
-                                                                                  //   maxLines: 4,
-                                                                                  // ),
-                                                                                ],
-                                                                              ),
-                                                                            );
-                                                                          });
-                                                                    },
-                                                                    child:
-                                                                        const ListTile(
-                                                                      title:
-                                                                          Text(
-                                                                        "Delete Member",
-                                                                      ),
-                                                                      leading:
-                                                                          FaIcon(
-                                                                        FontAwesomeIcons
-                                                                            .trash,
-                                                                        color: Color
-                                                                            .fromARGB(
-                                                                          255,
-                                                                          106,
-                                                                          78,
-                                                                          179,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      });
-                                                },
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  color: Colors.white,
-                                                  width: 30,
-                                                  child: FaIcon(
-                                                    FontAwesomeIcons
-                                                        .ellipsisVertical,
-                                                    color: Colors.grey[600],
-                                                    size: 20,
-                                                  ),
+                                              trailing: Container(
+                                                alignment: Alignment.center,
+                                                color: Colors.white,
+                                                width: 30,
+                                                child: FaIcon(
+                                                  FontAwesomeIcons.angleRight,
+                                                  color: Colors.grey[350],
+                                                  size: 20,
                                                 ),
                                               ),
                                               subtitle: RichText(
@@ -560,10 +400,121 @@ class _MyFamilyListState extends State<MyFamilyList> {
                         );
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+    );
+  }
+
+  void _showMenuBottomSheet(BuildContext context, menuItems, int outerIndex) {
+    print(menuItems.length);
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+              ),
+              child: Center(
+                child: Container(
+                  height: 6,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(
+                          0.7,
+                        ),
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Text(
+              "     Select an action",
+              style: TextStyle(
+                color: Color.fromARGB(
+                  255,
+                  106,
+                  78,
+                  179,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: menuItems.length * 60.0,
+              child: ListView.builder(
+                itemCount: menuItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final menuItem = menuItems[index];
+                  String title = '';
+                  Function? onTap;
+                  Icon? icon;
+
+                  // Assign titles and functions based on menu item
+                  if (menuItem == 'EDIT_ADDRESS') {
+                    title = 'Edit Address';
+                    icon = Icon(
+                      FontAwesomeIcons.pencil,
+                      color: Theme.of(context).primaryColor,
+                    );
+                    onTap = () async {
+                      // Implement the call functionality here
+
+                      Navigator.pop(context);
+                      nextScreen(
+                        context,
+                        ChangeAddressScreen(
+                          groupCode: answer[outerIndex]['code'],
+                        ),
+                      );
+                    };
+                  } else if (menuItem == 'ADD_MEMBER') {
+                    title = 'Add New Family Member';
+                    icon = Icon(
+                      Icons.add_circle,
+                      color: Theme.of(context).primaryColor,
+                      size: 30,
+                    );
+                    onTap = () async {
+                      // Implement the WhatsApp functionality here
+
+                      Navigator.pop(context);
+                      nextScreen(
+                        context,
+                        EditScreen(
+                          groupCode: answer[outerIndex]['code'],
+                          membercode: '',
+                        ),
+                      );
+                    };
+                  }
+
+                  // Add more menu items as needed
+
+                  return ListTile(
+                    title: Text(title),
+                    onTap: () {
+                      onTap!();
+                    },
+                    leading: icon,
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

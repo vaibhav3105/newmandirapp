@@ -41,6 +41,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         await Helper.saveUserSsnCode('');
         await Helper.saveUserType(0);
         await Helper.saveUserTypeText('');
+        await Helper.showBiometricLogin(false);
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const LoginScreen()),
             (route) => false);
@@ -66,6 +67,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Change Password'),
       ),

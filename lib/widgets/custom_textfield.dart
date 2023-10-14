@@ -6,17 +6,23 @@ import '../utils/styling.dart';
 class CustomTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
-  const CustomTextField({
-    Key? key,
-    required this.labelText,
-    required this.controller,
-  }) : super(key: key);
+  final FocusNode? focus;
+  final Icon? suffixIcon;
+  const CustomTextField(
+      {Key? key,
+      required this.labelText,
+      required this.controller,
+      this.focus,
+      this.suffixIcon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focus,
       controller: controller,
       decoration: textInputDecoration.copyWith(
+        suffixIcon: suffixIcon,
         filled: true,
         fillColor: Colors.white,
         labelText: labelText,
@@ -39,7 +45,7 @@ class CustomTextAreaField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       maxLines: 5,
-      minLines: 1,
+      minLines: 3,
       decoration: textInputDecoration.copyWith(
         filled: true,
         fillColor: Colors.white,

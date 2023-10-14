@@ -55,6 +55,14 @@ class Helper {
     return await saveLss("userAccessToken", token);
   }
 
+  static Future<bool?> saveUserLoginName(String loginName) async {
+    return await saveLss("loginName", loginName);
+  }
+
+  static Future<bool?> saveUserPassword(String password) async {
+    return await saveLss("password", password);
+  }
+
   static Future<bool?> saveUserTypeText(String userTypeText) async {
     return await saveLss("userTypeText", userTypeText);
   }
@@ -62,6 +70,11 @@ class Helper {
   static Future<bool?> saveUserType(int userType) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return await sp.setInt('userType', userType);
+  }
+
+  static Future<bool?> showBiometricLogin(bool showBiometric) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return await sp.setBool('showBiometric', showBiometric);
   }
 
   static Future<bool?> saveUserSsnCode(String ssn) async {
@@ -76,6 +89,14 @@ class Helper {
     return getLss("userSsnCode");
   }
 
+  static Future<String?> getUserLoginName() async {
+    return getLss("loginName");
+  }
+
+  static Future<String?> getUserPassword() async {
+    return getLss("password");
+  }
+
   static Future<String?> getUserTypeText() async {
     return getLss("userTypeText");
   }
@@ -85,13 +106,8 @@ class Helper {
     return sp.getInt('userType');
   }
 
-  static Future<bool?> saveTokenValidity(int validity) async {
+  static Future<bool?> getShowBiometricLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    return await sp.setInt('validity', validity);
-  }
-
-  static Future<int?> getTokenValidity() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.getInt('validity');
+    return sp.getBool('showBiometric');
   }
 }

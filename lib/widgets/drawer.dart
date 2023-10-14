@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/auth/login_screen.dart';
 import 'package:mandir_app/screens/birthdayScreen.dart';
+import 'package:mandir_app/screens/changeLoginName.dart';
 import 'package:mandir_app/screens/changePasswordScreen.dart';
+import 'package:mandir_app/screens/createNewLogin.dart';
 import 'package:mandir_app/screens/myFamilyList.dart';
 import 'package:mandir_app/screens/assistant.dart';
 import 'package:mandir_app/screens/search_screen.dart';
@@ -37,7 +39,7 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
+      child: ListView(
         children: [
           const SizedBox(
             height: 30,
@@ -84,7 +86,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           const Divider(),
           GestureDetector(
-            onTap: () => nextScreen(context, MyFamilyList(code: '')),
+            onTap: () => nextScreenReplace(context, MyFamilyList(code: '')),
             child: const ListTile(
               leading: Icon(Icons.face),
               title: Text("My Family"),
@@ -159,6 +161,20 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           const Divider(),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              nextScreen(context, const CreateNewLogin());
+            },
+            child: const ListTile(
+              leading: Icon(
+                Icons.badge,
+              ),
+              title: Text("Add New Login"),
+              trailing: Icon(Icons.chevron_right),
+            ),
+          ),
+          const Divider(),
           ExpansionTile(
             // tilePadding: const EdgeInsets.symmetric(
             //   horizontal: 18,
@@ -178,10 +194,19 @@ class _MyDrawerState extends State<MyDrawer> {
                 ? const Icon(Icons.keyboard_arrow_down)
                 : const Icon(Icons.keyboard_arrow_right),
             children: [
-              const ListTile(
-                leading: Icon(Icons.abc),
-                title: Text("Change Login name"),
-                trailing: Icon(Icons.keyboard_arrow_right),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  nextScreen(
+                    context,
+                    const ChangeLoginName(),
+                  );
+                },
+                child: const ListTile(
+                  leading: Icon(Icons.abc),
+                  title: Text("Change Login name"),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -206,7 +231,7 @@ class _MyDrawerState extends State<MyDrawer> {
               await Helper.saveUserSsnCode('');
               await Helper.saveUserType(0);
               await Helper.saveUserTypeText('');
-
+              await Helper.showBiometricLogin(false);
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => const LoginScreen(),
