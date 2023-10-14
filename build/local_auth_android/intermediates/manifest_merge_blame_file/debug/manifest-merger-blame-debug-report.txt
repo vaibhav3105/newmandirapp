@@ -4,12 +4,12 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="16"
-6-->/Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/main/AndroidManifest.xml
+6-->C:\Users\Gaurav\AppData\Local\Pub\Cache\hosted\pub.dev\local_auth_android-1.0.34\android\src\main\AndroidManifest.xml
 7        android:targetSdkVersion="16" />
-7-->/Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/main/AndroidManifest.xml
+7-->C:\Users\Gaurav\AppData\Local\Pub\Cache\hosted\pub.dev\local_auth_android-1.0.34\android\src\main\AndroidManifest.xml
 8
 9    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-9-->/Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/main/AndroidManifest.xml:3:5-72
-9-->/Users/DELL/.pub-cache/hosted/pub.dev/local_auth_android-1.0.34/android/src/main/AndroidManifest.xml:3:22-69
+9-->C:\Users\Gaurav\AppData\Local\Pub\Cache\hosted\pub.dev\local_auth_android-1.0.34\android\src\main\AndroidManifest.xml:3:5-72
+9-->C:\Users\Gaurav\AppData\Local\Pub\Cache\hosted\pub.dev\local_auth_android-1.0.34\android\src\main\AndroidManifest.xml:3:22-69
 10
 11</manifest>
