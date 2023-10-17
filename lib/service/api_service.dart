@@ -13,6 +13,8 @@ import 'package:mandir_app/utils/helper.dart';
 import 'package:mandir_app/utils/utils.dart';
 import 'package:random_string/random_string.dart';
 
+import '../entity/apiResult.dart';
+
 final Map<String, String> headers = {
   "Content-Type": "application/json; charset=UTF-8",
   'ClientKey': "JainMandir37",
@@ -32,19 +34,17 @@ class ApiService {
   static String? apiBaseUrl;
 
   getIpFromIpfi() async {
+    var result = '';
     try {
-      var response = await http.get(
-        Uri.parse(
-          'https://api.ipify.org/',
-        ),
-      );
+      var response = await http.get(Uri.parse('https://api.ipify.org/'));
       if (response.statusCode == 200) {
-        return response.body;
+        result = response.body;
       }
-      return '';
     } catch (e) {
-      return '';
+      print(e);
     }
+
+    return result;
   }
 
   static Future<void> ResolveApiBaseUrl() async {
@@ -52,9 +52,11 @@ class ApiService {
       var ipFromIpfi = await ApiService().getIpFromIpfi();
       if (ipFromIpfi == '122.160.175.36') {
         apiBaseUrl = dotenv.env['PRIVATE_API_BASE_URL'];
-      } else {
-        apiBaseUrl = dotenv.env['PUBLIC_API_BASE_URL'];
       }
+    }
+
+    if (apiBaseUrl == null || apiBaseUrl == '') {
+      apiBaseUrl = dotenv.env['PUBLIC_API_BASE_URL'];
     }
   }
 
@@ -73,19 +75,6 @@ class ApiService {
     await Helper.saveUserLoginName('');
     await Helper.saveUserPassword('');
     await Helper.showBiometricLogin(false);
-  }
-
-  static Future<Uri> ResolveMyApiUrl(String url, BuildContext context) async {
-    if (apiBaseUrl == null) {
-      var ipFromIpfi = await ApiService().getIpFromIpfi();
-      if (ipFromIpfi == '122.160.175.36') {
-        apiBaseUrl = dotenv.env['PRIVATE_API_BASE_URL'];
-      } else {
-        apiBaseUrl = dotenv.env['PUBLIC_API_BASE_URL'];
-      }
-    }
-
-    return Uri.parse("$apiBaseUrl$url");
   }
 
   handleApiResponseForFileUpload(
@@ -125,6 +114,24 @@ class ApiService {
     }
   }
 
+  handleApiResponse2(BuildContext context, dynamic apiResult) {
+    if (apiResult != null && apiResult != '') {
+      if (apiResult.containsKey('errorMessage')) {
+        showToast(context, ToastTypes.WARN, apiResult['errorMessage']);
+      } else if (apiResult.containsKey("errors")) {
+        Map<String, dynamic> errors = apiResult["errors"];
+        for (var key in errors.keys) {
+          if (errors[key] is List<String> && errors[key].isNotEmpty) {
+            showToast(context, ToastTypes.WARN, errors[key][0]);
+            break;
+          }
+        }
+      } else {
+        showToast(context, ToastTypes.WARN, 'Some error occurred.');
+      }
+    }
+  }
+
   handleApiResponse(BuildContext context, http.Response response) {
     // dynamic responseBody = jsonDecode(response.body);
     print(response.statusCode);
@@ -152,18 +159,14 @@ class ApiService {
               }
             }
           } else {
-            showToast(context, ToastTypes.WARN, 'Some error occured.');
+            showToast(context, ToastTypes.WARN, 'Some error occurred.');
           }
         }
     }
   }
 
   static void login(
-    BuildContext context,
-    String loginName,
-    String password,
-    // Map<String?, String?> body,
-  ) async {
+      BuildContext context, String loginName, String password) async {
     try {
       // await updateHeaders();
       EasyLoading.show(status: 'Logging you in...');
@@ -177,37 +180,36 @@ class ApiService {
         'password': password,
         'ssnCode': ssnCode,
       };
-      dynamic jsonObj = await ApiService().post(url, body, headers, context);
+      ApiResult result = await ApiService().post2(context, url, body, headers);
       EasyLoading.dismiss();
-      if (jsonObj == null) {
+      if (result.success == false) {
+        ApiService().handleApiResponse2(context, result.data);
         await ApiService().clearSession();
         return;
       }
 
-      await Helper.saveUserAccessToken(jsonObj['accessToken']);
-      await Helper.saveUserType(jsonObj['userType']);
-      await Helper.saveUserTypeText(jsonObj['userTypeText']);
+      showToast(context, ToastTypes.INFO, "You have logged-in");
+
+      await Helper.saveUserAccessToken(result.data['accessToken']);
+      await Helper.saveUserType(result.data['userType']);
+      await Helper.saveUserTypeText(result.data['userTypeText']);
       await Helper.saveUserSsnCode(ssnCode);
       await Helper.saveUserLoginName(loginName);
       await Helper.saveUserPassword(password);
       await Helper.showBiometricLogin(true);
 
       await updateHeaders();
-      if (jsonObj['appVer'] < appVersion) {
+      if (result.data['appVer'] < appVersion) {
         nextScreenReplace(
           context,
           UpdateAppScreen(
-            url: jsonObj['appDownloadUrl'],
-            message: jsonObj['appDownloadMsg'],
+            url: result.data['appDownloadUrl'],
+            message: result.data['appDownloadMsg'],
           ),
         );
       } else {
-        nextScreenReplace(
-          context,
-          MyFamilyList(code: ''),
-        );
+        nextScreenReplace(context, MyFamilyList(code: ''));
       }
-      showToast(context, ToastTypes.INFO, "You have logged-in");
     } catch (e) {
       showToast(context, ToastTypes.ERROR, e.toString());
     }
@@ -245,6 +247,49 @@ class ApiService {
       showToast(context, ToastTypes.ERROR, e.toString());
     }
     return null;
+  }
+
+  Future<ApiResult> post2(
+      BuildContext context, String url, var body, var headers) async {
+    var result = new ApiResult();
+
+    try {
+      await ResolveApiBaseUrl();
+      // EasyLoading.show(status: 'Please wait...');
+
+      var uri = Uri.parse("$apiBaseUrl$url");
+      http.Response response =
+          await http.post(uri, body: jsonEncode(body), headers: headers);
+
+      // EasyLoading.dismiss();
+      switch (response.statusCode) {
+        case 200:
+          result.success = true;
+          result.data = jsonDecode(response.body);
+          break;
+        case 401:
+        case 403:
+          result.data = jsonDecode(response.body);
+          await logOut(context, false);
+          break;
+        default:
+          result.data = jsonDecode(response.body);
+      }
+    } on SocketException catch (e) {
+      switch (e.message) {
+        case 'Connection refused':
+        case 'Connection timed out': // GJ: 16-OCT-23 when i stopped the api server from iis
+          showToast(
+              context, ToastTypes.WARN, 'Not able to connect the API Server.');
+          break;
+        default:
+          showToast(context, ToastTypes.ERROR, e.toString());
+      }
+      await logOut(context, false);
+    } catch (e) {
+      print(e.toString());
+    }
+    return result;
   }
 
   Future<dynamic> uploadDoc(

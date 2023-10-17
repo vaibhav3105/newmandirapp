@@ -5,6 +5,7 @@ import 'package:mandir_app/screens/addReminderScreen.dart';
 import 'package:mandir_app/screens/notes.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 
+import '../entity/apiResult.dart';
 import '../service/api_service.dart';
 import '../utils/utils.dart';
 import 'editScreen.dart';
@@ -53,18 +54,24 @@ class _ReminderListState extends State<ReminderList>
         gettingReminders = true;
       });
 
-      var response = await ApiService().post(
+      ApiResult result = await ApiService().post2(
+          context,
           '/api/reminder/list',
           {
             "searchType": initialSearchBy!.actualValue,
             "searchValue": textController.text.trim()
           },
-          headers,
-          context);
-      if (response['status'][0]['errorCode'] == 0) {
+          headers);
+
+      if (result.success == false) {
+        ApiService().handleApiResponse2(context, result.data);
+        return;
+      }
+
+      if (result.data['status'][0]['errorCode'] == 0) {
         setState(() {
-          reminders = response['reminders'];
-          reminderCaption = response['status'][0]['errorMessage'];
+          reminders = result.data['reminders'];
+          reminderCaption = result.data['status'][0]['errorMessage'];
           gettingReminders = false;
         });
       }

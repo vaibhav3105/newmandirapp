@@ -89,9 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = true;
       });
-      String randomssn = randomAlphaNumeric(62);
-      ssnCode = randomssn;
-
       // await Future.delayed(const Duration(seconds: 5));
       ApiService.login(context, loginName, password);
 
