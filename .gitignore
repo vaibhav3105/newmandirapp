@@ -1,2 +1,11 @@
 .dart_tool/package_config_subset
 .dart_tool/package_config.json
+build/4d25a1cda3833f76c80232d3b1a3704b.cache.dill.track.dill
+build/app/intermediates/assets/debug/mergeDebugAssets/flutter_assets/kernel_blob.bin
+build/app/intermediates/compressed_assets/debug/out/assets/flutter_assets/kernel_blob.bin.jar
+build/app/intermediates/flutter/debug/flutter_build.d
+build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin
+build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt
+build/app/outputs/apk/debug/app-debug.apk
+build/app/outputs/flutter-apk/app-debug.apk
+build/app/outputs/flutter-apk/app-debug.apk.sha1

@@ -89,9 +89,19 @@ class _ReminderListState extends State<ReminderList>
       setState(() {
         isLoadingDropControls = true;
       });
-      var response = await ApiService().post('/api/lookup/key-details',
-          {"keyName": "SEARCH_REMINDER_BY"}, headers, context);
-      var searchByItems = (response as List<dynamic>)
+
+      ApiResult result = await ApiService().post2(
+          context,
+          '/api/lookup/key-details',
+          {"keyName": "SEARCH_REMINDER_BY"},
+          headers);
+
+      if (result.success == false) {
+        ApiService().handleApiResponse2(context, result.data);
+        result.data = [];
+      }
+
+      var searchByItems = (result.data as List<dynamic>)
           .map(
             (apiItem) => APIDropDownItem(
               displayText: apiItem['displayText'],

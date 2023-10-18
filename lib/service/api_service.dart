@@ -279,6 +279,7 @@ class ApiService {
       switch (e.message) {
         case 'Connection refused':
         case 'Connection timed out': // GJ: 16-OCT-23 when i stopped the api server from iis
+        case 'No route to host': // GJ: 18-OCT-23 when my local ip reset.
           showToast(
               context, ToastTypes.WARN, 'Not able to connect the API Server.');
           break;
