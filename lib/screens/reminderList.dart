@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/screens/addReminderScreen.dart';
 import 'package:mandir_app/screens/notes.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
+import 'package:mandir_app/screens/viewReminder.dart';
 
 import '../entity/apiResult.dart';
 import '../service/api_service.dart';
@@ -376,7 +377,7 @@ class _ReminderListState extends State<ReminderList>
                                                 memberCode: reminders[index]
                                                     ['code'],
                                               )
-                                            : AddReminderScreen(
+                                            : ViewReminder(
                                                 reminderCode: reminders[index]
                                                     ['code'],
                                               ),
