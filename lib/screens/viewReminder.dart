@@ -55,6 +55,86 @@ class _ViewReminderState extends State<ViewReminder> {
     });
   }
 
+  Widget? renderTrailing(data) {
+    return null;
+    // switch (data['ic']) {
+    //   case 'DONE':
+    //     return Icon(Icons.check_circle, color: Colors.green);
+    //     // return const Text('Done', style: TextStyle(color: Colors.green));
+    //   case 'PENDNIG':
+    //     return Icon(Icons.cancel, color: Colors.orange);
+    //     // return const Text('Pending', style: TextStyle(color: Colors.orange));
+    //   case 'MISSED':
+    //     return Icon(Icons.cancel, color: Colors.red);
+    //     // return const Text('Missed', style: TextStyle(color: Colors.red));
+    //   default:
+    //     return null;
+    // }
+  }
+
+  Widget? renderTitle(data) {
+    //return const Text('Gaurav Jain', style: TextStyle(color: Colors.orange));
+
+    if (data['k'] != '' && data['v'] != '')
+      return Text(data['k'],
+          style: TextStyle(color: Colors.grey, fontSize: 14));
+    else if (data['k'] != '' && data['v'] == '')
+      return Text(data['k'],
+          style: TextStyle(color: Colors.grey, fontSize: 14));
+    else if (data['k'] == '' && data['v'] != '')
+      return Text(data['v'],
+          style: TextStyle(color: Colors.black, fontSize: 16));
+    else
+      return Text(data['k']);
+  }
+
+  Widget? renderSubTitle(data) {
+    // print(data);
+    switch (data['ic']) {
+      case 'DONE':
+        return RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Completed', style: TextStyle(color: Colors.green)),
+              TextSpan(text: ' on ', style: TextStyle(color: Colors.black)),
+              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+            ],
+          ),
+        );
+      case 'PENDNIG':
+        return RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(text: 'Pending', style: TextStyle(color: Colors.orange)),
+              TextSpan(text: ' for ', style: TextStyle(color: Colors.black)),
+              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+            ],
+          ),
+        );
+      case 'MISSED':
+        return RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(text: 'Missed', style: TextStyle(color: Colors.red)),
+              TextSpan(text: ' on ', style: TextStyle(color: Colors.black)),
+              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+            ],
+          ),
+        );
+      default:
+        if (data['k'] != '' && data['v'] != '')
+          return Text(data['v'],
+              style: TextStyle(color: Colors.black, fontSize: 16));
+        else if (data['k'] != '' && data['v'] == '')
+          return null;
+        else if (data['k'] == '' && data['v'] != '')
+          return null;
+        else
+          return Text(data['v']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,27 +192,15 @@ class _ViewReminderState extends State<ViewReminder> {
                                   return Column(
                                     children: [
                                       ListTile(
-                                        title: Text(
-                                          reminderInfo[outerIndex]['items']
-                                              [innerIndex]['k'],
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        subtitle: RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: reminderInfo[outerIndex]
-                                                    ['items'][innerIndex]['v'],
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        title: renderTitle(
+                                            reminderInfo[outerIndex]['items']
+                                                [innerIndex]),
+                                        trailing: renderTrailing(
+                                            reminderInfo[outerIndex]['items']
+                                                [innerIndex]),
+                                        subtitle: renderSubTitle(
+                                            reminderInfo[outerIndex]['items']
+                                                [innerIndex]),
                                       ),
                                       const Padding(
                                         padding: EdgeInsets.only(

@@ -107,10 +107,10 @@ class _MyFamilyListState extends State<MyFamilyList> {
               mobile: advertisementResponse[0]['mobile'],
             )
           : const AdvertisementBanner(
-              title: 'Vaibhav',
-              subTitle: 'App Developer',
+              title: 'Your Business Name',
+              subTitle: 'Show your business details or address here.',
               url: 'www.google.com',
-              mobile: '7900322592',
+              mobile: '9560033422',
             ),
       appBar: AppBar(
         title: widget.code == ''
