@@ -137,6 +137,455 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
+  Widget? renderLeading(data) {
+    return null;
+  }
+
+  // Widget? renderLeading(data) {
+  //   Widget? icon;
+  //   Color? color;
+
+  //   switch (data['icon']) {
+  //     case 'M':
+  //       icon = Text(
+  //         data['icon'],
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //         ),
+  //       );
+  //       color = const Color(0xff8eb564);
+  //       break;
+  //     case 'Y':
+  //       icon = Text(
+  //         data['icon'],
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //         ),
+  //       );
+  //       color = const Color(0xffd27f71);
+  //       break;
+  //     case 'O':
+  //       icon = Text(
+  //         data['icon'],
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //         ),
+  //       );
+  //       color = const Color(0xff6a89d8);
+  //       break;
+  //     case 'BDAY':
+  //       icon = const Icon(
+  //         FontAwesomeIcons.cakeCandles,
+  //         color: Colors.white,
+  //       );
+  //       color = const Color(0xffd27f71);
+  //       break;
+  //     case 'ANNI':
+  //       icon = const Icon(
+  //         FontAwesomeIcons.heart,
+  //         color: Colors.white,
+  //       );
+  //       color = const Color(0xffd27f71);
+  //       break;
+  //     default:
+  //       icon = Text(
+  //         data['icon'],
+  //       );
+  //       color = const Color(0xff540b0e);
+  //   }
+
+  //   return CircleAvatar(
+  //     backgroundColor: color,
+  //     // colors[index % colors.length],
+  //     child: icon,
+  //   );
+  // }
+
+  Widget? renderTitle(data) {
+    return Text(data['title'],
+        style: TextStyle(color: Colors.black, fontSize: 16));
+  }
+
+  // GJ: this is the 2 liner subtitle
+  Widget? renderSubTitle(data) {
+    return Text(data['subTitle'],
+        style: TextStyle(color: Colors.grey, fontSize: 14));
+  }
+
+  // GJ: this is the 2 liner subtitle
+  // Widget? renderSubTitle(data) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       RichText(
+  //           text: TextSpan(
+  //         children: <TextSpan>[
+  //           TextSpan(
+  //               text: data['repeatText'],
+  //               style: const TextStyle(color: Colors.grey, fontSize: 11)),
+  //           TextSpan(
+  //               text: data['endDateText'],
+  //               style: const TextStyle(color: Colors.grey, fontSize: 11)),
+  //         ],
+  //       )),
+  //       Text(data['subTitle'],
+  //           style: const TextStyle(color: Colors.blue, fontSize: 13)),
+  //     ],
+  //   );
+  // }
+
+  Widget? renderTrailing(data) {
+    List<Widget>? trailChildren;
+    switch (data['repeatFlag']) {
+      case 'M':
+      case 'Y':
+        trailChildren = [
+          RichText(
+              text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: data['repeatText'],
+                  style: const TextStyle(color: Colors.blue, fontSize: 12)),
+              const TextSpan(
+                  text: ' till',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+            ],
+          )),
+          Text(data['endDateText'],
+              style: const TextStyle(color: Colors.grey, fontSize: 12)),
+        ];
+        break;
+      case 'O':
+        trailChildren = [
+          const Text('One time',
+              style: TextStyle(color: Colors.blue, fontSize: 12)),
+          const Text('reminder',
+              style: TextStyle(color: Colors.grey, fontSize: 12)),
+        ];
+        break;
+      default:
+        trailChildren = null;
+        break;
+    }
+
+    if (trailChildren == null) {
+      return null;
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: trailChildren,
+    );
+  }
+
+  // Widget? renderTrailing(data) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       FocusScope.of(context).unfocus();
+  //       showModalBottomSheet(
+  //           context: context,
+  //           builder: (context) {
+  //             return SizedBox(
+  //               height: MediaQuery.of(context).size.height * 0.3,
+  //               width: double.infinity,
+  //               child: Padding(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 13,
+  //                 ),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     const SizedBox(
+  //                       height: 10,
+  //                     ),
+  //                     const Text(
+  //                       "     Select an action",
+  //                       style: TextStyle(
+  //                         color: Color.fromARGB(
+  //                           255,
+  //                           106,
+  //                           78,
+  //                           179,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     // if (reminders[index][
+  //                     //             'type'] ==
+  //                     //         'REM' &&
+  //                     //     reminders[index][
+  //                     //             'repeat'] ==
+  //                     //         'O' &&
+  //                     //     initialSearchBy!
+  //                     //             .actualValue ==
+  //                     //         'SEARCH_BY_DATE')
+  //                     //   GestureDetector(
+  //                     //     onTap: () async {
+  //                     //       var response =
+  //                     //           await ApiService().post(
+  //                     //               '/api/reminder/item',
+  //                     //               {
+  //                     //                 "reminderCode":
+  //                     //                     reminders[index]['code']
+  //                     //               },
+  //                     //               headers,
+  //                     //               context);
+
+  //                     //       DateTime date =
+  //                     //           DateTime.parse(
+  //                     //                   response['remindOn'])
+  //                     //               .add(
+  //                     //         const Duration(
+  //                     //             days: 1),
+  //                     //       );
+
+  //                     //       await ApiService()
+  //                     //           .post(
+  //                     //               '/api/reminder/update',
+  //                     //               {
+  //                     //                 "reminderCode":
+  //                     //                     reminders[index]['code'],
+  //                     //                 "title":
+  //                     //                     response['title'],
+  //                     //                 "desc":
+  //                     //                     response['desc'],
+  //                     //                 "remindOn":
+  //                     //                     date.toString(),
+  //                     //                 "repeatFlag":
+  //                     //                     response['repeatFlag']
+  //                     //               },
+  //                     //               headers,
+  //                     //               context);
+  //                     //       Navigator.pop(
+  //                     //           context);
+  //                     //       showCustomSnackbar(
+  //                     //           context,
+  //                     //           Colors
+  //                     //               .black,
+  //                     //           'Reminder updated successfully.');
+  //                     //       // dateController
+  //                     //       //         .text =
+  //                     //       //     DateFormat(
+  //                     //       //             'dd-MMM-yyyy')
+  //                     //       //         .format(
+  //                     //       //             date);
+  //                     //       getListOfReminders();
+  //                     //     },
+  //                     //     child:
+  //                     //         const ListTile(
+  //                     //       title: Text(
+  //                     //         "Remind me tomorrow",
+  //                     //       ),
+  //                     //       leading: FaIcon(
+  //                     //         FontAwesomeIcons
+  //                     //             .clock,
+  //                     //         color: Color
+  //                     //             .fromARGB(
+  //                     //           255,
+  //                     //           106,
+  //                     //           78,
+  //                     //           179,
+  //                     //         ),
+  //                     //       ),
+  //                     //     ),
+  //                     //   ),
+  //                     if (data['type'] == 'REM')
+  //                       GestureDetector(
+  //                         onTap: () {
+  //                           Navigator.pop(context);
+  //                           nextScreen(
+  //                               context,
+  //                               NotesScreen(
+  //                                 reminderCode: data['code'],
+  //                               ));
+  //                         },
+  //                         child: const ListTile(
+  //                           title: Text(
+  //                             "View Reminder Notes",
+  //                           ),
+  //                           leading: FaIcon(
+  //                             FontAwesomeIcons.noteSticky,
+  //                             color: Color.fromARGB(
+  //                               255,
+  //                               106,
+  //                               78,
+  //                               179,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     if (data['type'] == 'REM')
+  //                       GestureDetector(
+  //                         onTap: () {
+  //                           Navigator.pop(context);
+  //                           nextScreen(context,
+  //                               AddReminderScreen(reminderCode: data['code']));
+  //                         },
+  //                         child: const ListTile(
+  //                           title: Text(
+  //                             "Edit Reminder",
+  //                           ),
+  //                           leading: FaIcon(
+  //                             FontAwesomeIcons.pencil,
+  //                             color: Color.fromARGB(
+  //                               255,
+  //                               106,
+  //                               78,
+  //                               179,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+
+  //                     GestureDetector(
+  //                       onTap: () {
+  //                         Navigator.pop(context);
+  //                         showDialog(
+  //                             context: context,
+  //                             builder: (context) {
+  //                               return AlertDialog(
+  //                                 title: const Text(
+  //                                   "Delete Reminder",
+  //                                 ),
+  //                                 actions: [
+  //                                   ElevatedButton(
+  //                                     style: ElevatedButton.styleFrom(
+  //                                       backgroundColor: Colors.red,
+  //                                     ),
+  //                                     onPressed: data['type'] == 'REM'
+  //                                         ? () async {
+  //                                             try {
+  //                                               var response =
+  //                                                   await ApiService().post(
+  //                                                 '/api/reminder/delete',
+  //                                                 {
+  //                                                   'reminderCode': data['code']
+  //                                                 },
+  //                                                 headers,
+  //                                                 context,
+  //                                               );
+  //                                               Navigator.pop(context);
+  //                                               getListOfReminders();
+
+  //                                               showCustomSnackbar(
+  //                                                 context,
+  //                                                 Colors.black,
+  //                                                 response['message'],
+  //                                               );
+  //                                             } catch (e) {
+  //                                               showCustomSnackbar(
+  //                                                 context,
+  //                                                 Colors.black,
+  //                                                 e.toString(),
+  //                                               );
+  //                                             }
+  //                                           }
+  //                                         : () async {
+  //                                             try {
+  //                                               var response =
+  //                                                   await ApiService().post(
+  //                                                 '/api/family-member/toggle-birthday-reminder',
+  //                                                 {
+  //                                                   'familyMemberCode':
+  //                                                       data['code']
+  //                                                 },
+  //                                                 headers,
+  //                                                 context,
+  //                                               );
+  //                                               Navigator.pop(context);
+  //                                               getListOfReminders();
+
+  //                                               showCustomSnackbar(
+  //                                                 context,
+  //                                                 Colors.black,
+  //                                                 response['message'],
+  //                                               );
+  //                                             } catch (e) {
+  //                                               showCustomSnackbar(
+  //                                                 context,
+  //                                                 Colors.black,
+  //                                                 e.toString(),
+  //                                               );
+  //                                             }
+  //                                           },
+  //                                     child: const Text(
+  //                                       "Delete",
+  //                                       style: TextStyle(
+  //                                         color: Colors.white,
+  //                                       ),
+  //                                     ),
+  //                                   ),
+  //                                   ElevatedButton(
+  //                                     style: ElevatedButton.styleFrom(
+  //                                       backgroundColor: const Color.fromARGB(
+  //                                         255,
+  //                                         106,
+  //                                         78,
+  //                                         179,
+  //                                       ),
+  //                                     ),
+  //                                     onPressed: () {
+  //                                       Navigator.pop(context);
+  //                                     },
+  //                                     child: const Text(
+  //                                       "Cancel",
+  //                                       style: TextStyle(
+  //                                         color: Colors.white,
+  //                                       ),
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                                 content: const Column(
+  //                                   mainAxisSize: MainAxisSize.min,
+  //                                   children: [
+  //                                     Text(
+  //                                       "Are you sure you want to delete this reminder?",
+  //                                       style: TextStyle(
+  //                                         fontSize: 15,
+  //                                       ),
+  //                                     ),
+  //                                     SizedBox(
+  //                                       height: 13,
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                               );
+  //                             });
+  //                       },
+  //                       child: const ListTile(
+  //                         title: Text(
+  //                           "Delete Reminder",
+  //                         ),
+  //                         leading: FaIcon(
+  //                           FontAwesomeIcons.trash,
+  //                           color: Color.fromARGB(
+  //                             255,
+  //                             106,
+  //                             78,
+  //                             179,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             );
+  //           });
+  //     },
+  //     child: Container(
+  //       alignment: Alignment.center,
+  //       color: Colors.white,
+  //       width: 30,
+  //       child: FaIcon(
+  //         FontAwesomeIcons.ellipsisVertical,
+  //         color: Colors.grey[600],
+  //         size: 20,
+  //       ),
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -314,58 +763,6 @@ class _ReminderListState extends State<ReminderList>
                             ),
                             itemCount: reminders.length,
                             itemBuilder: (context, index) {
-                              final reminderItem = reminders[index];
-                              Widget? icon;
-                              Color? color;
-                              switch (reminders[index]['icon']) {
-                                case 'M':
-                                  icon = Text(
-                                    reminders[index]['icon'],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                  color = const Color(0xff8eb564);
-                                  break;
-                                case 'Y':
-                                  icon = Text(
-                                    reminders[index]['icon'],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                  color = const Color(0xffd27f71);
-                                  break;
-                                case 'O':
-                                  icon = Text(
-                                    reminders[index]['icon'],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  );
-                                  color = const Color(0xff6a89d8);
-                                  break;
-
-                                case 'BDAY':
-                                  icon = const Icon(
-                                    FontAwesomeIcons.cakeCandles,
-                                    color: Colors.white,
-                                  );
-                                  color = const Color(0xffd27f71);
-                                  break;
-                                case 'ANNI':
-                                  icon = const Icon(
-                                    FontAwesomeIcons.heart,
-                                    color: Colors.white,
-                                  );
-                                  color = const Color(0xffd27f71);
-                                  break;
-                                default:
-                                  icon = Text(
-                                    reminders[index]['icon'],
-                                  );
-                                  color = const Color(0xff540b0e);
-                              }
                               return Column(
                                 children: [
                                   GestureDetector(
@@ -386,379 +783,20 @@ class _ReminderListState extends State<ReminderList>
                                     child: Container(
                                       color: Colors.white,
                                       child: ListTile(
-                                        subtitle: Text(
-                                          reminders[index]['subTitle'],
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                           horizontal: 15,
-                                          vertical: 1,
+                                          vertical: 3,
                                         ),
-                                        leading: CircleAvatar(
-                                          backgroundColor: color,
-                                          // colors[index % colors.length],
-
-                                          // child: Text(
-                                          //   reminders[index]['icon'],
-                                          //   style: const TextStyle(
-                                          //     color: Colors.white,
-                                          //   ),
-                                          // ),
-                                          child: icon,
+                                        leading: renderLeading(
+                                          reminders[index],
                                         ),
-                                        title: Text(
-                                          reminders[index]['title'],
-                                          style: const TextStyle(),
+                                        title: renderTitle(reminders[index]),
+                                        subtitle: renderSubTitle(
+                                          reminders[index],
                                         ),
-                                        trailing: GestureDetector(
-                                          onTap: () {
-                                            FocusScope.of(context).unfocus();
-                                            showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) {
-                                                  return SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                    width: double.infinity,
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                        horizontal: 13,
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          const Text(
-                                                            "     Select an action",
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                255,
-                                                                106,
-                                                                78,
-                                                                179,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          // if (reminders[index][
-                                                          //             'type'] ==
-                                                          //         'REM' &&
-                                                          //     reminders[index][
-                                                          //             'repeat'] ==
-                                                          //         'O' &&
-                                                          //     initialSearchBy!
-                                                          //             .actualValue ==
-                                                          //         'SEARCH_BY_DATE')
-                                                          //   GestureDetector(
-                                                          //     onTap: () async {
-                                                          //       var response =
-                                                          //           await ApiService().post(
-                                                          //               '/api/reminder/item',
-                                                          //               {
-                                                          //                 "reminderCode":
-                                                          //                     reminders[index]['code']
-                                                          //               },
-                                                          //               headers,
-                                                          //               context);
-
-                                                          //       DateTime date =
-                                                          //           DateTime.parse(
-                                                          //                   response['remindOn'])
-                                                          //               .add(
-                                                          //         const Duration(
-                                                          //             days: 1),
-                                                          //       );
-
-                                                          //       await ApiService()
-                                                          //           .post(
-                                                          //               '/api/reminder/update',
-                                                          //               {
-                                                          //                 "reminderCode":
-                                                          //                     reminders[index]['code'],
-                                                          //                 "title":
-                                                          //                     response['title'],
-                                                          //                 "desc":
-                                                          //                     response['desc'],
-                                                          //                 "remindOn":
-                                                          //                     date.toString(),
-                                                          //                 "repeatFlag":
-                                                          //                     response['repeatFlag']
-                                                          //               },
-                                                          //               headers,
-                                                          //               context);
-                                                          //       Navigator.pop(
-                                                          //           context);
-                                                          //       showCustomSnackbar(
-                                                          //           context,
-                                                          //           Colors
-                                                          //               .black,
-                                                          //           'Reminder updated successfully.');
-                                                          //       // dateController
-                                                          //       //         .text =
-                                                          //       //     DateFormat(
-                                                          //       //             'dd-MMM-yyyy')
-                                                          //       //         .format(
-                                                          //       //             date);
-                                                          //       getListOfReminders();
-                                                          //     },
-                                                          //     child:
-                                                          //         const ListTile(
-                                                          //       title: Text(
-                                                          //         "Remind me tomorrow",
-                                                          //       ),
-                                                          //       leading: FaIcon(
-                                                          //         FontAwesomeIcons
-                                                          //             .clock,
-                                                          //         color: Color
-                                                          //             .fromARGB(
-                                                          //           255,
-                                                          //           106,
-                                                          //           78,
-                                                          //           179,
-                                                          //         ),
-                                                          //       ),
-                                                          //     ),
-                                                          //   ),
-                                                          if (reminders[index]
-                                                                  ['type'] ==
-                                                              'REM')
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                nextScreen(
-                                                                    context,
-                                                                    NotesScreen(
-                                                                      reminderCode:
-                                                                          reminders[index]
-                                                                              [
-                                                                              'code'],
-                                                                    ));
-                                                              },
-                                                              child:
-                                                                  const ListTile(
-                                                                title: Text(
-                                                                  "View Reminder Notes",
-                                                                ),
-                                                                leading: FaIcon(
-                                                                  FontAwesomeIcons
-                                                                      .noteSticky,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                    255,
-                                                                    106,
-                                                                    78,
-                                                                    179,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if (reminders[index]
-                                                                  ['type'] ==
-                                                              'REM')
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                                nextScreen(
-                                                                    context,
-                                                                    AddReminderScreen(
-                                                                        reminderCode:
-                                                                            reminders[index]['code']));
-                                                              },
-                                                              child:
-                                                                  const ListTile(
-                                                                title: Text(
-                                                                  "Edit Reminder",
-                                                                ),
-                                                                leading: FaIcon(
-                                                                  FontAwesomeIcons
-                                                                      .pencil,
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                    255,
-                                                                    106,
-                                                                    78,
-                                                                    179,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                              showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return AlertDialog(
-                                                                      title:
-                                                                          const Text(
-                                                                        "Delete Reminder",
-                                                                      ),
-                                                                      actions: [
-                                                                        ElevatedButton(
-                                                                          style:
-                                                                              ElevatedButton.styleFrom(
-                                                                            backgroundColor:
-                                                                                Colors.red,
-                                                                          ),
-                                                                          onPressed: reminders[index]['type'] == 'REM'
-                                                                              ? () async {
-                                                                                  try {
-                                                                                    var response = await ApiService().post(
-                                                                                      '/api/reminder/delete',
-                                                                                      {
-                                                                                        'reminderCode': reminders[index]['code']
-                                                                                      },
-                                                                                      headers,
-                                                                                      context,
-                                                                                    );
-                                                                                    Navigator.pop(context);
-                                                                                    getListOfReminders();
-
-                                                                                    showCustomSnackbar(
-                                                                                      context,
-                                                                                      Colors.black,
-                                                                                      response['message'],
-                                                                                    );
-                                                                                  } catch (e) {
-                                                                                    showCustomSnackbar(
-                                                                                      context,
-                                                                                      Colors.black,
-                                                                                      e.toString(),
-                                                                                    );
-                                                                                  }
-                                                                                }
-                                                                              : () async {
-                                                                                  try {
-                                                                                    var response = await ApiService().post(
-                                                                                      '/api/family-member/toggle-birthday-reminder',
-                                                                                      {
-                                                                                        'familyMemberCode': reminders[index]['code']
-                                                                                      },
-                                                                                      headers,
-                                                                                      context,
-                                                                                    );
-                                                                                    Navigator.pop(context);
-                                                                                    getListOfReminders();
-
-                                                                                    showCustomSnackbar(
-                                                                                      context,
-                                                                                      Colors.black,
-                                                                                      response['message'],
-                                                                                    );
-                                                                                  } catch (e) {
-                                                                                    showCustomSnackbar(
-                                                                                      context,
-                                                                                      Colors.black,
-                                                                                      e.toString(),
-                                                                                    );
-                                                                                  }
-                                                                                },
-                                                                          child:
-                                                                              const Text(
-                                                                            "Delete",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        ElevatedButton(
-                                                                          style:
-                                                                              ElevatedButton.styleFrom(
-                                                                            backgroundColor:
-                                                                                const Color.fromARGB(
-                                                                              255,
-                                                                              106,
-                                                                              78,
-                                                                              179,
-                                                                            ),
-                                                                          ),
-                                                                          onPressed:
-                                                                              () {
-                                                                            Navigator.pop(context);
-                                                                          },
-                                                                          child:
-                                                                              const Text(
-                                                                            "Cancel",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                      content:
-                                                                          const Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.min,
-                                                                        children: [
-                                                                          Text(
-                                                                            "Are you sure you want to delete this reminder?",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 15,
-                                                                            ),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                13,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    );
-                                                                  });
-                                                            },
-                                                            child:
-                                                                const ListTile(
-                                                              title: Text(
-                                                                "Delete Reminder",
-                                                              ),
-                                                              leading: FaIcon(
-                                                                FontAwesomeIcons
-                                                                    .trash,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                  255,
-                                                                  106,
-                                                                  78,
-                                                                  179,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            color: Colors.white,
-                                            width: 30,
-                                            child: FaIcon(
-                                              FontAwesomeIcons.ellipsisVertical,
-                                              color: Colors.grey[600],
-                                              size: 20,
-                                            ),
-                                          ),
+                                        trailing: renderTrailing(
+                                          reminders[index],
                                         ),
                                       ),
                                     ),

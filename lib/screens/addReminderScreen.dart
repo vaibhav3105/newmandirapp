@@ -320,7 +320,8 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                           final DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(1920),
+                              // firstDate: DateTime(1920),
+                              firstDate: DateTime.now(),
                               lastDate: DateTime(2080));
                           if (pickedDate != null) {
                             setState(() {
