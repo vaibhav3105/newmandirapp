@@ -208,59 +208,59 @@ class _ReminderListState extends State<ReminderList>
 
   // GJ: this is the 2 liner subtitle
   Widget? renderSubTitle(data) {
-    return Text(data['subTitle'],
-        style: TextStyle(color: Colors.grey, fontSize: 14));
+    switch (data['hasDone']) {
+      case 1:
+        return Text(data['subTitle'],
+            style: TextStyle(color: Colors.green, fontSize: 14));
+      default:
+        return Text(data['subTitle'],
+            style: TextStyle(color: Colors.grey, fontSize: 14));
+    }
   }
-
-  // GJ: this is the 2 liner subtitle
-  // Widget? renderSubTitle(data) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       RichText(
-  //           text: TextSpan(
-  //         children: <TextSpan>[
-  //           TextSpan(
-  //               text: data['repeatText'],
-  //               style: const TextStyle(color: Colors.grey, fontSize: 11)),
-  //           TextSpan(
-  //               text: data['endDateText'],
-  //               style: const TextStyle(color: Colors.grey, fontSize: 11)),
-  //         ],
-  //       )),
-  //       Text(data['subTitle'],
-  //           style: const TextStyle(color: Colors.blue, fontSize: 13)),
-  //     ],
-  //   );
-  // }
 
   Widget? renderTrailing(data) {
     List<Widget>? trailChildren;
     switch (data['repeatFlag']) {
       case 'M':
-      case 'Y':
         trailChildren = [
           RichText(
-              text: TextSpan(
+              text: const TextSpan(
             children: <TextSpan>[
               TextSpan(
-                  text: data['repeatText'],
-                  style: const TextStyle(color: Colors.blue, fontSize: 12)),
-              const TextSpan(
+                  text: 'Monthly',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+              TextSpan(
                   text: ' till',
                   style: TextStyle(color: Colors.grey, fontSize: 12)),
             ],
           )),
           Text(data['endDateText'],
-              style: const TextStyle(color: Colors.grey, fontSize: 12)),
+              style: const TextStyle(color: Colors.blue, fontSize: 12)),
+        ];
+        break;
+      case 'Y':
+        trailChildren = [
+          RichText(
+              text: const TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Yearly',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+              TextSpan(
+                  text: ' till',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+            ],
+          )),
+          Text(data['endDateText'],
+              style: const TextStyle(color: Colors.blue, fontSize: 12)),
         ];
         break;
       case 'O':
         trailChildren = [
+          const Text('Remind me',
+              style: TextStyle(color: Colors.grey, fontSize: 12)),
           const Text('One time',
               style: TextStyle(color: Colors.blue, fontSize: 12)),
-          const Text('reminder',
-              style: TextStyle(color: Colors.grey, fontSize: 12)),
         ];
         break;
       default:
@@ -314,7 +314,7 @@ class _ReminderListState extends State<ReminderList>
   //                     //             'type'] ==
   //                     //         'REM' &&
   //                     //     reminders[index][
-  //                     //             'repeat'] ==
+  //                     //             'repeatFlag'] ==
   //                     //         'O' &&
   //                     //     initialSearchBy!
   //                     //             .actualValue ==

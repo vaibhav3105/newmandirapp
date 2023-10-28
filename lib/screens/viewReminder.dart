@@ -1,5 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mandir_app/constants.dart';
+import 'package:mandir_app/screens/addReminderScreen.dart';
+import 'package:mandir_app/screens/notes.dart';
+import 'package:mandir_app/screens/reminderList.dart';
+import 'package:mandir_app/utils/utils.dart';
 
 import '../entity/apiResult.dart';
 import '../service/api_service.dart';
@@ -89,50 +95,254 @@ class _ViewReminderState extends State<ViewReminder> {
   }
 
   Widget? renderSubTitle(data) {
-    // print(data);
+    List<Widget>? output;
     switch (data['ic']) {
       case 'DONE':
-        return RichText(
-          text: TextSpan(
+        output = [
+          const Icon(Icons.circle, color: Colors.green, size: 10),
+          RichText(
+              text: TextSpan(
             children: <TextSpan>[
+              const TextSpan(
+                  text: ' Completed on ',
+                  style: TextStyle(color: Colors.black)),
               TextSpan(
-                  text: 'Completed', style: TextStyle(color: Colors.green)),
-              TextSpan(text: ' on ', style: TextStyle(color: Colors.black)),
-              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+                  text: data['v'], style: const TextStyle(color: Colors.black)),
             ],
-          ),
-        );
+          )),
+        ];
+        break;
       case 'PENDNIG':
-        return RichText(
-          text: TextSpan(
+        output = [
+          const Icon(Icons.circle, color: Colors.orange, size: 10),
+          RichText(
+              text: TextSpan(
             children: <TextSpan>[
-              TextSpan(text: 'Pending', style: TextStyle(color: Colors.orange)),
-              TextSpan(text: ' for ', style: TextStyle(color: Colors.black)),
-              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+              const TextSpan(
+                  text: ' Due for ', style: TextStyle(color: Colors.black)),
+              TextSpan(
+                  text: data['v'], style: const TextStyle(color: Colors.black)),
             ],
-          ),
-        );
+          )),
+        ];
+        break;
       case 'MISSED':
-        return RichText(
-          text: TextSpan(
+        output = [
+          const Icon(Icons.circle, color: Colors.red, size: 10),
+          RichText(
+              text: TextSpan(
             children: <TextSpan>[
-              TextSpan(text: 'Missed', style: TextStyle(color: Colors.red)),
-              TextSpan(text: ' on ', style: TextStyle(color: Colors.black)),
-              TextSpan(text: data['v'], style: TextStyle(color: Colors.black)),
+              const TextSpan(
+                  text: ' Missed on ', style: TextStyle(color: Colors.black)),
+              TextSpan(
+                  text: data['v'], style: const TextStyle(color: Colors.black)),
             ],
-          ),
-        );
+          )),
+        ];
+        break;
       default:
         if (data['k'] != '' && data['v'] != '')
-          return Text(data['v'],
-              style: TextStyle(color: Colors.black, fontSize: 16));
+          output = [
+            Text(data['v'], style: TextStyle(color: Colors.black, fontSize: 16))
+          ];
         else if (data['k'] != '' && data['v'] == '')
-          return null;
+          output = null;
         else if (data['k'] == '' && data['v'] != '')
-          return null;
+          output = null;
         else
-          return Text(data['v']);
+          output = [Text(data['v'])];
+        break;
     }
+
+    if (output == null) {
+      return null;
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: output,
+    );
+  }
+
+  Function? showAppBarContextMenu() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 13,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "     Select an action",
+                    style: TextStyle(
+                      color: Color.fromARGB(
+                        255,
+                        106,
+                        78,
+                        179,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      nextScreen(
+                          context,
+                          NotesScreen(
+                            reminderCode: widget.reminderCode,
+                          ));
+                    },
+                    child: const ListTile(
+                      title: Text(
+                        "View Reminder Notes",
+                      ),
+                      leading: FaIcon(
+                        FontAwesomeIcons.noteSticky,
+                        color: Color.fromARGB(
+                          255,
+                          106,
+                          78,
+                          179,
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      nextScreen(context,
+                          AddReminderScreen(reminderCode: widget.reminderCode));
+                    },
+                    child: const ListTile(
+                      title: Text(
+                        "Edit Reminder",
+                      ),
+                      leading: FaIcon(
+                        FontAwesomeIcons.pencil,
+                        color: Color.fromARGB(
+                          255,
+                          106,
+                          78,
+                          179,
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text(
+                                "Delete Reminder",
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  onPressed: () async {
+                                    try {
+                                      var response = await ApiService().post(
+                                        '/api/reminder/delete',
+                                        {'reminderCode': widget.reminderCode},
+                                        headers,
+                                        context,
+                                      );
+
+                                      showCustomSnackbar(
+                                        context,
+                                        Colors.black,
+                                        response['message'],
+                                      );
+
+                                      Navigator.pop(context);
+                                      //todo: we need to remove the "reminderList" from the navigator history, so that we can reload the page.
+                                      nextScreen(context, ReminderList());
+                                    } catch (e) {
+                                      showCustomSnackbar(
+                                        context,
+                                        Colors.black,
+                                        e.toString(),
+                                      );
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromARGB(
+                                      255,
+                                      106,
+                                      78,
+                                      179,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              content: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Are you sure you want to delete this reminder?",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 13,
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    child: const ListTile(
+                      title: Text(
+                        "Delete Reminder",
+                      ),
+                      leading: FaIcon(
+                        FontAwesomeIcons.trash,
+                        color: Color.fromARGB(
+                          255,
+                          106,
+                          78,
+                          179,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -140,6 +350,16 @@ class _ViewReminderState extends State<ViewReminder> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Reminder Info"),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.menu,
+              size: 28,
+              color: themeVeryLightColor,
+            ),
+            onPressed: showAppBarContextMenu,
+          )
+        ],
       ),
       body: isLoading
           ? const Center(
