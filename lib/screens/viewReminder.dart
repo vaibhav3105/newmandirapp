@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/constants.dart';
 import 'package:mandir_app/screens/addReminderScreen.dart';
 import 'package:mandir_app/screens/notes.dart';
-import 'package:mandir_app/screens/reminderList.dart';
+import 'package:mandir_app/screens/myReminderList.dart';
 import 'package:mandir_app/utils/utils.dart';
 
 import '../entity/apiResult.dart';
@@ -269,8 +269,8 @@ class _ViewReminderState extends State<ViewReminder> {
                                       );
 
                                       Navigator.pop(context);
-                                      //todo: we need to remove the "reminderList" from the navigator history, so that we can reload the page.
-                                      nextScreen(context, ReminderList());
+                                      //todo: we need to remove the "myReminderList" from the navigator history, so that we can reload the page.
+                                      nextScreen(context, MyReminderList());
                                     } catch (e) {
                                       showCustomSnackbar(
                                         context,
@@ -353,7 +353,7 @@ class _ViewReminderState extends State<ViewReminder> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.menu,
+              Icons.more_vert,
               size: 28,
               color: themeVeryLightColor,
             ),

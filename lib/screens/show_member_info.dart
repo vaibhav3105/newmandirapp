@@ -134,7 +134,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
               _showMenuBottomSheet(context, menus);
             },
             icon: const Icon(
-              FontAwesomeIcons.bars,
+              Icons.more_vert,
             ),
           )
         ],

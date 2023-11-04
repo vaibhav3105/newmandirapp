@@ -8,6 +8,7 @@ import 'package:mandir_app/constants.dart';
 import 'package:mandir_app/screens/assistant.dart';
 import 'package:mandir_app/screens/discrepancy.dart';
 import 'package:mandir_app/screens/editScreen.dart';
+import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/services/advertisementService.dart';
 
@@ -125,7 +126,7 @@ class _MyFamilyListState extends State<MyFamilyList> {
               onTap: () {
                 nextScreen(
                   context,
-                  const AssistantScreen(),
+                  const ReminderList(),
                 );
               },
               child: Icon(

@@ -8,6 +8,7 @@ import 'package:mandir_app/screens/viewReminder.dart';
 
 import '../entity/apiResult.dart';
 import '../service/api_service.dart';
+import '../utils/app_enums.dart';
 import '../utils/utils.dart';
 import 'editScreen.dart';
 
@@ -47,6 +48,228 @@ class _ReminderListState extends State<ReminderList>
     //   dateController.text = widget.date;
     // }
     getSearchByControls();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "My Reminders",
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          nextScreen(
+            context,
+            const AddReminderScreen(
+              reminderCode: '',
+            ),
+          );
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      body: isLoadingDropControls == true
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  DropdownButtonFormField(
+                    value: initialSearchBy,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ),
+                      ),
+                    ),
+                    items: SearchByOptionsButton,
+                    onChanged: (APIDropDownItem? item) {
+                      setState(() {
+                        initialSearchBy = item!;
+                        // dateController.text =
+                        //     DateFormat('dd-MMM-yyyy').format(
+                        //   DateTime.now(),
+                        // );
+                        textController.text = '';
+                        if (initialSearchBy!.actualValue != 'SEARCH_BY_TEXT') {
+                          getListOfReminders();
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  // if (initialSearchBy!.actualValue == 'SEARCH_BY_DATE')
+                  //   TextFormField(
+                  //     readOnly: true,
+                  //     onTap: () async {
+                  //       final DateTime? pickedDate = await showDatePicker(
+                  //           context: context,
+                  //           initialDate: DateTime.now(),
+                  //           firstDate: DateTime(1920),
+                  //           lastDate: DateTime(2080));
+                  //       if (pickedDate != null) {
+                  //         setState(() {
+                  //           dateController.text =
+                  //               DateFormat('dd-MMM-yyyy').format(pickedDate);
+                  //           getListOfReminders(false);
+                  //         });
+                  //       }
+                  //     },
+                  //     controller: dateController,
+                  //     decoration: InputDecoration(
+                  //       fillColor: Colors.white,
+                  //       filled: true,
+                  //       suffixIcon: const Icon(
+                  //         Icons.event,
+                  //       ),
+                  //       contentPadding: const EdgeInsets.symmetric(
+                  //         vertical: 5,
+                  //         horizontal: 10,
+                  //       ),
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(
+                  //           12,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
+                    TextFormField(
+                      controller: textController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 10,
+                        ),
+                        suffixIcon: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 1,
+                              color: Colors.grey,
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 5,
+                              ),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.search,
+                                ),
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  getListOfReminders();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        hintText: "Enter your text...",
+                        hintStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  Text(
+                    reminderCaption == null ? '' : reminderCaption!,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  gettingReminders == true
+                      ? const Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            padding: const EdgeInsets.only(
+                              bottom: 80,
+                            ),
+                            itemCount: reminders.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () =>
+                                        onTapReminderItem(reminders[index]),
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          vertical: 3,
+                                        ),
+                                        leading: renderLeading(
+                                          reminders[index],
+                                        ),
+                                        title: renderTitle(reminders[index]),
+                                        subtitle: renderSubTitle(
+                                          reminders[index],
+                                        ),
+                                        trailing: renderTrailing(
+                                          reminders[index],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const Divider(
+                                    color: Colors.transparent,
+                                    height: 3,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                  // Container(
+                  //   color: Colors.white,
+                  //   height: 80,
+                  // )
+                ],
+              ),
+            ),
+    );
   }
 
   getListOfReminders() async {
@@ -137,9 +360,9 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  Widget? renderLeading(data) {
-    return null;
-  }
+  // Widget? renderLeading(data) {
+  //   return null;
+  // }
 
   // Widget? renderLeading(data) {
   //   Widget? icon;
@@ -211,7 +434,7 @@ class _ReminderListState extends State<ReminderList>
     switch (data['hasDone']) {
       case 1:
         return Text(data['subTitle'],
-            style: TextStyle(color: Colors.green, fontSize: 14));
+            style: TextStyle(color: Colors.grey, fontSize: 14));
       default:
         return Text(data['subTitle'],
             style: TextStyle(color: Colors.grey, fontSize: 14));
@@ -586,237 +809,85 @@ class _ReminderListState extends State<ReminderList>
   //   );
   // }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     "Personal Assistant",
-      //   ),
-      // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          nextScreen(
-            context,
-            const AddReminderScreen(
-              reminderCode: '',
-            ),
-          );
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
-      body: isLoadingDropControls == true
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+  Widget? renderLeading(data) {
+    switch (data['hasDone']) {
+      case 1:
+        return const Icon(
+          FontAwesomeIcons.circleCheck,
+          color: Colors.green,
+        );
+      default:
+        return const Icon(
+          FontAwesomeIcons.clock,
+          color: Colors.orange,
+        );
+    }
+  }
 
-                  DropdownButtonFormField(
-                    value: initialSearchBy,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 10,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          12,
+  onTapReminderItem(data) {
+    switch (data['type']) {
+      case 'FM-BDAY':
+        nextScreen(context, ShowMemberInfo(memberCode: data['code']));
+        break;
+      default:
+        showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        nextScreen(
+                            context, ViewReminder(reminderCode: data['code']));
+                      },
+                      child: ListTile(
+                        title: const Text('View Reminder'),
+                        leading: FaIcon(
+                          FontAwesomeIcons.eye,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                     ),
-                    items: SearchByOptionsButton,
-                    onChanged: (APIDropDownItem? item) {
-                      setState(() {
-                        initialSearchBy = item!;
-                        // dateController.text =
-                        //     DateFormat('dd-MMM-yyyy').format(
-                        //   DateTime.now(),
-                        // );
-                        textController.text = '';
-                        if (initialSearchBy!.actualValue != 'SEARCH_BY_TEXT') {
-                          getListOfReminders();
-                        }
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  // if (initialSearchBy!.actualValue == 'SEARCH_BY_DATE')
-                  //   TextFormField(
-                  //     readOnly: true,
-                  //     onTap: () async {
-                  //       final DateTime? pickedDate = await showDatePicker(
-                  //           context: context,
-                  //           initialDate: DateTime.now(),
-                  //           firstDate: DateTime(1920),
-                  //           lastDate: DateTime(2080));
-                  //       if (pickedDate != null) {
-                  //         setState(() {
-                  //           dateController.text =
-                  //               DateFormat('dd-MMM-yyyy').format(pickedDate);
-                  //           getListOfReminders(false);
-                  //         });
-                  //       }
-                  //     },
-                  //     controller: dateController,
-                  //     decoration: InputDecoration(
-                  //       fillColor: Colors.white,
-                  //       filled: true,
-                  //       suffixIcon: const Icon(
-                  //         Icons.event,
-                  //       ),
-                  //       contentPadding: const EdgeInsets.symmetric(
-                  //         vertical: 5,
-                  //         horizontal: 10,
-                  //       ),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(
-                  //           12,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
-                    TextFormField(
-                      controller: textController,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 10,
-                        ),
-                        suffixIcon: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 1,
-                              color: Colors.grey,
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 5,
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.search,
-                                ),
-                                onPressed: () {
-                                  FocusScope.of(context).unfocus();
-                                  getListOfReminders();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        hintText: "Enter your text...",
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            12,
+                    if (data['hasDone'] != 1)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          showToast(
+                              context, ToastTypes.WARN, 'Feature coming soon.');
+                        },
+                        child: const ListTile(
+                          title: Text('Mark as Completed'),
+                          leading: FaIcon(
+                            FontAwesomeIcons.circleCheck,
+                            color: Colors.green,
                           ),
                         ),
                       ),
-                    ),
-                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  Text(
-                    reminderCaption == null ? '' : reminderCaption!,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  gettingReminders == true
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(
-                              bottom: 80,
-                            ),
-                            itemCount: reminders.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      nextScreen(
-                                        context,
-                                        reminders[index]['type'] == 'FM-BDAY'
-                                            ? ShowMemberInfo(
-                                                memberCode: reminders[index]
-                                                    ['code'],
-                                              )
-                                            : ViewReminder(
-                                                reminderCode: reminders[index]
-                                                    ['code'],
-                                              ),
-                                      );
-                                    },
-                                    child: Container(
-                                      color: Colors.white,
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 15,
-                                          vertical: 3,
-                                        ),
-                                        leading: renderLeading(
-                                          reminders[index],
-                                        ),
-                                        title: renderTitle(reminders[index]),
-                                        subtitle: renderSubTitle(
-                                          reminders[index],
-                                        ),
-                                        trailing: renderTrailing(
-                                          reminders[index],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.transparent,
-                                    height: 3,
-                                  ),
-                                ],
-                              );
-                            },
+                    if (data['hasDone'] == 1)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          showToast(
+                              context, ToastTypes.WARN, 'Feature coming soon.');
+                        },
+                        child: const ListTile(
+                          title: Text('Un-mark as Pending'),
+                          leading: FaIcon(
+                            FontAwesomeIcons.clock,
+                            color: Colors.orange,
                           ),
                         ),
-                  // Container(
-                  //   color: Colors.white,
-                  //   height: 80,
-                  // )
-                ],
-              ),
-            ),
-    );
+                      ),
+                  ],
+                ),
+              );
+            });
+        break;
+    }
   }
 }

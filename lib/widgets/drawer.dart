@@ -7,7 +7,9 @@ import 'package:mandir_app/screens/changePasswordScreen.dart';
 import 'package:mandir_app/screens/createNewLogin.dart';
 import 'package:mandir_app/screens/myFamilyList.dart';
 import 'package:mandir_app/screens/assistant.dart';
+import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/screens/search_screen.dart';
+import 'package:mandir_app/screens/todo.dart';
 import 'package:mandir_app/utils/utils.dart';
 
 import '../utils/helper.dart';
@@ -104,7 +106,7 @@ class _MyDrawerState extends State<MyDrawer> {
               );
             },
             child: const ListTile(
-              leading: Icon(FontAwesomeIcons.cake),
+              leading: Icon(FontAwesomeIcons.cakeCandles),
               title: Text("Birthdays"),
               trailing: Icon(Icons.keyboard_arrow_right),
             ),
@@ -136,7 +138,7 @@ class _MyDrawerState extends State<MyDrawer> {
               );
             },
             child: const ListTile(
-              leading: Icon(Icons.manage_search),
+              leading: Icon(FontAwesomeIcons.magnifyingGlass),
               title: Text("Search Directory"),
               trailing: Icon(Icons.keyboard_arrow_right),
             ),
@@ -147,16 +149,35 @@ class _MyDrawerState extends State<MyDrawer> {
               Navigator.of(context).pop();
               nextScreen(
                 context,
-                const AssistantScreen(
+                const ReminderList(
                     // date: '',
                     ),
               );
             },
             child: const ListTile(
-              leading: Icon(
-                Icons.notifications_active,
-              ),
+              leading: Icon(FontAwesomeIcons.bell
+                  // Icons.notifications_active,
+                  ),
               title: Text("My Reminders"),
+              trailing: Icon(Icons.chevron_right),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              nextScreen(
+                context,
+                const TodoScreen(
+                    // date: '',
+                    ),
+              );
+            },
+            child: const ListTile(
+              leading: Icon(FontAwesomeIcons.squareCheck
+                  // Icons.checklist,
+                  ),
+              title: Text("My Todo List"),
               trailing: Icon(Icons.chevron_right),
             ),
           ),
@@ -167,9 +188,7 @@ class _MyDrawerState extends State<MyDrawer> {
               nextScreen(context, const CreateNewLogin());
             },
             child: const ListTile(
-              leading: Icon(
-                Icons.badge,
-              ),
+              leading: Icon(FontAwesomeIcons.plus),
               title: Text("Add New Login"),
               trailing: Icon(Icons.chevron_right),
             ),
@@ -180,7 +199,7 @@ class _MyDrawerState extends State<MyDrawer> {
             //   horizontal: 18,
             // ),
             title: const Text('Settings'),
-            leading: const Icon(Icons.settings),
+            leading: const Icon(FontAwesomeIcons.gear),
             shape: Border.all(
               color: Colors.white,
               width: 0,
@@ -239,7 +258,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   (route) => false);
             },
             child: const ListTile(
-              leading: Icon(Icons.power_settings_new),
+              leading: Icon(FontAwesomeIcons.powerOff),
               title: Text("Logout"),
               trailing: Icon(Icons.keyboard_arrow_right),
             ),

@@ -191,7 +191,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                     });
               },
               icon: const Icon(
-                Icons.tune,
+                Icons.filter_alt_rounded,
                 size: 30,
               ))
         ],

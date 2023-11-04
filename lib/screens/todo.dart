@@ -55,6 +55,11 @@ class _TodoScreenState extends State<TodoScreen>
             child: CircularProgressIndicator(),
           )
         : Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "My Todo List",
+              ),
+            ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet(
