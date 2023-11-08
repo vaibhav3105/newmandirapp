@@ -25,6 +25,7 @@ class ReminderList extends StatefulWidget {
 
 class _ReminderListState extends State<ReminderList>
     with SingleTickerProviderStateMixin {
+  bool showLoader = false;
   bool isLoadingSearchByDropdown = false;
   bool gettingReminders = false;
   List<dynamic> reminders = [];
@@ -38,11 +39,37 @@ class _ReminderListState extends State<ReminderList>
   TabBar get myTabBar => TabBar(
         tabs: const [
           Tab(
-            text: 'Upcoming',
-          ),
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Upcoming  ',
+                // style: TextStyle(color: Colors.orange),
+              ),
+              Icon(
+                FontAwesomeIcons.clock,
+                size: 20,
+                color: Colors.orange,
+              ),
+            ],
+          )),
           Tab(
-            text: 'Missed',
-          )
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Missed  ',
+                // style: TextStyle(color: Colors.red),
+              ),
+              Icon(
+                FontAwesomeIcons.circleXmark,
+                size: 20,
+                color: Colors.red,
+              ),
+            ],
+          )),
         ],
         controller: myTabController,
       );
@@ -105,7 +132,7 @@ class _ReminderListState extends State<ReminderList>
               ),
               items: SearchByOptionsButton,
               onChanged: (APIDropDownItem? item) {
-                print(item!.actualValue);
+                // print(item!.actualValue);
                 setState(() {
                   initialSearchBy = item!;
                   textController.text = '';
@@ -257,8 +284,18 @@ class _ReminderListState extends State<ReminderList>
             const SizedBox(
               height: 20,
             ),
-            Text(
-              reminderCaption == null ? '' : reminderCaption!,
+            RichText(
+              text: TextSpan(children: <TextSpan>[
+                const TextSpan(
+                    text: 'You have missed ',
+                    style: TextStyle(color: Colors.black)),
+                TextSpan(
+                    text: missedReminders.length.toString(),
+                    style: const TextStyle(color: Colors.black)),
+                const TextSpan(
+                    text: ' reminders till now..',
+                    style: TextStyle(color: Colors.black)),
+              ]),
             ),
             const SizedBox(
               height: 10,
@@ -389,7 +426,7 @@ class _ReminderListState extends State<ReminderList>
         myTabBarView = [renderUpcomingReminders(), renderMissedReminders()];
       });
 
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -965,17 +1002,48 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  onTapMarkAsCompleted(data) {
+  onTapMarkAsCompleted(data) async {
     Navigator.pop(context);
-    showToast(context, ToastTypes.WARN, 'Feature coming soon.');
-    print(data);
+    await MarkUnmarkReminder(data, true);
     getListOfReminders();
   }
 
-  onTapUnmarkAsPending(data) {
+  onTapUnmarkAsPending(data) async {
     Navigator.pop(context);
-    showToast(context, ToastTypes.WARN, 'Feature coming soon.');
-    print(data);
+    await MarkUnmarkReminder(data, false);
     getListOfReminders();
+  }
+
+  MarkUnmarkReminder(data, markFlag) async {
+    try {
+      setState(() {
+        showLoader = true;
+      });
+
+      ApiResult result = await ApiService().post2(
+          context,
+          '/api/reminder/mark-unmark',
+          {
+            "reminderCode": data['code'],
+            "schedule": data['schedule'],
+            "markCompleteFlag": markFlag,
+          },
+          headers);
+
+      if (result.success == false) {
+        ApiService().handleApiResponse2(context, result.data);
+        return;
+      }
+
+      setState(() {
+        showLoader = false;
+        showToast(context, ToastTypes.SUCCESS, result.data['message']);
+      });
+    } catch (e) {
+      print(e.toString());
+      setState(() {
+        showLoader = false;
+      });
+    }
   }
 }

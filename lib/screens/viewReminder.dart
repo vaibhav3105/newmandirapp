@@ -61,109 +61,233 @@ class _ViewReminderState extends State<ViewReminder> {
     });
   }
 
-  Widget? renderTrailing(data) {
-    return null;
-    // switch (data['ic']) {
-    //   case 'DONE':
-    //     return Icon(Icons.check_circle, color: Colors.green);
-    //     // return const Text('Done', style: TextStyle(color: Colors.green));
-    //   case 'PENDNIG':
-    //     return Icon(Icons.cancel, color: Colors.orange);
-    //     // return const Text('Pending', style: TextStyle(color: Colors.orange));
-    //   case 'MISSED':
-    //     return Icon(Icons.cancel, color: Colors.red);
-    //     // return const Text('Missed', style: TextStyle(color: Colors.red));
-    //   default:
-    //     return null;
-    // }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("View Reminder"),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                size: 28,
+                color: themeVeryLightColor,
+              ),
+              onPressed: showAppBarContextMenu,
+            )
+          ],
+        ),
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      renderCategory('Title'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: ListTile(
+                              title: Text(reminderInfo['info'][0]['title'],
+                                  style: getValueStyle()),
+                            )),
+                      ),
+                      renderCategory('Schedule'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title:
+                                      Text('Remind on', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['remindOnText'],
+                                      style: getValueStyle()),
+                                ),
+                                renderDivider(),
+                                ListTile(
+                                  title:
+                                      Text('Remind till', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['endDateText'],
+                                      style: getValueStyle()),
+                                ),
+                              ],
+                            )),
+                      ),
+                      renderCategory('Top 5 Last Reminders'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: renderLastReminderList(),
+                            )),
+                      ),
+                      renderCategory('Top 5 Next Reminders'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: renderUpcomingReminderList(),
+                            )),
+                      ),
+                      renderCategory('Other info'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text('Category', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['categoryText'],
+                                      style: getValueStyle()),
+                                ),
+                                renderDivider(),
+                                ListTile(
+                                  title:
+                                      Text('Description', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['description'],
+                                      style: getValueStyle()),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+              ));
   }
 
-  Widget? renderTitle(data) {
-    //return const Text('Gaurav Jain', style: TextStyle(color: Colors.orange));
+  // Widget? renderTrailing(data) {
+  //   return null;
+  //   // switch (data['ic']) {
+  //   //   case 'DONE':
+  //   //     return Icon(Icons.check_circle, color: Colors.green);
+  //   //     // return const Text('Done', style: TextStyle(color: Colors.green));
+  //   //   case 'PENDNIG':
+  //   //     return Icon(Icons.cancel, color: Colors.orange);
+  //   //     // return const Text('Pending', style: TextStyle(color: Colors.orange));
+  //   //   case 'MISSED':
+  //   //     return Icon(Icons.cancel, color: Colors.red);
+  //   //     // return const Text('Missed', style: TextStyle(color: Colors.red));
+  //   //   default:
+  //   //     return null;
+  //   // }
+  // }
 
-    if (data['k'] != '' && data['v'] != '')
-      return Text(data['k'],
-          style: TextStyle(color: Colors.grey, fontSize: 14));
-    else if (data['k'] != '' && data['v'] == '')
-      return Text(data['k'],
-          style: TextStyle(color: Colors.grey, fontSize: 14));
-    else if (data['k'] == '' && data['v'] != '')
-      return Text(data['v'],
-          style: TextStyle(color: Colors.black, fontSize: 16));
-    else
-      return Text(data['k']);
-  }
+  // Widget? renderTitle(data) {
+  //   //return const Text('Gaurav Jain', style: TextStyle(color: Colors.orange));
 
-  Widget? renderSubTitle(data) {
-    List<Widget>? output;
-    switch (data['ic']) {
-      case 'DONE':
-        output = [
-          const Icon(Icons.circle, color: Colors.green, size: 10),
-          RichText(
-              text: TextSpan(
-            children: <TextSpan>[
-              const TextSpan(
-                  text: ' Completed on ',
-                  style: TextStyle(color: Colors.black)),
-              TextSpan(
-                  text: data['v'], style: const TextStyle(color: Colors.black)),
-            ],
-          )),
-        ];
-        break;
-      case 'PENDNIG':
-        output = [
-          const Icon(Icons.circle, color: Colors.orange, size: 10),
-          RichText(
-              text: TextSpan(
-            children: <TextSpan>[
-              const TextSpan(
-                  text: ' Due for ', style: TextStyle(color: Colors.black)),
-              TextSpan(
-                  text: data['v'], style: const TextStyle(color: Colors.black)),
-            ],
-          )),
-        ];
-        break;
-      case 'MISSED':
-        output = [
-          const Icon(Icons.circle, color: Colors.red, size: 10),
-          RichText(
-              text: TextSpan(
-            children: <TextSpan>[
-              const TextSpan(
-                  text: ' Missed on ', style: TextStyle(color: Colors.black)),
-              TextSpan(
-                  text: data['v'], style: const TextStyle(color: Colors.black)),
-            ],
-          )),
-        ];
-        break;
-      default:
-        if (data['k'] != '' && data['v'] != '')
-          output = [
-            Text(data['v'], style: TextStyle(color: Colors.black, fontSize: 16))
-          ];
-        else if (data['k'] != '' && data['v'] == '')
-          output = null;
-        else if (data['k'] == '' && data['v'] != '')
-          output = null;
-        else
-          output = [Text(data['v'])];
-        break;
-    }
+  //   if (data['k'] != '' && data['v'] != '')
+  //     return Text(data['k'],
+  //         style: TextStyle(color: Colors.grey, fontSize: 14));
+  //   else if (data['k'] != '' && data['v'] == '')
+  //     return Text(data['k'],
+  //         style: TextStyle(color: Colors.grey, fontSize: 14));
+  //   else if (data['k'] == '' && data['v'] != '')
+  //     return Text(data['v'],
+  //         style: TextStyle(color: Colors.black, fontSize: 16));
+  //   else
+  //     return Text(data['k']);
+  // }
 
-    if (output == null) {
-      return null;
-    }
+  // Widget? renderSubTitle(data) {
+  //   List<Widget>? output;
+  //   switch (data['ic']) {
+  //     case 'DONE':
+  //       output = [
+  //         const Icon(Icons.circle, color: Colors.green, size: 10),
+  //         RichText(
+  //             text: TextSpan(
+  //           children: <TextSpan>[
+  //             const TextSpan(
+  //                 text: ' Completed on ',
+  //                 style: TextStyle(color: Colors.black)),
+  //             TextSpan(
+  //                 text: data['v'], style: const TextStyle(color: Colors.black)),
+  //           ],
+  //         )),
+  //       ];
+  //       break;
+  //     case 'PENDNIG':
+  //       output = [
+  //         const Icon(Icons.circle, color: Colors.orange, size: 10),
+  //         RichText(
+  //             text: TextSpan(
+  //           children: <TextSpan>[
+  //             const TextSpan(
+  //                 text: ' Due for ', style: TextStyle(color: Colors.black)),
+  //             TextSpan(
+  //                 text: data['v'], style: const TextStyle(color: Colors.black)),
+  //           ],
+  //         )),
+  //       ];
+  //       break;
+  //     case 'MISSED':
+  //       output = [
+  //         const Icon(Icons.circle, color: Colors.red, size: 10),
+  //         RichText(
+  //             text: TextSpan(
+  //           children: <TextSpan>[
+  //             const TextSpan(
+  //                 text: ' Missed on ', style: TextStyle(color: Colors.black)),
+  //             TextSpan(
+  //                 text: data['v'], style: const TextStyle(color: Colors.black)),
+  //           ],
+  //         )),
+  //       ];
+  //       break;
+  //     default:
+  //       if (data['k'] != '' && data['v'] != '')
+  //         output = [
+  //           Text(data['v'], style: TextStyle(color: Colors.black, fontSize: 16))
+  //         ];
+  //       else if (data['k'] != '' && data['v'] == '')
+  //         output = null;
+  //       else if (data['k'] == '' && data['v'] != '')
+  //         output = null;
+  //       else
+  //         output = [Text(data['v'])];
+  //       break;
+  //   }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: output,
-    );
-  }
+  //   if (output == null) {
+  //     return null;
+  //   }
+
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     crossAxisAlignment: CrossAxisAlignment.center,
+  //     children: output,
+  //   );
+  // }
 
   Function? showAppBarContextMenu() {
     showModalBottomSheet(
@@ -345,130 +469,6 @@ class _ViewReminderState extends State<ViewReminder> {
         });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("View Reminder"),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                size: 28,
-                color: themeVeryLightColor,
-              ),
-              onPressed: showAppBarContextMenu,
-            )
-          ],
-        ),
-        body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      renderCategory('Title'),
-                      Padding(
-                        padding: getCardPaddingStyle(),
-                        child: Card(
-                            elevation: 0,
-                            shape: getCardBorderStyle(),
-                            margin: EdgeInsets.zero,
-                            color: Colors.white,
-                            child: ListTile(
-                              title: Text(reminderInfo['info'][0]['title'],
-                                  style: getValueStyle()),
-                            )),
-                      ),
-                      renderCategory('Schedule'),
-                      Padding(
-                        padding: getCardPaddingStyle(),
-                        child: Card(
-                            elevation: 0,
-                            shape: getCardBorderStyle(),
-                            margin: EdgeInsets.zero,
-                            color: Colors.white,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title:
-                                      Text('Remind on', style: getKeyStyle()),
-                                  subtitle: Text(
-                                      reminderInfo['info'][0]['remindOnText'],
-                                      style: getValueStyle()),
-                                ),
-                                renderDivider(),
-                                ListTile(
-                                  title:
-                                      Text('Remind till', style: getKeyStyle()),
-                                  subtitle: Text(
-                                      reminderInfo['info'][0]['endDateText'],
-                                      style: getValueStyle()),
-                                ),
-                              ],
-                            )),
-                      ),
-                      renderCategory('Last Reminders'),
-                      Padding(
-                        padding: getCardPaddingStyle(),
-                        child: Card(
-                            elevation: 0,
-                            shape: getCardBorderStyle(),
-                            margin: EdgeInsets.zero,
-                            color: Colors.white,
-                            child: Column(
-                              children: renderLastReminderList(),
-                            )),
-                      ),
-                      renderCategory('Upcoming Reminders'),
-                      Padding(
-                        padding: getCardPaddingStyle(),
-                        child: Card(
-                            elevation: 0,
-                            shape: getCardBorderStyle(),
-                            margin: EdgeInsets.zero,
-                            color: Colors.white,
-                            child: Column(
-                              children: renderUpcomingReminderList(),
-                            )),
-                      ),
-                      renderCategory('Other info'),
-                      Padding(
-                        padding: getCardPaddingStyle(),
-                        child: Card(
-                            elevation: 0,
-                            shape: getCardBorderStyle(),
-                            margin: EdgeInsets.zero,
-                            color: Colors.white,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text('Category', style: getKeyStyle()),
-                                  subtitle: Text(
-                                      reminderInfo['info'][0]['categoryText'],
-                                      style: getValueStyle()),
-                                ),
-                                renderDivider(),
-                                ListTile(
-                                  title:
-                                      Text('Description', style: getKeyStyle()),
-                                  subtitle: Text(
-                                      reminderInfo['info'][0]['description'],
-                                      style: getValueStyle()),
-                                ),
-                              ],
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-              ));
-  }
-
   EdgeInsets getCardPaddingStyle() {
     return const EdgeInsets.only(top: 10, bottom: 15);
   }
@@ -510,35 +510,63 @@ class _ViewReminderState extends State<ViewReminder> {
   }
 
   List<Widget> renderLastReminderList() {
+    if (reminderInfo['lastReminders'].length == 0) {
+      return [
+        const Padding(
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Text('No record found.')],
+          ),
+        )
+      ];
+    }
+
     List<Widget> list =
         List.generate(reminderInfo['lastReminders'].length, (index) {
       return renderUpcomingReminderItem(reminderInfo['lastReminders'][index]);
     });
-    list.add(const SizedBox(height: 20));
+    list.add(const SizedBox(height: 10));
+    list.insert(0, const SizedBox(height: 10));
     return list;
   }
 
   List<Widget> renderUpcomingReminderList() {
+    if (reminderInfo['upcomimgReminders'].length == 0) {
+      return [
+        const Padding(
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Text('No record found.')],
+          ),
+        )
+      ];
+    }
+
     List<Widget> list =
         List.generate(reminderInfo['upcomimgReminders'].length, (index) {
       return renderUpcomingReminderItem(
           reminderInfo['upcomimgReminders'][index]);
     });
-    list.add(const SizedBox(height: 20));
+    list.add(const SizedBox(height: 10));
+    list.insert(0, const SizedBox(height: 10));
     return list;
   }
 
   Widget renderLastReminderItem(data) {
     List<Widget>? output;
-    if (data['CompletedOn'] != null) {
+    if (data['completedOn'] != null) {
       output = [
-        const Icon(Icons.circle, color: Colors.green, size: 10),
+        const Icon(Icons.circle, color: Colors.green, size: 12),
         const Text(' '),
         Text(data['message']),
       ];
     } else {
       output = [
-        const Icon(Icons.circle, color: Colors.red, size: 10),
+        const Icon(Icons.circle, color: Colors.red, size: 12),
         const Text(' '),
         Expanded(
           child: Text(
@@ -551,7 +579,7 @@ class _ViewReminderState extends State<ViewReminder> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 0),
+      padding: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -561,16 +589,17 @@ class _ViewReminderState extends State<ViewReminder> {
   }
 
   Widget renderUpcomingReminderItem(data) {
+    print(data);
     List<Widget>? output;
-    if (data['CompletedOn'] != null) {
+    if (data['completedOn'] != null) {
       output = [
-        const Icon(Icons.circle, color: Colors.green, size: 10),
+        const Icon(Icons.circle, color: Colors.green, size: 12),
         const Text(' '),
         Text(data['message']),
       ];
     } else {
       output = [
-        const Icon(Icons.circle, color: Colors.orange, size: 10),
+        const Icon(Icons.circle, color: Colors.orange, size: 12),
         const Text(' '),
         Expanded(
           child: Text(
@@ -583,7 +612,7 @@ class _ViewReminderState extends State<ViewReminder> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 0),
+      padding: const EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
