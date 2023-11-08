@@ -109,9 +109,9 @@ class _DiscrepancyScreenState extends State<DiscrepancyScreen> {
                                         [innerIndex]['t']) {
                                       case 'INFO':
                                         icon = const Icon(
-                                          FontAwesomeIcons.circleCheck,
+                                          Icons.info_outline,
                                           color: Colors.green,
-                                          size: 30,
+                                          size: 35,
                                         );
                                         break;
                                       case 'WARN':

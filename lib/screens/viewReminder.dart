@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/constants.dart';
 import 'package:mandir_app/screens/addReminderScreen.dart';
 import 'package:mandir_app/screens/notes.dart';
-import 'package:mandir_app/screens/myReminderList.dart';
+import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/utils/utils.dart';
 
 import '../entity/apiResult.dart';
@@ -23,7 +23,7 @@ class ViewReminder extends StatefulWidget {
 
 class _ViewReminderState extends State<ViewReminder> {
   bool isLoading = false;
-  List<dynamic> reminderInfo = [];
+  dynamic reminderInfo;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,23 +41,23 @@ class _ViewReminderState extends State<ViewReminder> {
       {'reminderCode': widget.reminderCode},
       headers,
     );
+    print(result.data);
     if (result.success == false) {
       ApiService().handleApiResponse2(context, result.data);
-      result.data = [];
+      return;
     }
 
-    var cats = List.from(Set.from(result.data.map((e) => e['c'])));
-    var data = [];
-    for (var cat in cats) {
-      var item = {"cat": cat};
-      item['items'] = result.data.where((x) => x['c'] == cat).toList();
-      data.add(item);
-    }
+    // var cats = List.from(Set.from(result.data.map((e) => e['c'])));
+    // var data = [];
+    // for (var cat in cats) {
+    //   var item = {"cat": cat};
+    //   item['items'] = result.data.where((x) => x['c'] == cat).toList();
+    //   data.add(item);
+    // }
 
     setState(() {
+      reminderInfo = result.data;
       isLoading = false;
-      reminderInfo = data;
-      print(reminderInfo);
     });
   }
 
@@ -269,8 +269,8 @@ class _ViewReminderState extends State<ViewReminder> {
                                       );
 
                                       Navigator.pop(context);
-                                      //todo: we need to remove the "myReminderList" from the navigator history, so that we can reload the page.
-                                      nextScreen(context, MyReminderList());
+                                      //todo: we need to remove the "ReminderList" from the navigator history, so that we can reload the page.
+                                      nextScreen(context, ReminderList());
                                     } catch (e) {
                                       showCustomSnackbar(
                                         context,
@@ -348,107 +348,247 @@ class _ViewReminderState extends State<ViewReminder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Reminder Info"),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              size: 28,
-              color: themeVeryLightColor,
-            ),
-            onPressed: showAppBarContextMenu,
-          )
-        ],
-      ),
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+        appBar: AppBar(
+          title: const Text("View Reminder"),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                size: 28,
+                color: themeVeryLightColor,
+              ),
+              onPressed: showAppBarContextMenu,
             )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: reminderInfo.length,
-                  itemBuilder: (context, outerIndex) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          child: Text(
-                            reminderInfo[outerIndex]['cat'],
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          child: Card(
+          ],
+        ),
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      renderCategory('Title'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
                             elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: ListTile(
+                              title: Text(reminderInfo['info'][0]['title'],
+                                  style: getValueStyle()),
+                            )),
+                      ),
+                      renderCategory('Schedule'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
                             margin: EdgeInsets.zero,
                             color: Colors.white,
                             child: Column(
-                              children: List.generate(
-                                reminderInfo[outerIndex]['items'].length,
-                                (innerIndex) {
-                                  return Column(
-                                    children: [
-                                      ListTile(
-                                        title: renderTitle(
-                                            reminderInfo[outerIndex]['items']
-                                                [innerIndex]),
-                                        trailing: renderTrailing(
-                                            reminderInfo[outerIndex]['items']
-                                                [innerIndex]),
-                                        subtitle: renderSubTitle(
-                                            reminderInfo[outerIndex]['items']
-                                                [innerIndex]),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                        ),
-                                        child: Divider(
-                                          height: 0,
-                                          thickness: 1,
-                                          color: Color(0xFFF0F1F3),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    );
-                  },
+                              children: [
+                                ListTile(
+                                  title:
+                                      Text('Remind on', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['remindOnText'],
+                                      style: getValueStyle()),
+                                ),
+                                renderDivider(),
+                                ListTile(
+                                  title:
+                                      Text('Remind till', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['endDateText'],
+                                      style: getValueStyle()),
+                                ),
+                              ],
+                            )),
+                      ),
+                      renderCategory('Last Reminders'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: renderLastReminderList(),
+                            )),
+                      ),
+                      renderCategory('Upcoming Reminders'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: renderUpcomingReminderList(),
+                            )),
+                      ),
+                      renderCategory('Other info'),
+                      Padding(
+                        padding: getCardPaddingStyle(),
+                        child: Card(
+                            elevation: 0,
+                            shape: getCardBorderStyle(),
+                            margin: EdgeInsets.zero,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text('Category', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['categoryText'],
+                                      style: getValueStyle()),
+                                ),
+                                renderDivider(),
+                                ListTile(
+                                  title:
+                                      Text('Description', style: getKeyStyle()),
+                                  subtitle: Text(
+                                      reminderInfo['info'][0]['description'],
+                                      style: getValueStyle()),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ));
+  }
+
+  EdgeInsets getCardPaddingStyle() {
+    return const EdgeInsets.only(top: 10, bottom: 15);
+  }
+
+  RoundedRectangleBorder getCardBorderStyle() {
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    );
+  }
+
+  Widget renderCategory(data) {
+    return Text(
+      data,
+      style: TextStyle(
+        color: Colors.grey[700],
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  TextStyle getKeyStyle() {
+    return const TextStyle(color: Colors.grey, fontSize: 14);
+  }
+
+  TextStyle getValueStyle() {
+    return const TextStyle(color: Colors.black, fontSize: 16);
+  }
+
+  TextStyle getScheduleStyle() {
+    return const TextStyle(color: Colors.black, fontSize: 14);
+  }
+
+  Widget renderDivider() {
+    return const Divider(
+      height: 0,
+      thickness: 1,
+      color: Color.fromARGB(255, 212, 215, 221),
+    );
+  }
+
+  List<Widget> renderLastReminderList() {
+    List<Widget> list =
+        List.generate(reminderInfo['lastReminders'].length, (index) {
+      return renderUpcomingReminderItem(reminderInfo['lastReminders'][index]);
+    });
+    list.add(const SizedBox(height: 20));
+    return list;
+  }
+
+  List<Widget> renderUpcomingReminderList() {
+    List<Widget> list =
+        List.generate(reminderInfo['upcomimgReminders'].length, (index) {
+      return renderUpcomingReminderItem(
+          reminderInfo['upcomimgReminders'][index]);
+    });
+    list.add(const SizedBox(height: 20));
+    return list;
+  }
+
+  Widget renderLastReminderItem(data) {
+    List<Widget>? output;
+    if (data['CompletedOn'] != null) {
+      output = [
+        const Icon(Icons.circle, color: Colors.green, size: 10),
+        const Text(' '),
+        Text(data['message']),
+      ];
+    } else {
+      output = [
+        const Icon(Icons.circle, color: Colors.red, size: 10),
+        const Text(' '),
+        Expanded(
+          child: Text(
+            data['message'],
+            // overflow: TextOverflow.ellipsis,
+            // softWrap: false,
+          ),
+        ),
+      ];
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: output,
+      ),
+    );
+  }
+
+  Widget renderUpcomingReminderItem(data) {
+    List<Widget>? output;
+    if (data['CompletedOn'] != null) {
+      output = [
+        const Icon(Icons.circle, color: Colors.green, size: 10),
+        const Text(' '),
+        Text(data['message']),
+      ];
+    } else {
+      output = [
+        const Icon(Icons.circle, color: Colors.orange, size: 10),
+        const Text(' '),
+        Expanded(
+          child: Text(
+            data['message'],
+            // overflow: TextOverflow.ellipsis,
+            // softWrap: false,
+          ),
+        ),
+      ];
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: output,
+      ),
     );
   }
 }

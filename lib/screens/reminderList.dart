@@ -24,252 +24,332 @@ class ReminderList extends StatefulWidget {
 }
 
 class _ReminderListState extends State<ReminderList>
-    with AutomaticKeepAliveClientMixin<ReminderList> {
-  @override
-  bool get wantKeepAlive => true;
-  bool isLoadingDropControls = false;
+    with SingleTickerProviderStateMixin {
+  bool isLoadingSearchByDropdown = false;
   bool gettingReminders = false;
   List<dynamic> reminders = [];
+  List<dynamic> missedReminders = [];
   String? reminderCaption;
   final textController = TextEditingController();
-  // final dateController = TextEditingController(
-  //   text: DateFormat('dd-MMM-yyyy').format(
-  //     DateTime.now(),
-  //   ),
-  // );
   APIDropDownItem? initialSearchBy;
   List<DropdownMenuItem<APIDropDownItem>> SearchByOptionsButton =
       <DropdownMenuItem<APIDropDownItem>>[];
+
+  TabBar get myTabBar => TabBar(
+        tabs: const [
+          Tab(
+            text: 'Upcoming',
+          ),
+          Tab(
+            text: 'Missed',
+          )
+        ],
+        controller: myTabController,
+      );
+  TabController? myTabController;
+  List<Widget>? myTabBarView;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // if (widget.date.isNotEmpty) {
-    //   dateController.text = widget.date;
-    // }
-    getSearchByControls();
+    initScreen();
+  }
+
+  void initScreen() async {
+    myTabController = TabController(vsync: this, length: 2);
+    myTabController!.index = 0;
+    myTabBarView = [
+      const Center(
+        child: CircularProgressIndicator(),
+      ),
+      const Center(
+        child: CircularProgressIndicator(),
+      )
+    ];
+    await LoadSearchByDropdown();
+  }
+
+  Widget renderUpcomingReminders() {
+    Widget? myWidget = null;
+
+    if (isLoadingSearchByDropdown == true) {
+      myWidget = const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      myWidget = Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+
+            DropdownButtonFormField(
+              value: initialSearchBy,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ),
+                ),
+              ),
+              items: SearchByOptionsButton,
+              onChanged: (APIDropDownItem? item) {
+                print(item!.actualValue);
+                setState(() {
+                  initialSearchBy = item!;
+                  textController.text = '';
+                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT') {
+                    // renderUpcomingReminders();
+                    myTabBarView = [
+                      renderUpcomingReminders(),
+                      renderMissedReminders()
+                    ];
+                  } else {
+                    getListOfReminders();
+                  }
+                });
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
+              TextFormField(
+                controller: textController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 10,
+                  ),
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 1,
+                        color: Colors.grey,
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          right: 5,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.search,
+                          ),
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            getListOfReminders();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  hintText: "Enter your text...",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
+                  ),
+                ),
+              ),
+            if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
+              const SizedBox(
+                height: 20,
+              ),
+            Text(
+              reminderCaption == null ? '' : reminderCaption!,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            gettingReminders == true
+                ? const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(
+                        bottom: 80,
+                      ),
+                      itemCount: reminders.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => onTapReminderItem(reminders[index]),
+                              child: Container(
+                                color: Colors.white,
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 3,
+                                  ),
+                                  leading: renderLeading(
+                                    reminders[index],
+                                  ),
+                                  title: renderTitle(reminders[index]),
+                                  subtitle: renderSubTitle(
+                                    reminders[index],
+                                  ),
+                                  trailing: renderTrailing(
+                                    reminders[index],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              color: Colors.transparent,
+                              height: 3,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+            // Container(
+            //   color: Colors.white,
+            //   height: 80,
+            // )
+          ],
+        ),
+      );
+    }
+
+    return myWidget;
+  }
+
+  Widget renderMissedReminders() {
+    Widget? myWidget = null;
+
+    if (isLoadingSearchByDropdown == true) {
+      myWidget = const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      myWidget = Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              reminderCaption == null ? '' : reminderCaption!,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            gettingReminders == true
+                ? const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(
+                        bottom: 80,
+                      ),
+                      itemCount: missedReminders.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () =>
+                                  onTapReminderItem(missedReminders[index]),
+                              child: Container(
+                                color: Colors.white,
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 3,
+                                  ),
+                                  leading: const Icon(
+                                    FontAwesomeIcons.circleXmark,
+                                    color: Colors.red,
+                                  ),
+                                  title: renderTitle(missedReminders[index]),
+                                  subtitle: renderSubTitle(
+                                    missedReminders[index],
+                                  ),
+                                  trailing: renderTrailing(
+                                    missedReminders[index],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              color: Colors.transparent,
+                              height: 3,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+          ],
+        ),
+      );
+    }
+
+    return myWidget;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "My Reminders",
+        appBar: AppBar(
+          title: const Text(
+            "My Reminders",
+          ),
+          bottom: PreferredSize(
+            preferredSize: myTabBar.preferredSize,
+            child: Material(child: myTabBar),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          nextScreen(
-            context,
-            const AddReminderScreen(
-              reminderCode: '',
-            ),
-          );
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            nextScreen(
+              context,
+              const AddReminderScreen(
+                reminderCode: '',
+              ),
+            );
+          },
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: isLoadingDropControls == true
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  DropdownButtonFormField(
-                    value: initialSearchBy,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 10,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          12,
-                        ),
-                      ),
-                    ),
-                    items: SearchByOptionsButton,
-                    onChanged: (APIDropDownItem? item) {
-                      setState(() {
-                        initialSearchBy = item!;
-                        // dateController.text =
-                        //     DateFormat('dd-MMM-yyyy').format(
-                        //   DateTime.now(),
-                        // );
-                        textController.text = '';
-                        if (initialSearchBy!.actualValue != 'SEARCH_BY_TEXT') {
-                          getListOfReminders();
-                        }
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  // if (initialSearchBy!.actualValue == 'SEARCH_BY_DATE')
-                  //   TextFormField(
-                  //     readOnly: true,
-                  //     onTap: () async {
-                  //       final DateTime? pickedDate = await showDatePicker(
-                  //           context: context,
-                  //           initialDate: DateTime.now(),
-                  //           firstDate: DateTime(1920),
-                  //           lastDate: DateTime(2080));
-                  //       if (pickedDate != null) {
-                  //         setState(() {
-                  //           dateController.text =
-                  //               DateFormat('dd-MMM-yyyy').format(pickedDate);
-                  //           getListOfReminders(false);
-                  //         });
-                  //       }
-                  //     },
-                  //     controller: dateController,
-                  //     decoration: InputDecoration(
-                  //       fillColor: Colors.white,
-                  //       filled: true,
-                  //       suffixIcon: const Icon(
-                  //         Icons.event,
-                  //       ),
-                  //       contentPadding: const EdgeInsets.symmetric(
-                  //         vertical: 5,
-                  //         horizontal: 10,
-                  //       ),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(
-                  //           12,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
-                    TextFormField(
-                      controller: textController,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 10,
-                        ),
-                        suffixIcon: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 1,
-                              color: Colors.grey,
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 5,
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.search,
-                                ),
-                                onPressed: () {
-                                  FocusScope.of(context).unfocus();
-                                  getListOfReminders();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        hintText: "Enter your text...",
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            12,
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (initialSearchBy!.actualValue == 'SEARCH_BY_TEXT')
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  Text(
-                    reminderCaption == null ? '' : reminderCaption!,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  gettingReminders == true
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(
-                              bottom: 80,
-                            ),
-                            itemCount: reminders.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () =>
-                                        onTapReminderItem(reminders[index]),
-                                    child: Container(
-                                      color: Colors.white,
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 15,
-                                          vertical: 3,
-                                        ),
-                                        leading: renderLeading(
-                                          reminders[index],
-                                        ),
-                                        title: renderTitle(reminders[index]),
-                                        subtitle: renderSubTitle(
-                                          reminders[index],
-                                        ),
-                                        trailing: renderTrailing(
-                                          reminders[index],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.transparent,
-                                    height: 3,
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                  // Container(
-                  //   color: Colors.white,
-                  //   height: 80,
-                  // )
-                ],
-              ),
-            ),
-    );
+        body: TabBarView(
+          controller: myTabController,
+          children: myTabBarView!,
+        ));
   }
 
   getListOfReminders() async {
@@ -294,24 +374,29 @@ class _ReminderListState extends State<ReminderList>
 
       if (result.data['status'][0]['errorCode'] == 0) {
         setState(() {
-          reminders = result.data['reminders'];
           reminderCaption = result.data['status'][0]['errorMessage'];
+          reminders = result.data['reminders'];
+          missedReminders = result.data['missed'];
           gettingReminders = false;
+          myTabBarView = [renderUpcomingReminders(), renderMissedReminders()];
         });
       }
     } catch (e) {
       setState(() {
+        reminders = [];
+        missedReminders = [];
         gettingReminders = false;
+        myTabBarView = [renderUpcomingReminders(), renderMissedReminders()];
       });
 
       print(e.toString());
     }
   }
 
-  void getSearchByControls() async {
+  Future LoadSearchByDropdown() async {
     try {
       setState(() {
-        isLoadingDropControls = true;
+        isLoadingSearchByDropdown = true;
       });
 
       ApiResult result = await ApiService().post2(
@@ -347,11 +432,11 @@ class _ReminderListState extends State<ReminderList>
               ),
             )
             .toList();
-        isLoadingDropControls = false;
+        isLoadingSearchByDropdown = false;
       });
-      getListOfReminders();
+      await getListOfReminders();
     } catch (e) {
-      isLoadingDropControls = false;
+      isLoadingSearchByDropdown = false;
       showCustomSnackbar(
         context,
         Colors.black,
@@ -360,10 +445,7 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  // Widget? renderLeading(data) {
-  //   return null;
-  // }
-
+  // GJ: icon property has been removed from the database now..
   // Widget? renderLeading(data) {
   //   Widget? icon;
   //   Color? color;
@@ -855,11 +937,7 @@ class _ReminderListState extends State<ReminderList>
                     ),
                     if (data['hasDone'] != 1)
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          showToast(
-                              context, ToastTypes.WARN, 'Feature coming soon.');
-                        },
+                        onTap: () => onTapMarkAsCompleted(data),
                         child: const ListTile(
                           title: Text('Mark as Completed'),
                           leading: FaIcon(
@@ -870,11 +948,7 @@ class _ReminderListState extends State<ReminderList>
                       ),
                     if (data['hasDone'] == 1)
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          showToast(
-                              context, ToastTypes.WARN, 'Feature coming soon.');
-                        },
+                        onTap: () => onTapUnmarkAsPending(data),
                         child: const ListTile(
                           title: Text('Un-mark as Pending'),
                           leading: FaIcon(
@@ -889,5 +963,19 @@ class _ReminderListState extends State<ReminderList>
             });
         break;
     }
+  }
+
+  onTapMarkAsCompleted(data) {
+    Navigator.pop(context);
+    showToast(context, ToastTypes.WARN, 'Feature coming soon.');
+    print(data);
+    getListOfReminders();
+  }
+
+  onTapUnmarkAsPending(data) {
+    Navigator.pop(context);
+    showToast(context, ToastTypes.WARN, 'Feature coming soon.');
+    print(data);
+    getListOfReminders();
   }
 }
