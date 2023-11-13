@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mandir_app/screens/addTodo.dart';
 import 'package:mandir_app/services/todoService.dart';
-import 'package:mandir_app/widgets/custom_textfield.dart';
+import 'package:mandir_app/utils/utils.dart';
 
 import '../constants.dart';
 
@@ -16,6 +17,7 @@ class _TodoScreenState extends State<TodoScreen>
     with AutomaticKeepAliveClientMixin<TodoScreen> {
   @override
   bool get wantKeepAlive => true;
+
   bool isLoading = false;
   searchTodo() async {
     try {
@@ -62,104 +64,105 @@ class _TodoScreenState extends State<TodoScreen>
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: Colors.white,
-                    context: context,
-                    builder: (context) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.38,
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 13,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 15,
-                                  ),
-                                  child: Center(
-                                    child: Container(
-                                      height: 6,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.25,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(
-                                              0.7,
-                                            ),
-                                        borderRadius: BorderRadius.circular(
-                                          20,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                CustomTextField(
-                                  labelText: 'Title',
-                                  controller: titleController,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                CustomTextAreaField(
-                                  labelText: 'Description',
-                                  controller: descriptionController,
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Center(
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        await TodoService().addTodo(
-                                          context,
-                                          titleController.text.trim(),
-                                          descriptionController.text.trim(),
-                                        );
-                                        searchTodo();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14),
-                                        ),
-                                        fixedSize: const Size(170, 45),
-                                        backgroundColor: const Color.fromARGB(
-                                          255,
-                                          106,
-                                          78,
-                                          179,
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        "Create",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    });
+                nextScreen(context, const AddTodo());
+                // showModalBottomSheet(
+                //     isScrollControlled: true,
+                //     backgroundColor: Colors.white,
+                //     context: context,
+                //     builder: (context) {
+                //       return Padding(
+                //         padding: EdgeInsets.only(
+                //             bottom: MediaQuery.of(context).viewInsets.bottom),
+                //         child: SizedBox(
+                //           height: MediaQuery.of(context).size.height * 0.38,
+                //           width: double.infinity,
+                //           child: Padding(
+                //             padding: const EdgeInsets.symmetric(
+                //               horizontal: 13,
+                //             ),
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: [
+                //                 Padding(
+                //                   padding: const EdgeInsets.symmetric(
+                //                     vertical: 15,
+                //                   ),
+                //                   child: Center(
+                //                     child: Container(
+                //                       height: 6,
+                //                       width: MediaQuery.of(context).size.width *
+                //                           0.25,
+                //                       decoration: BoxDecoration(
+                //                         color: Theme.of(context)
+                //                             .primaryColor
+                //                             .withOpacity(
+                //                               0.7,
+                //                             ),
+                //                         borderRadius: BorderRadius.circular(
+                //                           20,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //                 const SizedBox(
+                //                   height: 20,
+                //                 ),
+                //                 CustomTextField(
+                //                   labelText: 'Title',
+                //                   controller: titleController,
+                //                 ),
+                //                 const SizedBox(
+                //                   height: 20,
+                //                 ),
+                //                 CustomTextAreaField(
+                //                   labelText: 'Description',
+                //                   controller: descriptionController,
+                //                 ),
+                //                 const SizedBox(
+                //                   height: 30,
+                //                 ),
+                //                 Center(
+                //                   child: SizedBox(
+                //                     width: double.infinity,
+                //                     child: ElevatedButton(
+                //                       onPressed: () async {
+                //                         await TodoService().addTodo(
+                //                           context,
+                //                           titleController.text.trim(),
+                //                           descriptionController.text.trim(),
+                //                         );
+                //                         searchTodo();
+                //                       },
+                //                       style: ElevatedButton.styleFrom(
+                //                         shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(14),
+                //                         ),
+                //                         fixedSize: const Size(170, 45),
+                //                         backgroundColor: const Color.fromARGB(
+                //                           255,
+                //                           106,
+                //                           78,
+                //                           179,
+                //                         ),
+                //                       ),
+                //                       child: const Text(
+                //                         "Create",
+                //                         style: TextStyle(
+                //                           color: Colors.white,
+                //                           fontSize: 20,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       );
+                //     });
               },
               backgroundColor: Theme.of(context).primaryColor,
               child: const Icon(

@@ -97,7 +97,7 @@ class _ReminderListState extends State<ReminderList>
   }
 
   Widget renderUpcomingReminders() {
-    Widget? myWidget = null;
+    Widget? myWidget;
 
     if (isLoadingSearchByDropdown == true) {
       myWidget = const Center(
@@ -267,7 +267,7 @@ class _ReminderListState extends State<ReminderList>
   }
 
   Widget renderMissedReminders() {
-    Widget? myWidget = null;
+    Widget? myWidget;
 
     if (isLoadingSearchByDropdown == true) {
       myWidget = const Center(
@@ -545,7 +545,7 @@ class _ReminderListState extends State<ReminderList>
 
   Widget? renderTitle(data) {
     return Text(data['title'],
-        style: TextStyle(color: Colors.black, fontSize: 16));
+        style: const TextStyle(color: Colors.black, fontSize: 16));
   }
 
   // GJ: this is the 2 liner subtitle
@@ -553,10 +553,10 @@ class _ReminderListState extends State<ReminderList>
     switch (data['hasDone']) {
       case 1:
         return Text(data['subTitle'],
-            style: TextStyle(color: Colors.grey, fontSize: 14));
+            style: const TextStyle(color: Colors.grey, fontSize: 14));
       default:
         return Text(data['subTitle'],
-            style: TextStyle(color: Colors.grey, fontSize: 14));
+            style: const TextStyle(color: Colors.grey, fontSize: 14));
     }
   }
 
