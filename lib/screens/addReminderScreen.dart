@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mandir_app/screens/assistant.dart';
 
 import 'package:mandir_app/screens/editScreen.dart';
+import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/service/api_service.dart';
 import 'package:mandir_app/utils/styling.dart';
 import 'package:mandir_app/utils/utils.dart';
@@ -31,6 +32,22 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     dateController.dispose();
   }
 
+  getMonthlyString() {
+    print(monthString);
+    if (initialRepeat!.actualValue == 'M') {
+      for (var i = 0; i < _isCheckedList.length; i++) {
+        if (_isCheckedList[i] == true) {
+          monthString += '${i + 1},';
+        }
+      }
+
+      setState(() {});
+    }
+    print(monthString);
+  }
+
+  var monthString = '';
+
   bool isLoading = false;
   bool isClickedButton = false;
   var result = {};
@@ -44,6 +61,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       <DropdownMenuItem<APIDropDownItem>>[];
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final remindTillController = TextEditingController(text: '10');
   final dateController = TextEditingController(
     text: DateFormat('dd-MMM-yyyy').format(
       DateTime.now(),
@@ -57,11 +75,15 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     getCategoryControls();
   }
 
+  final List<bool> _isCheckedList = List.generate(12, (index) => false);
+
   updateReminder() async {
     try {
       setState(() {
         isClickedButton = true;
       });
+      getMonthlyString();
+      print(monthString);
       FocusScope.of(context).unfocus();
       var response = await ApiService().post(
           '/api/reminder/update',
@@ -71,7 +93,9 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
             "desc": descriptionController.text.trim(),
             "remindOn": dateController.text.trim(),
             "repeatFlag": initialRepeat!.actualValue,
-            'category': initialCategory!.actualValue
+            'category': 'GENERAL',
+            'repeatString': monthString,
+            'remindYearCount': int.parse(remindTillController.text.trim())
           },
           headers,
           context);
@@ -81,7 +105,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       if (response['errorCode'] == 0) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const AssistantScreen(
+              builder: (context) => const ReminderList(
                   // date: dateController.text,
                   ),
             ),
@@ -100,6 +124,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       setState(() {
         isClickedButton = true;
       });
+      getMonthlyString();
       FocusScope.of(context).unfocus();
       var response = await ApiService().post(
           '/api/reminder/create',
@@ -108,7 +133,9 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
             "desc": descriptionController.text.trim(),
             "remindOn": dateController.text.trim(),
             "repeatFlag": initialRepeat!.actualValue,
-            'category': initialCategory!.actualValue
+            'category': 'GENERAL',
+            'repeatString': monthString,
+            'remindYearCount': int.parse(remindTillController.text.trim())
           },
           headers,
           context);
@@ -119,7 +146,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       if (response['errorCode'] == 0) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const AssistantScreen(
+              builder: (context) => const ReminderList(
                   // date: dateController.text,
                   ),
             ),
@@ -155,6 +182,17 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
 
         titleController.text = response['title'];
         descriptionController.text = result['desc'];
+        remindTillController.text = result['remindYearCount'].toString();
+        var dummyMonthString = result['repeatString'];
+        print(dummyMonthString);
+        var x = dummyMonthString.split(',');
+        for (var element in x) {
+          if (element.isNotEmpty) {
+            _isCheckedList[int.parse(element) - 1] = true;
+          }
+        }
+
+        print(x);
         dateController.text = DateFormat('dd-MMM-yyyy').format(
           DateTime.parse(
             result['remindOn'],
@@ -290,17 +328,25 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      const Text('Title'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       CustomTextField(
                         controller: titleController,
-                        labelText: 'Title',
+                        labelText: '',
                       ),
                       const SizedBox(
                         height: 20,
                       ),
+                      const Text('Frequency'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       DropdownButtonFormField(
                         value: initialRepeat,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Frequency',
+                          // labelText: 'Frequency',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -308,11 +354,58 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                         onChanged: (APIDropDownItem? item) {
                           setState(() {
                             initialRepeat = item!;
+                            print(initialRepeat!.actualValue);
                           });
                         },
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
+                      ),
+                      if (initialRepeat!.actualValue == 'M')
+                        GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4,
+                                  mainAxisSpacing:
+                                      1.0, // Adjust spacing as needed
+                                  crossAxisSpacing: 1.0,
+                                  childAspectRatio: 2),
+                          itemCount: 12,
+                          itemBuilder: (context, index) {
+                            final monthName = _getMonthName(index + 1);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isCheckedList[index] =
+                                      !_isCheckedList[index];
+                                });
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                    // activeColor: Colors.red,
+                                    value: _isCheckedList[index],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isCheckedList[index] = value!;
+                                      });
+                                      print(monthString);
+                                    },
+                                  ),
+                                  Text(monthName),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text('Remind On'),
+                      const SizedBox(
+                        height: 5,
                       ),
                       TextFormField(
                         readOnly: true,
@@ -332,7 +425,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                         },
                         controller: dateController,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Remind On',
+                          // labelText: 'Remind On',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -340,28 +433,52 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      DropdownButtonFormField(
-                        value: initialCategory,
+                      const Text('Remind Till'),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: remindTillController,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Category',
                           fillColor: Colors.white,
                           filled: true,
                         ),
-                        items: categoryOptionsButton,
-                        onChanged: (APIDropDownItem? item) {
-                          setState(() {
-                            initialCategory = item!;
-                          });
-                        },
                       ),
+                      // CustomTextField(
+                      //   controller: remindTillController,
+                      //   labelText: '',
+
+                      // ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // DropdownButtonFormField(
+                      //   value: initialCategory,
+                      //   decoration: textInputDecoration.copyWith(
+                      //     labelText: 'Category',
+                      //     fillColor: Colors.white,
+                      //     filled: true,
+                      //   ),
+                      //   items: categoryOptionsButton,
+                      //   onChanged: (APIDropDownItem? item) {
+                      //     setState(() {
+                      //       initialCategory = item!;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(
                         height: 20,
+                      ),
+                      const Text('Description'),
+                      const SizedBox(
+                        height: 5,
                       ),
                       TextFormField(
                         controller: descriptionController,
                         maxLines: 3,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Description',
+                          // labelText: 'Description',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -369,9 +486,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
+
                       Center(
                         child: SizedBox(
                           width: double.infinity,
@@ -423,5 +538,23 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
               ),
             ),
     );
+  }
+
+  String _getMonthName(int monthNumber) {
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return months[monthNumber - 1];
   }
 }

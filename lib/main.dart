@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mandir_app/screens/addTodo.dart';
 
 import 'auth/login_screen.dart';
 
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       home: const LoginScreen(),
+      // home: const AddTodo(),
     );
   }
 }

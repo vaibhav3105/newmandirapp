@@ -394,7 +394,7 @@ class _ViewReminderState extends State<ViewReminder> {
 
                                       Navigator.pop(context);
                                       //todo: we need to remove the "ReminderList" from the navigator history, so that we can reload the page.
-                                      nextScreen(context, ReminderList());
+                                      nextScreen(context, const ReminderList());
                                     } catch (e) {
                                       showCustomSnackbar(
                                         context,
@@ -434,7 +434,7 @@ class _ViewReminderState extends State<ViewReminder> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    "Are you sure you want to delete this reminder?",
+                                    "This will delete the reminder and all of its schedules. Do you want to continue?",
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
@@ -467,6 +467,7 @@ class _ViewReminderState extends State<ViewReminder> {
             ),
           );
         });
+    return null;
   }
 
   EdgeInsets getCardPaddingStyle() {

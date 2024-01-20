@@ -109,29 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
               Expanded(
                 child: Column(
                   children: [
-                    // Container(
-                    //   alignment: Alignment.topRight,
-                    //   child: Switch(
-                    //     // This bool value toggles the switch.
-                    //     value: ApiService.usePrivateIP,
-                    //     activeColor: Colors.blue,
-                    //     onChanged: (bool value) {
-                    //       // This is called when the user toggles the switch.
-                    //       setState(() {
-                    //         ApiService.usePrivateIP = value;
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
-                    // Container(
-                    //   alignment: Alignment.topRight,
-                    //   child: ElevatedButton(
-                    //     onPressed: () {
-                    //       ApiService.dummy('', context);
-                    //     },
-                    //     child: const Text('Get Toast'),
-                    //   ),
-                    // ),
                     const Text(
                       "जय जिनेन्द्र",
                       textAlign: TextAlign.center,

@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:mandir_app/screens/addReminderScreen.dart';
 import 'package:mandir_app/screens/notes.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/screens/viewReminder.dart';
+import 'package:mandir_app/widgets/custom_textfield.dart';
 
 import '../entity/apiResult.dart';
 import '../service/api_service.dart';
@@ -1004,17 +1006,168 @@ class _ReminderListState extends State<ReminderList>
 
   onTapMarkAsCompleted(data) async {
     Navigator.pop(context);
-    await MarkUnmarkReminder(data, true);
-    getListOfReminders();
+    print(data);
+    // await unmarkReminder(data, true);
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                      child: Center(
+                        child: Container(
+                          height: 6,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withOpacity(
+                                  0.7,
+                                ),
+                            borderRadius: BorderRadius.circular(
+                              20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Title:',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          data['title'],
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Schedule:',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          DateFormat('dd-MMM-yy')
+                              .format(DateTime.parse(data['schedule']))
+                              .toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Remark',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomTextAreaField(
+                        labelText: '', controller: nextScheduleController),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Next Schedule',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomTextField(
+                        labelText: '', controller: remarkController),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withOpacity(
+                                      0.7,
+                                    ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            markReminder(data);
+                            getListOfReminders();
+                          },
+                          child: const Text(
+                            "Mark as Complete",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   onTapUnmarkAsPending(data) async {
     Navigator.pop(context);
-    await MarkUnmarkReminder(data, false);
+    await unmarkReminder(data);
     getListOfReminders();
   }
 
-  MarkUnmarkReminder(data, markFlag) async {
+  markReminder(data) async {
     try {
       setState(() {
         showLoader = true;
@@ -1022,11 +1175,45 @@ class _ReminderListState extends State<ReminderList>
 
       ApiResult result = await ApiService().post2(
           context,
-          '/api/reminder/mark-unmark',
+          '/api/reminder/mark-as-complete',
           {
             "reminderCode": data['code'],
             "schedule": data['schedule'],
-            "markCompleteFlag": markFlag,
+            'remark': remarkController.text.trim(),
+            'nextSchedule': null,
+          },
+          headers);
+      print(result);
+
+      if (result.success == false) {
+        ApiService().handleApiResponse2(context, result.data);
+        return;
+      }
+
+      setState(() {
+        showLoader = false;
+        showToast(context, ToastTypes.SUCCESS, result.data['message']);
+      });
+    } catch (e) {
+      print(e.toString());
+      setState(() {
+        showLoader = false;
+      });
+    }
+  }
+
+  unmarkReminder(data) async {
+    try {
+      setState(() {
+        showLoader = true;
+      });
+
+      ApiResult result = await ApiService().post2(
+          context,
+          '/api/reminder/unmark-as-complete',
+          {
+            "reminderCode": data['code'],
+            "schedule": data['schedule'],
           },
           headers);
 
@@ -1046,4 +1233,7 @@ class _ReminderListState extends State<ReminderList>
       });
     }
   }
+
+  final remarkController = TextEditingController();
+  final nextScheduleController = TextEditingController();
 }
