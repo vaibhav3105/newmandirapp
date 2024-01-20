@@ -1,12 +1,12 @@
 -- Merging decision tree log ---
 application
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:10:4-53:19
-MERGED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
-MERGED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
-MERGED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
-MERGED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
-MERGED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
-MERGED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:10:4-53:19
+MERGED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
+MERGED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
+MERGED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
+MERGED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
+MERGED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
+MERGED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-35:19
 MERGED from [androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:30:5-143:19
 MERGED from [androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:30:5-143:19
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
@@ -17,49 +17,51 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/DELL/.grad
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/DELL/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/DELL/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/DELL/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/DELL/.gradle/caches/transforms-3/824ecf9ce9de0af86259c87a99bba9f9/transformed/room-runtime-2.2.5/AndroidManifest.xml:24:5-29:19
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/DELL/.gradle/caches/transforms-3/824ecf9ce9de0af86259c87a99bba9f9/transformed/room-runtime-2.2.5/AndroidManifest.xml:24:5-29:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.10.1] /Users/DELL/.gradle/caches/transforms-3/9c9ab1a476c120097a79d748cec7161f/transformed/core-1.10.1/AndroidManifest.xml:28:18-86
 	android:name
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
 provider#vn.hunghd.flutterdownloader.DownloadedFileProvider
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:39:9-47:20
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:39:9-47:20
 	android:authorities
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
 manifest
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-MERGED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-MERGED from [:shared_preferences_android] /Users/DELL/Desktop/newmandirapp 2/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:permission_handler_android] /Users/DELL/Desktop/newmandirapp 2/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
-MERGED from [:local_auth_android] /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/newmandirapp 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-37:12
-MERGED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-16:12
-MERGED from [:path_provider_android] /Users/DELL/Desktop/newmandirapp 2/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
-MERGED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-18:12
-MERGED from [:image_cropper] /Users/DELL/Desktop/newmandirapp 2/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+MERGED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+MERGED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
+MERGED from [:local_auth_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-16:12
+MERGED from [:path_provider_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-18:12
+MERGED from [:image_cropper] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:shared_preferences_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-37:12
+MERGED from [:flutter_keyboard_visibility] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_keyboard_visibility/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:device_info_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:17:1-29:12
 MERGED from [com.github.yalantis:ucrop:2.2.8] /Users/DELL/.gradle/caches/transforms-3/b171ede08930c7f9cd0bd4323c11e8cb/transformed/jetified-ucrop-2.2.8/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.3.0] /Users/DELL/.gradle/caches/transforms-3/b3146e32e2731a930f66308e3c809d24/transformed/appcompat-1.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.fragment:fragment:1.6.0] /Users/DELL/.gradle/caches/transforms-3/f5f615dbf739ddfded50486a65871186/transformed/fragment-1.6.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity:1.7.2] /Users/DELL/.gradle/caches/transforms-3/b637ecfbcbfe96af75749d9240362ca3/transformed/jetified-activity-1.7.2/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:17:1-145:12
+MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.loader:loader:1.0.0] /Users/DELL/.gradle/caches/transforms-3/cf24d35e50a727536c7357721dc007c5/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f156363817d5f71529d60b6716392550/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/DELL/.gradle/caches/transforms-3/dae15ab66459c7c814cfe9578e1706f3/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f4c2d181f9683c57f8970b9ce7785060/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/DELL/.gradle/caches/transforms-3/f562cbc756445f17cad7fd8f06b07dbc/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/DELL/.gradle/caches/transforms-3/3943378554826a83b044df13cc6da74b/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.10.1] /Users/DELL/.gradle/caches/transforms-3/9c9ab1a476c120097a79d748cec7161f/transformed/core-1.10.1/AndroidManifest.xml:17:1-30:12
@@ -75,117 +77,121 @@ MERGED from [androidx.exifinterface:exifinterface:1.3.6] /Users/DELL/.gradle/cac
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/DELL/.gradle/caches/transforms-3/36aadc6eb473a87ded89a16c724c2dd8/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/DELL/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.0.0] /Users/DELL/.gradle/caches/transforms-3/5b75d2e6479f13c5aed7d8001da507c0/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/DELL/.gradle/caches/transforms-3/824ecf9ce9de0af86259c87a99bba9f9/transformed/room-runtime-2.2.5/AndroidManifest.xml:17:1-31:12
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/DELL/.gradle/caches/transforms-3/75067830aaa304ee29a02b75703c1cf6/transformed/sqlite-framework-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/DELL/.gradle/caches/transforms-3/473f07ee4ed75d191f5fc2a12ce2becb/transformed/sqlite-2.1.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/DELL/.gradle/caches/transforms-3/a5e62b79c1b370c2c963eefe3a076316/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/DELL/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml:1:1-8:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml:1:1-8:12
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml:1:1-8:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml:1:1-8:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml:1:1-8:12
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml:1:1-8:12
 	package
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:3:5-37
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:3:5-37
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:1-76:12
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:1-76:12
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.USE_BIOMETRIC
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:4:5-71
-MERGED from [:local_auth_android] /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
-MERGED from [:local_auth_android] /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:4:5-71
+MERGED from [:local_auth_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
+MERGED from [:local_auth_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
 MERGED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:24:5-72
 MERGED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:24:5-72
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:4:22-69
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:4:22-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:5-66
-MERGED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:5-66
-MERGED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:5-66
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:5-66
+MERGED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:5-66
+MERGED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:5-66
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:6:5-83
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:6:5-83
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:6:22-80
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:6:22-80
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:7:5-81
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:7:5-81
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:7:22-78
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:7:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:8:5-80
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:8:5-80
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:8:22-77
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:8:22-77
 uses-permission#android.permission.CAMERA
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:9:5-65
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:9:5-65
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:9:22-62
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:9:22-62
 queries
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:54:5-75:15
-MERGED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-14:15
-MERGED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-14:15
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:54:5-75:15
+MERGED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-14:15
+MERGED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-14:15
 intent#action:name:android.intent.action.VIEW+data:scheme:https
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:56:9-59:18
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:56:9-59:18
 action#android.intent.action.VIEW
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:13-65
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:13-65
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:21-62
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:21-62
 data
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:13-44
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:13-44
 	android:scheme
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:19-41
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:19-41
 intent#action:name:android.intent.action.DIAL+data:scheme:tel
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:61:9-64:18
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:61:9-64:18
 action#android.intent.action.DIAL
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:62:13-65
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:62:13-65
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:62:21-62
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:62:21-62
 intent#action:name:android.intent.action.SENDTO+data:scheme:smsto
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:66:9-69:18
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:66:9-69:18
 action#android.intent.action.SENDTO
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:67:13-67
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:67:13-67
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:67:21-64
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:67:21-64
 intent#action:name:android.intent.action.SEND+data:mimeType:*/*
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:71:9-74:18
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:71:9-74:18
 action#android.intent.action.SEND
-ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:72:13-65
+ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:72:13-65
 	android:name
-		ADDED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:72:21-62
+		ADDED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:72:21-62
 uses-sdk
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-MERGED from [:shared_preferences_android] /Users/DELL/Desktop/newmandirapp 2/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:shared_preferences_android] /Users/DELL/Desktop/newmandirapp 2/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/DELL/Desktop/newmandirapp 2/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:permission_handler_android] /Users/DELL/Desktop/newmandirapp 2/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:local_auth_android] /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:local_auth_android] /Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/newmandirapp 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/newmandirapp 2/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/DELL/Desktop/newmandirapp 2/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:path_provider_android] /Users/DELL/Desktop/newmandirapp 2/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_cropper] /Users/DELL/Desktop/newmandirapp 2/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:image_cropper] /Users/DELL/Desktop/newmandirapp 2/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+MERGED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:local_auth_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:local_auth_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:image_cropper] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:image_cropper] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_cropper/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/permission_handler_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_keyboard_visibility] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_keyboard_visibility/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_keyboard_visibility] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_keyboard_visibility/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:device_info_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:device_info_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/device_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [com.github.yalantis:ucrop:2.2.8] /Users/DELL/.gradle/caches/transforms-3/b171ede08930c7f9cd0bd4323c11e8cb/transformed/jetified-ucrop-2.2.8/AndroidManifest.xml:7:5-9:41
@@ -196,26 +202,26 @@ MERGED from [androidx.fragment:fragment:1.6.0] /Users/DELL/.gradle/caches/transf
 MERGED from [androidx.fragment:fragment:1.6.0] /Users/DELL/.gradle/caches/transforms-3/f5f615dbf739ddfded50486a65871186/transformed/fragment-1.6.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.7.2] /Users/DELL/.gradle/caches/transforms-3/b637ecfbcbfe96af75749d9240362ca3/transformed/jetified-activity-1.7.2/AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.7.2] /Users/DELL/.gradle/caches/transforms-3/b637ecfbcbfe96af75749d9240362ca3/transformed/jetified-activity-1.7.2/AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:5:5-44
-MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.10.1] /Users/DELL/.gradle/caches/transforms-3/f7cdfb73eaf400e8b2c346bb8e6d73ec/transformed/jetified-core-ktx-1.10.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/006d93cd422dbc43e89591147c2de572/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.loader:loader:1.0.0] /Users/DELL/.gradle/caches/transforms-3/cf24d35e50a727536c7357721dc007c5/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /Users/DELL/.gradle/caches/transforms-3/cf24d35e50a727536c7357721dc007c5/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f156363817d5f71529d60b6716392550/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f156363817d5f71529d60b6716392550/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.transition:transition:1.4.1] /Users/DELL/.gradle/caches/transforms-3/8966f3e9d158a0fff2643bc0a0f73caf/transformed/transition-1.4.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/DELL/.gradle/caches/transforms-3/dee59bb480020f42d53c2ea15e4501f7/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/DELL/.gradle/caches/transforms-3/dae15ab66459c7c814cfe9578e1706f3/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/DELL/.gradle/caches/transforms-3/dae15ab66459c7c814cfe9578e1706f3/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f4c2d181f9683c57f8970b9ce7785060/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /Users/DELL/.gradle/caches/transforms-3/f4c2d181f9683c57f8970b9ce7785060/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.appcompat:appcompat-resources:1.3.0] /Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/DELL/.gradle/caches/transforms-3/f562cbc756445f17cad7fd8f06b07dbc/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/DELL/.gradle/caches/transforms-3/f562cbc756445f17cad7fd8f06b07dbc/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/DELL/.gradle/caches/transforms-3/3943378554826a83b044df13cc6da74b/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
@@ -246,82 +252,82 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/DELL/.gradle/caches/
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/DELL/.gradle/caches/transforms-3/ff5f5b0a71e9b3e49766bc82725fe9a1/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.tracing:tracing:1.0.0] /Users/DELL/.gradle/caches/transforms-3/5b75d2e6479f13c5aed7d8001da507c0/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] /Users/DELL/.gradle/caches/transforms-3/5b75d2e6479f13c5aed7d8001da507c0/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/DELL/.gradle/caches/transforms-3/824ecf9ce9de0af86259c87a99bba9f9/transformed/room-runtime-2.2.5/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/DELL/.gradle/caches/transforms-3/824ecf9ce9de0af86259c87a99bba9f9/transformed/room-runtime-2.2.5/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/DELL/.gradle/caches/transforms-3/75067830aaa304ee29a02b75703c1cf6/transformed/sqlite-framework-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/DELL/.gradle/caches/transforms-3/75067830aaa304ee29a02b75703c1cf6/transformed/sqlite-framework-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/DELL/.gradle/caches/transforms-3/473f07ee4ed75d191f5fc2a12ce2becb/transformed/sqlite-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/DELL/.gradle/caches/transforms-3/473f07ee4ed75d191f5fc2a12ce2becb/transformed/sqlite-2.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/DELL/.gradle/caches/transforms-3/0ba9c48dd5ff84ca64a6f8c4dc29ae01/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/DELL/.gradle/caches/transforms-3/5abdc06e026f2f7b9b89c25dcd7a6d7e/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/DELL/.gradle/caches/transforms-3/a5e62b79c1b370c2c963eefe3a076316/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/DELL/.gradle/caches/transforms-3/a5e62b79c1b370c2c963eefe3a076316/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/DELL/.gradle/caches/transforms-3/6c57506ff263c94b62c27d843887c28b/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/DELL/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/DELL/.gradle/caches/transforms-3/ec10578641139d45a328c567f48881a1/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
-INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/DELL/Desktop/newmandirapp 2/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/debug/AndroidManifest.xml
 provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
-ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
 	android:grantUriPermissions
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
 	android:authorities
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
 	android:exported
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
 	android:name
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
+ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
 	android:resource
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
 	android:name
-		ADDED from [:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
-provider#dev.fluttercommunity.plus.share.ShareFileProvider
-ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
-	android:grantUriPermissions
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
-	android:authorities
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
-	android:exported
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
-	android:name
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
-receiver#dev.fluttercommunity.plus.share.SharePlusPendingIntent
-ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
-	android:exported
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-37
-	android:name
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
-intent-filter#action:name:EXTRA_CHOSEN_COMPONENT
-ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
-action#EXTRA_CHOSEN_COMPONENT
-ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
-	android:name
-		ADDED from [:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
+		ADDED from [:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
 activity#io.flutter.plugins.urllauncher.WebViewActivity
-ADDED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+ADDED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
 	android:exported
-		ADDED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+		ADDED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
 	android:theme
-		ADDED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+		ADDED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
 	android:name
-		ADDED from [:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+		ADDED from [:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
 intent#action:name:android.intent.action.VIEW
-ADDED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:11:9-13:18
+ADDED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:11:9-13:18
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:5-77
+ADDED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:5-77
 	android:name
-		ADDED from [:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:22-74
+		ADDED from [:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:22-74
+provider#dev.fluttercommunity.plus.share.ShareFileProvider
+ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
+	android:grantUriPermissions
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
+	android:authorities
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
+	android:exported
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+	android:name
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
+receiver#dev.fluttercommunity.plus.share.SharePlusPendingIntent
+ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
+	android:exported
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
+intent-filter#action:name:EXTRA_CHOSEN_COMPONENT
+ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
+action#EXTRA_CHOSEN_COMPONENT
+ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
+	android:name
+		ADDED from [:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
 uses-permission#android.permission.USE_FINGERPRINT
 ADDED from [androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:27:5-74
 	android:name

@@ -13,81 +13,81 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:5-66
-15-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:5:22-64
+15-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:5-66
+15-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:5:22-64
 16    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-16-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:4:5-71
-16-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:4:22-69
+16-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:4:5-71
+16-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:4:22-69
 17    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-17-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:6:5-83
-17-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:6:22-80
+17-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:6:5-83
+17-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:6:22-80
 18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-18-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:7:5-81
-18-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:7:22-78
+18-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:7:5-81
+18-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:7:22-78
 19    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-19-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:8:5-80
-19-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:8:22-77
+19-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:8:5-80
+19-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:8:22-77
 20    <uses-permission android:name="android.permission.CAMERA" />
-20-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:9:5-65
-20-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:9:22-62
+20-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:9:5-65
+20-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:9:22-62
 21
 22    <queries>
-22-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:54:5-75:15
+22-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:54:5-75:15
 23
 24        <!-- If your app opens https URLs -->
 25        <intent>
-25-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:56:9-59:18
+25-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:56:9-59:18
 26            <action android:name="android.intent.action.VIEW" />
-26-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:13-65
-26-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:21-62
+26-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:13-65
+26-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:21-62
 27
 28            <data android:scheme="https" />
-28-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:13-44
-28-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:19-41
+28-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:13-44
+28-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:19-41
 29        </intent>
 30        <!-- If your app makes calls -->
 31        <intent>
-31-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:61:9-64:18
+31-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:61:9-64:18
 32            <action android:name="android.intent.action.DIAL" />
-32-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:62:13-65
-32-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:62:21-62
+32-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:62:13-65
+32-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:62:21-62
 33
 34            <data android:scheme="tel" />
-34-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:13-44
-34-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:19-41
+34-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:13-44
+34-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:19-41
 35        </intent>
 36        <!-- If your sends SMS messages -->
 37        <intent>
-37-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:66:9-69:18
+37-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:66:9-69:18
 38            <action android:name="android.intent.action.SENDTO" />
-38-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:67:13-67
-38-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:67:21-64
+38-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:67:13-67
+38-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:67:21-64
 39
 40            <data android:scheme="smsto" />
-40-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:13-44
-40-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:19-41
+40-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:13-44
+40-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:19-41
 41        </intent>
 42        <!-- If your app sends emails -->
 43        <intent>
-43-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:71:9-74:18
+43-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:71:9-74:18
 44            <action android:name="android.intent.action.SEND" />
-44-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:72:13-65
-44-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:72:21-62
+44-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:72:13-65
+44-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:72:21-62
 45
 46            <data android:mimeType="*/*" />
-46-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:58:13-44
+46-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:58:13-44
 47        </intent>
 48        <intent>
-48-->[:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:11:9-13:18
+48-->[:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:11:9-13:18
 49            <action android:name="android.intent.action.VIEW" />
-49-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:13-65
-49-->/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/AndroidManifest.xml:57:21-62
+49-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:13-65
+49-->/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/AndroidManifest.xml:57:21-62
 50        </intent>
 51    </queries>
 52
 53    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- suppress DeprecatedClassUsageInspection -->
-53-->[:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:5-77
-53-->[:flutter_downloader] /Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:22-74
+53-->[:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:5-77
+53-->[:flutter_downloader] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/merged_manifest/debug/AndroidManifest.xml:16:22-74
 54    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 54-->[androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:27:5-74
 54-->[androidx.biometric:biometric:1.1.0] /Users/DELL/.gradle/caches/transforms-3/c44a989e5c50bfc6cf434d229b546c7f/transformed/biometric-1.1.0/AndroidManifest.xml:27:22-71
@@ -158,11 +158,11 @@
 105            android:exported="false"
 106            android:grantUriPermissions="true" >
 107            <meta-data
-107-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
+107-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
 108                android:name="android.support.FILE_PROVIDER_PATHS"
-108-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+108-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
 109                android:resource="@xml/provider_paths" />
-109-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
+109-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
 110        </provider>
 111        <!--
 112             Don't delete the meta-data below.
@@ -173,69 +173,69 @@
 117            android:value="2" />
 118
 119        <provider
-119-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+119-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
 120            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-120-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
+120-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
 121            android:authorities="com.example.mandir_app.flutter.image_provider"
-121-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
+121-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
 122            android:exported="false"
-122-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+122-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
 123            android:grantUriPermissions="true" >
-123-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+123-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
 124            <meta-data
-124-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
+124-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
 125                android:name="android.support.FILE_PROVIDER_PATHS"
-125-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+125-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
 126                android:resource="@xml/flutter_image_picker_file_paths" />
-126-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
+126-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
 127        </provider>
-128        <!--
-129           Declares a provider which allows us to store files to share in
-130           '.../caches/share_plus' and grant the receiving action access
-131        -->
-132        <provider
-132-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
-133            android:name="dev.fluttercommunity.plus.share.ShareFileProvider"
-133-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
-134            android:authorities="com.example.mandir_app.flutter.share_provider"
-134-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
-135            android:exported="false"
-135-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
-136            android:grantUriPermissions="true" >
-136-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
-137            <meta-data
-137-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
-138                android:name="android.support.FILE_PROVIDER_PATHS"
-138-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
-139                android:resource="@xml/flutter_share_file_paths" />
-139-->[:image_picker_android] /Users/DELL/Desktop/newmandirapp 2/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
-140        </provider>
-141        <!--
-142           This manifest declared broadcast receiver allows us to use an explicit
-143           Intent when creating a PendingItent to be informed of the user's choice
-144        -->
-145        <receiver
-145-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
-146            android:name="dev.fluttercommunity.plus.share.SharePlusPendingIntent"
-146-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
-147            android:exported="false" >
-147-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-37
-148            <intent-filter>
-148-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
-149                <action android:name="EXTRA_CHOSEN_COMPONENT" />
-149-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
-149-->[:share_plus] /Users/DELL/Desktop/newmandirapp 2/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
-150            </intent-filter>
-151        </receiver>
-152
-153        <activity
-153-->[:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
-154            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-154-->[:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
-155            android:exported="false"
-155-->[:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
-156            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-156-->[:url_launcher_android] /Users/DELL/Desktop/newmandirapp 2/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+128
+129        <activity
+129-->[:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+130            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+130-->[:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+131            android:exported="false"
+131-->[:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+132            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+132-->[:url_launcher_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+133        <!--
+134           Declares a provider which allows us to store files to share in
+135           '.../caches/share_plus' and grant the receiving action access
+136        -->
+137        <provider
+137-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:20
+138            android:name="dev.fluttercommunity.plus.share.ShareFileProvider"
+138-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-77
+139            android:authorities="com.example.mandir_app.flutter.share_provider"
+139-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-74
+140            android:exported="false"
+140-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+141            android:grantUriPermissions="true" >
+141-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-47
+142            <meta-data
+142-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
+143                android:name="android.support.FILE_PROVIDER_PATHS"
+143-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+144                android:resource="@xml/flutter_share_file_paths" />
+144-->[:image_picker_android] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
+145        </provider>
+146        <!--
+147           This manifest declared broadcast receiver allows us to use an explicit
+148           Intent when creating a PendingItent to be informed of the user's choice
+149        -->
+150        <receiver
+150-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-34:20
+151            android:name="dev.fluttercommunity.plus.share.SharePlusPendingIntent"
+151-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-82
+152            android:exported="false" >
+152-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-37
+153            <intent-filter>
+153-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-33:29
+154                <action android:name="EXTRA_CHOSEN_COMPONENT" />
+154-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:17-65
+154-->[:share_plus] /Users/DELL/Desktop/jainDirectory/newmandirapp/build/share_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:32:25-62
+155            </intent-filter>
+156        </receiver>
 157
 158        <provider
 158-->[androidx.work:work-runtime:2.7.1] /Users/DELL/.gradle/caches/transforms-3/f3af5117afa6a115db8ed88b75db708a/transformed/work-runtime-2.7.1/AndroidManifest.xml:31:9-39:20

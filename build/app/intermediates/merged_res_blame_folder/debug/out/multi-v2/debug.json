@@ -367,7 +367,7 @@
                     }
                 },
                 {
-                    "source": "/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
@@ -4517,23 +4517,6 @@
                     }
                 },
                 {
-                    "source": "/Users/DELL/Desktop/newmandirapp 2/build/flutter_downloader/intermediates/packaged_res/debug/values/values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,133,239,323,401,475,559,633",
-                        "endColumns": "77,105,83,77,73,83,73,75",
-                        "endOffsets": "128,234,318,396,470,554,628,704"
-                    },
-                    "to": {
-                        "startLines": "423,424,425,426,427,428,429,430",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "26474,26552,26658,26742,26820,26894,26978,27052",
-                        "endColumns": "77,105,83,77,73,83,73,75",
-                        "endOffsets": "26547,26653,26737,26815,26889,26973,27047,27123"
-                    }
-                },
-                {
                     "source": "/Users/DELL/.gradle/caches/transforms-3/f7c93b78e7413af600479cf62efd3bdf/transformed/jetified-appcompat-resources-1.3.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,29,36,47,74",
@@ -4553,22 +4536,20 @@
                     }
                 },
                 {
-                    "source": "/Users/DELL/Desktop/newmandirapp 2/build/local_auth_android/intermediates/packaged_res/debug/values/values.xml",
+                    "source": "/Users/DELL/Desktop/jainDirectory/newmandirapp/build/flutter_downloader/intermediates/packaged_res/debug/values/values.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "55,100,144,190,238",
-                        "endLines": "2,3,4,5,11",
-                        "endColumns": "44,43,45,47,10",
-                        "endOffsets": "95,139,185,233,533"
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,133,239,323,401,475,559,633",
+                        "endColumns": "77,105,83,77,73,83,73,75",
+                        "endOffsets": "128,234,318,396,470,554,628,704"
                     },
                     "to": {
-                        "startLines": "67,86,245,246,446",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "3153,4516,15431,15477,28335",
-                        "endLines": "67,86,245,246,451",
-                        "endColumns": "44,43,45,47,10",
-                        "endOffsets": "3193,4555,15472,15520,28630"
+                        "startLines": "423,424,425,426,427,428,429,430",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "26474,26552,26658,26742,26820,26894,26978,27052",
+                        "endColumns": "77,105,83,77,73,83,73,75",
+                        "endOffsets": "26547,26653,26737,26815,26889,26973,27047,27123"
                     }
                 },
                 {
@@ -4641,6 +4622,25 @@
                         "endLines": "42,43,44,45,331,2127,2131,3103,3115,3123",
                         "endColumns": "11,59,51,44,59,24,24,24,24,24",
                         "endOffsets": "1537,1597,1649,1694,20771,137654,137785,170006,170446,170755"
+                    }
+                },
+                {
+                    "source": "/Users/DELL/Desktop/jainDirectory/newmandirapp/build/local_auth_android/intermediates/packaged_res/debug/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,100,144,190,238",
+                        "endLines": "2,3,4,5,11",
+                        "endColumns": "44,43,45,47,10",
+                        "endOffsets": "95,139,185,233,533"
+                    },
+                    "to": {
+                        "startLines": "67,86,245,246,446",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "3153,4516,15431,15477,28335",
+                        "endLines": "67,86,245,246,451",
+                        "endColumns": "44,43,45,47,10",
+                        "endOffsets": "3193,4555,15472,15520,28630"
                     }
                 },
                 {
@@ -4752,25 +4752,6 @@
                     }
                 },
                 {
-                    "source": "/Users/DELL/Desktop/newmandirapp 2/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "173,818",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "476,982"
-                    },
-                    "to": {
-                        "startLines": "1537,1541",
-                        "startColumns": "4,4",
-                        "startOffsets": "97823,98004",
-                        "endLines": "1540,1543",
-                        "endColumns": "12,12",
-                        "endOffsets": "97999,98168"
-                    }
-                },
-                {
                     "source": "/Users/DELL/.gradle/caches/transforms-3/f5f615dbf739ddfded50486a65871186/transformed/fragment-1.6.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,10",
@@ -4787,6 +4768,25 @@
                         "endLines": "332,344,372,2788,2792",
                         "endColumns": "56,64,63,24,24",
                         "endOffsets": "20828,21367,22841,160260,160409"
+                    }
+                },
+                {
+                    "source": "/Users/DELL/Desktop/jainDirectory/newmandirapp/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,818",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "476,982"
+                    },
+                    "to": {
+                        "startLines": "1537,1541",
+                        "startColumns": "4,4",
+                        "startOffsets": "97823,98004",
+                        "endLines": "1540,1543",
+                        "endColumns": "12,12",
+                        "endOffsets": "97999,98168"
                     }
                 },
                 {

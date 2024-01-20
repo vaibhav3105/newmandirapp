@@ -125,6 +125,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/flutter_image_picker_file_paths" />
         </provider>
+
+        <activity
+            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <!--
            Declares a provider which allows us to store files to share in
            '.../caches/share_plus' and grant the receiving action access
@@ -149,11 +154,6 @@
                 <action android:name="EXTRA_CHOSEN_COMPONENT" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
