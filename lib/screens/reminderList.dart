@@ -327,10 +327,8 @@ class _ReminderListState extends State<ReminderList>
                                     horizontal: 15,
                                     vertical: 3,
                                   ),
-                                  leading: const Icon(
-                                    FontAwesomeIcons.circleXmark,
-                                    color: Colors.red,
-                                  ),
+                                  leading:
+                                      renderLeading(missedReminders[index]),
                                   title: renderTitle(missedReminders[index]),
                                   subtitle: renderSubTitle(
                                     missedReminders[index],
@@ -484,67 +482,6 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  // GJ: icon property has been removed from the database now..
-  // Widget? renderLeading(data) {
-  //   Widget? icon;
-  //   Color? color;
-
-  //   switch (data['icon']) {
-  //     case 'M':
-  //       icon = Text(
-  //         data['icon'],
-  //         style: const TextStyle(
-  //           color: Colors.white,
-  //         ),
-  //       );
-  //       color = const Color(0xff8eb564);
-  //       break;
-  //     case 'Y':
-  //       icon = Text(
-  //         data['icon'],
-  //         style: const TextStyle(
-  //           color: Colors.white,
-  //         ),
-  //       );
-  //       color = const Color(0xffd27f71);
-  //       break;
-  //     case 'O':
-  //       icon = Text(
-  //         data['icon'],
-  //         style: const TextStyle(
-  //           color: Colors.white,
-  //         ),
-  //       );
-  //       color = const Color(0xff6a89d8);
-  //       break;
-  //     case 'BDAY':
-  //       icon = const Icon(
-  //         FontAwesomeIcons.cakeCandles,
-  //         color: Colors.white,
-  //       );
-  //       color = const Color(0xffd27f71);
-  //       break;
-  //     case 'ANNI':
-  //       icon = const Icon(
-  //         FontAwesomeIcons.heart,
-  //         color: Colors.white,
-  //       );
-  //       color = const Color(0xffd27f71);
-  //       break;
-  //     default:
-  //       icon = Text(
-  //         data['icon'],
-  //       );
-  //       color = const Color(0xff540b0e);
-  //   }
-
-  //   return CircleAvatar(
-  //     backgroundColor: color,
-  //     // colors[index % colors.length],
-  //     child: icon,
-  //   );
-  // }
-
   Widget? renderTitle(data) {
     return Text(data['title'],
         style: const TextStyle(color: Colors.black, fontSize: 16));
@@ -552,10 +489,12 @@ class _ReminderListState extends State<ReminderList>
 
   // GJ: this is the 2 liner subtitle
   Widget? renderSubTitle(data) {
-    switch (data['hasDone']) {
-      case 1:
+    switch (data['status']) {
+      case 'C':
         return Text(data['subTitle'],
             style: const TextStyle(color: Colors.grey, fontSize: 14));
+      // case 'M':
+      // case 'D':
       default:
         return Text(data['subTitle'],
             style: const TextStyle(color: Colors.grey, fontSize: 14));
@@ -563,6 +502,10 @@ class _ReminderListState extends State<ReminderList>
   }
 
   Widget? renderTrailing(data) {
+    if (data['status'] == '') {
+      return null;
+    }
+
     List<Widget>? trailChildren;
     switch (data['repeatFlag']) {
       case 'M':
@@ -623,324 +566,27 @@ class _ReminderListState extends State<ReminderList>
     );
   }
 
-  // Widget? renderTrailing(data) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       FocusScope.of(context).unfocus();
-  //       showModalBottomSheet(
-  //           context: context,
-  //           builder: (context) {
-  //             return SizedBox(
-  //               height: MediaQuery.of(context).size.height * 0.3,
-  //               width: double.infinity,
-  //               child: Padding(
-  //                 padding: const EdgeInsets.symmetric(
-  //                   horizontal: 13,
-  //                 ),
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     const SizedBox(
-  //                       height: 10,
-  //                     ),
-  //                     const Text(
-  //                       "     Select an action",
-  //                       style: TextStyle(
-  //                         color: Color.fromARGB(
-  //                           255,
-  //                           106,
-  //                           78,
-  //                           179,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     // if (reminders[index][
-  //                     //             'type'] ==
-  //                     //         'REM' &&
-  //                     //     reminders[index][
-  //                     //             'repeatFlag'] ==
-  //                     //         'O' &&
-  //                     //     initialSearchBy!
-  //                     //             .actualValue ==
-  //                     //         'SEARCH_BY_DATE')
-  //                     //   GestureDetector(
-  //                     //     onTap: () async {
-  //                     //       var response =
-  //                     //           await ApiService().post(
-  //                     //               '/api/reminder/item',
-  //                     //               {
-  //                     //                 "reminderCode":
-  //                     //                     reminders[index]['code']
-  //                     //               },
-  //                     //               headers,
-  //                     //               context);
-
-  //                     //       DateTime date =
-  //                     //           DateTime.parse(
-  //                     //                   response['remindOn'])
-  //                     //               .add(
-  //                     //         const Duration(
-  //                     //             days: 1),
-  //                     //       );
-
-  //                     //       await ApiService()
-  //                     //           .post(
-  //                     //               '/api/reminder/update',
-  //                     //               {
-  //                     //                 "reminderCode":
-  //                     //                     reminders[index]['code'],
-  //                     //                 "title":
-  //                     //                     response['title'],
-  //                     //                 "desc":
-  //                     //                     response['desc'],
-  //                     //                 "remindOn":
-  //                     //                     date.toString(),
-  //                     //                 "repeatFlag":
-  //                     //                     response['repeatFlag']
-  //                     //               },
-  //                     //               headers,
-  //                     //               context);
-  //                     //       Navigator.pop(
-  //                     //           context);
-  //                     //       showCustomSnackbar(
-  //                     //           context,
-  //                     //           Colors
-  //                     //               .black,
-  //                     //           'Reminder updated successfully.');
-  //                     //       // dateController
-  //                     //       //         .text =
-  //                     //       //     DateFormat(
-  //                     //       //             'dd-MMM-yyyy')
-  //                     //       //         .format(
-  //                     //       //             date);
-  //                     //       getListOfReminders();
-  //                     //     },
-  //                     //     child:
-  //                     //         const ListTile(
-  //                     //       title: Text(
-  //                     //         "Remind me tomorrow",
-  //                     //       ),
-  //                     //       leading: FaIcon(
-  //                     //         FontAwesomeIcons
-  //                     //             .clock,
-  //                     //         color: Color
-  //                     //             .fromARGB(
-  //                     //           255,
-  //                     //           106,
-  //                     //           78,
-  //                     //           179,
-  //                     //         ),
-  //                     //       ),
-  //                     //     ),
-  //                     //   ),
-  //                     if (data['type'] == 'REM')
-  //                       GestureDetector(
-  //                         onTap: () {
-  //                           Navigator.pop(context);
-  //                           nextScreen(
-  //                               context,
-  //                               NotesScreen(
-  //                                 reminderCode: data['code'],
-  //                               ));
-  //                         },
-  //                         child: const ListTile(
-  //                           title: Text(
-  //                             "View Reminder Notes",
-  //                           ),
-  //                           leading: FaIcon(
-  //                             FontAwesomeIcons.noteSticky,
-  //                             color: Color.fromARGB(
-  //                               255,
-  //                               106,
-  //                               78,
-  //                               179,
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     if (data['type'] == 'REM')
-  //                       GestureDetector(
-  //                         onTap: () {
-  //                           Navigator.pop(context);
-  //                           nextScreen(context,
-  //                               AddReminderScreen(reminderCode: data['code']));
-  //                         },
-  //                         child: const ListTile(
-  //                           title: Text(
-  //                             "Edit Reminder",
-  //                           ),
-  //                           leading: FaIcon(
-  //                             FontAwesomeIcons.pencil,
-  //                             color: Color.fromARGB(
-  //                               255,
-  //                               106,
-  //                               78,
-  //                               179,
-  //                             ),
-  //                           ),
-  //                         ),
-  //                       ),
-
-  //                     GestureDetector(
-  //                       onTap: () {
-  //                         Navigator.pop(context);
-  //                         showDialog(
-  //                             context: context,
-  //                             builder: (context) {
-  //                               return AlertDialog(
-  //                                 title: const Text(
-  //                                   "Delete Reminder",
-  //                                 ),
-  //                                 actions: [
-  //                                   ElevatedButton(
-  //                                     style: ElevatedButton.styleFrom(
-  //                                       backgroundColor: Colors.red,
-  //                                     ),
-  //                                     onPressed: data['type'] == 'REM'
-  //                                         ? () async {
-  //                                             try {
-  //                                               var response =
-  //                                                   await ApiService().post(
-  //                                                 '/api/reminder/delete',
-  //                                                 {
-  //                                                   'reminderCode': data['code']
-  //                                                 },
-  //                                                 headers,
-  //                                                 context,
-  //                                               );
-  //                                               Navigator.pop(context);
-  //                                               getListOfReminders();
-
-  //                                               showCustomSnackbar(
-  //                                                 context,
-  //                                                 Colors.black,
-  //                                                 response['message'],
-  //                                               );
-  //                                             } catch (e) {
-  //                                               showCustomSnackbar(
-  //                                                 context,
-  //                                                 Colors.black,
-  //                                                 e.toString(),
-  //                                               );
-  //                                             }
-  //                                           }
-  //                                         : () async {
-  //                                             try {
-  //                                               var response =
-  //                                                   await ApiService().post(
-  //                                                 '/api/family-member/toggle-birthday-reminder',
-  //                                                 {
-  //                                                   'familyMemberCode':
-  //                                                       data['code']
-  //                                                 },
-  //                                                 headers,
-  //                                                 context,
-  //                                               );
-  //                                               Navigator.pop(context);
-  //                                               getListOfReminders();
-
-  //                                               showCustomSnackbar(
-  //                                                 context,
-  //                                                 Colors.black,
-  //                                                 response['message'],
-  //                                               );
-  //                                             } catch (e) {
-  //                                               showCustomSnackbar(
-  //                                                 context,
-  //                                                 Colors.black,
-  //                                                 e.toString(),
-  //                                               );
-  //                                             }
-  //                                           },
-  //                                     child: const Text(
-  //                                       "Delete",
-  //                                       style: TextStyle(
-  //                                         color: Colors.white,
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                   ElevatedButton(
-  //                                     style: ElevatedButton.styleFrom(
-  //                                       backgroundColor: const Color.fromARGB(
-  //                                         255,
-  //                                         106,
-  //                                         78,
-  //                                         179,
-  //                                       ),
-  //                                     ),
-  //                                     onPressed: () {
-  //                                       Navigator.pop(context);
-  //                                     },
-  //                                     child: const Text(
-  //                                       "Cancel",
-  //                                       style: TextStyle(
-  //                                         color: Colors.white,
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                                 content: const Column(
-  //                                   mainAxisSize: MainAxisSize.min,
-  //                                   children: [
-  //                                     Text(
-  //                                       "Are you sure you want to delete this reminder?",
-  //                                       style: TextStyle(
-  //                                         fontSize: 15,
-  //                                       ),
-  //                                     ),
-  //                                     SizedBox(
-  //                                       height: 13,
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               );
-  //                             });
-  //                       },
-  //                       child: const ListTile(
-  //                         title: Text(
-  //                           "Delete Reminder",
-  //                         ),
-  //                         leading: FaIcon(
-  //                           FontAwesomeIcons.trash,
-  //                           color: Color.fromARGB(
-  //                             255,
-  //                             106,
-  //                             78,
-  //                             179,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             );
-  //           });
-  //     },
-  //     child: Container(
-  //       alignment: Alignment.center,
-  //       color: Colors.white,
-  //       width: 30,
-  //       child: FaIcon(
-  //         FontAwesomeIcons.ellipsisVertical,
-  //         color: Colors.grey[600],
-  //         size: 20,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget? renderLeading(data) {
-    switch (data['hasDone']) {
-      case 1:
+    switch (data['status']) {
+      case 'C':
         return const Icon(
           FontAwesomeIcons.circleCheck,
           color: Colors.green,
         );
-      default:
+      case 'M':
+        return const Icon(
+          FontAwesomeIcons.circleXmark,
+          color: Colors.red,
+        );
+      case 'D':
         return const Icon(
           FontAwesomeIcons.clock,
           color: Colors.orange,
+        );
+      default:
+        return const Icon(
+          FontAwesomeIcons.calendar,
+          color: Colors.black,
         );
     }
   }
@@ -952,62 +598,115 @@ class _ReminderListState extends State<ReminderList>
         break;
       default:
         showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
             builder: (context) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        nextScreen(
-                            context, ViewReminder(reminderCode: data['code']));
-                      },
-                      child: ListTile(
-                        title: const Text('View Reminder'),
-                        leading: FaIcon(
-                          FontAwesomeIcons.eye,
-                          color: Theme.of(context).primaryColor,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
+                    child: Center(
+                      child: Container(
+                        height: 6,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor.withOpacity(
+                                0.7,
+                              ),
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
                         ),
                       ),
                     ),
-                    if (data['hasDone'] != 1)
-                      GestureDetector(
-                        onTap: () => onTapMarkAsCompleted(data),
-                        child: const ListTile(
-                          title: Text('Mark as Completed'),
-                          leading: FaIcon(
-                            FontAwesomeIcons.circleCheck,
-                            color: Colors.green,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "     Select an action",
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            nextScreen(context,
+                                ViewReminder(reminderCode: data['code']));
+                          },
+                          child: ListTile(
+                            title: const Text('View details'),
+                            leading: FaIcon(
+                              FontAwesomeIcons.eye,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
-                      ),
-                    if (data['hasDone'] == 1)
-                      GestureDetector(
-                        onTap: () => onTapUnmarkAsPending(data),
-                        child: const ListTile(
-                          title: Text('Un-mark as Pending'),
-                          leading: FaIcon(
-                            FontAwesomeIcons.clock,
-                            color: Colors.orange,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            showToast(context, ToastTypes.INFO,
+                                'Feature coming soon.');
+                          },
+                          child: ListTile(
+                            title: const Text('View schedules'),
+                            leading: FaIcon(
+                              FontAwesomeIcons.listUl,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                ),
+                        if (data['status'] == 'M' || data['status'] == 'D')
+                          GestureDetector(
+                            onTap: () => onClickMarkAsCompleteContextMenu(data),
+                            child: const ListTile(
+                              title: Text('Mark as Complete'),
+                              leading: FaIcon(
+                                FontAwesomeIcons.circleCheck,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        if (data['status'] == 'C')
+                          GestureDetector(
+                            onTap: () =>
+                                onClickUnmarkAsPendingContextMenu(data),
+                            child: const ListTile(
+                              title: Text('Mark as Pending'),
+                              leading: FaIcon(
+                                FontAwesomeIcons.clock,
+                                color: Colors.orange,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
               );
             });
         break;
     }
   }
 
-  onTapMarkAsCompleted(data) async {
+  // GJ [20-JAN-24] this shows a pop-up on "mark complete"
+  showMarkAsCompletePopup(data) async {
     Navigator.pop(context);
     print(data);
-    // await unmarkReminder(data, true);
+    markAsCompletePopup_remark.text = '';
+    markAsCompletePopup_nextSchedule.text = '';
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -1016,7 +715,10 @@ class _ReminderListState extends State<ReminderList>
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              // height: (MediaQuery.of(context).size.height * 0.55),
+              height: (data['repeatFlag'] == 'O')
+                  ? (MediaQuery.of(context).size.height * 0.55)
+                  : (MediaQuery.of(context).size.height * 0.42),
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -1048,107 +750,80 @@ class _ReminderListState extends State<ReminderList>
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Title:',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          data['title'],
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Schedule:',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          DateFormat('dd-MMM-yy')
-                              .format(DateTime.parse(data['schedule']))
-                              .toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
+                    ListTile(
+                      leading: renderLeading(data),
+                      title: renderTitle(data),
+                      subtitle: renderSubTitle(data),
+                      tileColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     const Text(
-                      'Remark',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                      'Enter your remark',
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 4,
                     ),
                     CustomTextAreaField(
-                        labelText: '', controller: nextScheduleController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Next Schedule',
-                      style: TextStyle(
-                        fontSize: 18,
+                        labelText: '', controller: markAsCompletePopup_remark),
+                    if (data['repeatFlag'] == 'O')
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'Reschedule date',
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          CustomTextField(
+                              labelText: '',
+                              controller: markAsCompletePopup_nextSchedule),
+                          const Text(
+                            'Help: enter a date if you want to reschedule it once again.',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    CustomTextField(
-                        labelText: '', controller: remarkController),
                     const SizedBox(
                       height: 14,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).primaryColor.withOpacity(
-                                      0.7,
-                                    ),
-                          ),
                           onPressed: () {
-                            Navigator.pop(context);
-                            markReminder(data);
-                            getListOfReminders();
+                            onClickMarkAsCompleteButtonInPopup(data);
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor),
                           child: const Text(
-                            "Mark as Complete",
+                            'Mark as Complete',
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           ),
                         ),
-                        ElevatedButton(
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        OutlinedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           child: const Text(
                             "Cancel",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
                           ),
                         ),
                       ],
@@ -1161,28 +836,38 @@ class _ReminderListState extends State<ReminderList>
         });
   }
 
-  onTapUnmarkAsPending(data) async {
+  onClickMarkAsCompleteContextMenu(data) async {
+    showMarkAsCompletePopup(data);
+  }
+
+  onClickMarkAsCompleteButtonInPopup(data) async {
     Navigator.pop(context);
-    await unmarkReminder(data);
+    await executeMarkReminder(data);
     getListOfReminders();
   }
 
-  markReminder(data) async {
+  onClickUnmarkAsPendingContextMenu(data) async {
+    Navigator.pop(context);
+    await executeUnmarkReminder(data);
+    getListOfReminders();
+  }
+
+  executeMarkReminder(data) async {
     try {
       setState(() {
         showLoader = true;
       });
 
-      ApiResult result = await ApiService().post2(
-          context,
-          '/api/reminder/mark-as-complete',
-          {
-            "reminderCode": data['code'],
-            "schedule": data['schedule'],
-            'remark': remarkController.text.trim(),
-            'nextSchedule': null,
-          },
-          headers);
+      var _data = {
+        "reminderCode": data['code'],
+        "schedule": data['schedule'],
+        'remark': markAsCompletePopup_remark.text.trim(),
+        'nextSchedule': null,
+      };
+      // print(_data);
+
+      ApiResult result = await ApiService()
+          .post2(context, '/api/reminder/mark-as-complete', _data, headers);
       print(result);
 
       if (result.success == false) {
@@ -1202,7 +887,7 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  unmarkReminder(data) async {
+  executeUnmarkReminder(data) async {
     try {
       setState(() {
         showLoader = true;
@@ -1234,6 +919,6 @@ class _ReminderListState extends State<ReminderList>
     }
   }
 
-  final remarkController = TextEditingController();
-  final nextScheduleController = TextEditingController();
+  final markAsCompletePopup_remark = TextEditingController();
+  final markAsCompletePopup_nextSchedule = TextEditingController();
 }

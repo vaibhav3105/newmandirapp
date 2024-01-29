@@ -77,10 +77,6 @@ class Helper {
     return await sp.setBool('showBiometric', showBiometric);
   }
 
-  static Future<bool?> saveUserSsnCode(String ssn) async {
-    return await saveLss("userSsnCode", ssn);
-  }
-
   static Future<String?> getUserAccessToken() async {
     return getLss("userAccessToken");
   }

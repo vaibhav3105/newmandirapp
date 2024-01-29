@@ -38,7 +38,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           response['message'],
         );
         await Helper.saveUserAccessToken("");
-        await Helper.saveUserSsnCode('');
+        // await Helper.saveUserSsnCode('');
         await Helper.saveUserType(0);
         await Helper.saveUserTypeText('');
         await Helper.showBiometricLogin(false);

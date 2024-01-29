@@ -76,36 +76,33 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
   }
 
   var menus = [];
-  bool containsUpdateProfilePhoto = false;
+  bool? containsUpdateProfilePhoto = false;
+
   void getMemberInfo() async {
-    var response = await ApiService().post(
+    var response = await ApiService().post2(
+      context,
       "/api/family-member/view-info",
       {'familyMemberCode': widget.memberCode},
       headers,
-      context,
     );
-    menus = response['menu'];
-    bool flag = menus.any((item) => item['menu'] == 'UPDATE_PROFILE_PHOTO');
 
-    var cats = List.from(Set.from(response['data'].map((e) => e['c'])));
+    bool? flag;
     var data = [];
-    for (var cat in cats) {
-      var item = {"cat": cat};
-      item['items'] = response['data'].where((x) => x['c'] == cat).toList();
-      data.add(item);
+    if (response.success == true && response.data.length > 0) {
+      menus = response.data['menu'];
+      flag = menus.any((item) => item['menu'] == 'UPDATE_PROFILE_PHOTO');
+
+      var cats = List.from(Set.from(response.data['data'].map((e) => e['c'])));
+      for (var cat in cats) {
+        var item = {"cat": cat};
+        item['items'] =
+            response.data['data'].where((x) => x['c'] == cat).toList();
+        data.add(item);
+      }
+
+      mobile = response.data['otherInfo'][0]['mobileText'];
+      email = response.data['otherInfo'][0]['emailText'];
     }
-    mobile = response['otherInfo'][0]['mobileText'];
-    email = response['otherInfo'][0]['emailText'];
-    // for (var item in response['data']) {
-    //   if (item['k'] == 'Mobile') {
-    //     mobile = item['v'];
-    //   }
-    // }
-    // for (var item in response['data']) {
-    //   if (item['k'] == 'Email') {
-    //     email = item['v'];
-    //   }
-    // }
 
     setState(() {
       memberInfo = data;
@@ -131,7 +128,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
         actions: [
           IconButton(
             onPressed: () {
-              _showMenuBottomSheet(context, menus);
+              fnShowBottomSheet(context, menus);
             },
             icon: const Icon(
               Icons.more_vert,
@@ -208,7 +205,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
                           // )
                         ],
                       ),
-                      if (containsUpdateProfilePhoto)
+                      if (containsUpdateProfilePhoto == true)
                         Positioned(
                           right: MediaQuery.of(context).size.width / 3.5,
                           top: 150,
@@ -338,7 +335,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
     );
   }
 
-  void _showMenuBottomSheet(BuildContext context, menuItems) {
+  void fnShowBottomSheet(BuildContext context, menuItems) {
     print(menuItems.length);
     showModalBottomSheet(
       isScrollControlled: true,
@@ -370,15 +367,10 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               "     Select an action",
               style: TextStyle(
-                color: Color.fromARGB(
-                  255,
-                  106,
-                  78,
-                  179,
-                ),
+                color: Theme.of(context).primaryColor,
               ),
             ),
             SizedBox(
@@ -569,39 +561,6 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
                           memberCode: widget.memberCode,
                         ),
                       );
-                    };
-                  } else if (menuItem['menu'] == "SHOW_FM_BDAY_PIN") {
-                    title = 'Add this birthday to my reminder';
-                    icon = Icon(
-                      FontAwesomeIcons.cakeCandles,
-                      color: Theme.of(context).primaryColor,
-                    );
-                    onTap = () async {
-                      // Implement the email functionality here
-                      var response = await ApiService().post(
-                          '/api/family-member/toggle-birthday-reminder',
-                          {"familyMemberCode": widget.memberCode},
-                          headers,
-                          context);
-
-                      Navigator.pop(context);
-                      getMemberInfo();
-                    };
-                  } else if (menuItem['menu'] == "SHOW_FM_BDAY_UNPIN") {
-                    title = 'Remove this birthday from my reminder';
-                    icon = Icon(
-                      FontAwesomeIcons.cakeCandles,
-                      color: Theme.of(context).primaryColor,
-                    );
-                    onTap = () async {
-                      // Implement the email functionality here
-                      var response = await ApiService().post(
-                          '/api/family-member/toggle-birthday-reminder',
-                          {"familyMemberCode": widget.memberCode},
-                          headers,
-                          context);
-                      Navigator.pop(context);
-                      getMemberInfo();
                     };
                   } else if (menuItem['menu'] == "UPDATE_PROFILE_PHOTO") {
                     title = 'Update Profile Photo';

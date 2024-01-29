@@ -43,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final String _authorized = 'Not Authorized';
   final bool _isAuthenticating = false;
   final formKey = GlobalKey<FormState>();
-  String? ssnCode = '';
   String? email = "";
   String? password = "";
   bool isLoading = false;

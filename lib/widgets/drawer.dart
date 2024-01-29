@@ -247,7 +247,6 @@ class _MyDrawerState extends State<MyDrawer> {
           GestureDetector(
             onTap: () async {
               await Helper.saveUserAccessToken("");
-              await Helper.saveUserSsnCode('');
               await Helper.saveUserType(0);
               await Helper.saveUserTypeText('');
               await Helper.showBiometricLogin(false);

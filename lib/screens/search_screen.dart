@@ -29,41 +29,36 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  // List<DropdownMenuEntry<LookupItem>> dropDownItems =
-  //     <DropdownMenuEntry<LookupItem>>[];
-  // LookupItem? selectedValue;
   List<dynamic> members = [];
-  LookupItem? initialSearchBy;
-  LookupItem? initialMandir;
-  // List searchOptions = [];
-  List<DropdownMenuItem<LookupItem>> searchOptionsButton =
-      <DropdownMenuItem<LookupItem>>[];
-  List<DropdownMenuItem<LookupItem>> mandirOptionsButton =
-      <DropdownMenuItem<LookupItem>>[];
+  List<LookupItem> SearchByList = [];
+  LookupItem? SearchByItem;
 
-  int userType = 0;
   bool isLoading = false;
   bool isLoadingMembers = false;
-  void getMembers() async {
+
+  void loadMembers() async {
     try {
       setState(() {
         isLoadingMembers = true;
       });
-      var response = await ApiService().post(
+      var response = await ApiService().post2(
+        context,
         "/api/family-member/search",
         {
-          'searchBy': initialSearchBy!.actualValue,
-          'searchText': textController.text.trim(),
-          'mandirCode': initialMandir!.actualValue
+          'searchBy': SearchByItem?.actualValue,
+          'searchText': textController.text.trim()
         },
         headers,
-        context,
       );
       print(response);
 
+      var _result = (response.success == true && response.data.length > 0)
+          ? response.data
+          : [];
+
       setState(() {
         isLoadingMembers = false;
-        members = response;
+        members = _result;
       });
     } catch (e) {
       setState(() {
@@ -76,9 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    isLoading = true;
-    getSearchFiltersFromApi();
-    getUserType();
+    loadSearchFiltersFromApi();
   }
 
   @override
@@ -88,85 +81,37 @@ class _SearchScreenState extends State<SearchScreen> {
     textController.dispose();
   }
 
-  void getUserType() async {
-    var code = await Helper.getUserType();
-    setState(() {
-      userType = code!;
-    });
-  }
-
-  void getSearchFiltersFromApi() async {
+  void loadSearchFiltersFromApi() async {
+    // isLoading = true;
     setState(() {
       isLoading = true;
     });
-    var response = await ApiService().post(
+
+    var response = await ApiService().post2(
+      context,
       "/api/lookup/key-details",
       {'keyName': "SEARCH_MEMBER_BY"},
       headers,
-      context,
     );
 
-    var searchItems = (response as List<dynamic>)
-        .map((lookUpItem) => LookupItem(
-            displayText: lookUpItem["displayText"],
-            actualValue: lookUpItem["actualValue"]))
-        .toList();
-    setState(() {
-      searchOptionsButton = searchItems
-          .map(
-            (LookupItem item) => DropdownMenuItem<LookupItem>(
-              value: item,
-              child: Text(
-                item.displayText,
-                style: const TextStyle(fontWeight: FontWeight.normal),
-              ),
-            ),
-          )
+    List<LookupItem> _result = [];
+    if (response.success == true && response.data.length > 0) {
+      _result = (response.data as List<dynamic>)
+          .map((lookUpItem) => LookupItem(
+              displayText: lookUpItem["displayText"],
+              actualValue: lookUpItem["actualValue"]))
           .toList();
-      initialSearchBy = searchItems[0];
-
-      // searchOptions = searchItems;
-    });
-    getMandirList();
-  }
-
-  getMandirList() async {
-    try {
-      var response = await ApiService().post(
-        '/api/master-data/mandir-ji/list',
-        {},
-        headers,
-        context,
-      );
-      var mandirItems = (response as List<dynamic>)
-          .map(
-            (apiItem) => LookupItem(
-              displayText: apiItem['name'],
-              actualValue: apiItem['mandirCode'],
-            ),
-          )
-          .toList();
-      setState(() {
-        mandirOptionsButton = mandirItems
-            .map(
-              (LookupItem item) => DropdownMenuItem<LookupItem>(
-                value: item,
-                child: Text(
-                  item.displayText,
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-            )
-            .toList();
-        initialMandir = mandirItems[0];
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e.toString());
     }
-  }
 
-  // LookupItem filterValue = LookupItem(displayText: "Name", actualValue: "NAME");
+    setState(() {
+      isLoading = false;
+      SearchByList = _result;
+      if (SearchByList.length > 0) {
+        SearchByItem = SearchByList[0];
+      }
+    });
+    // isLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,130 +121,10 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                showModalBottomSheet(
-                    backgroundColor: Colors.white,
-                    context: context,
-                    builder: (context) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        width: double.infinity,
-                        // decoration: const BoxDecoration(color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 13,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                ),
-                                child: Center(
-                                  child: Container(
-                                    height: 6,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.25,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(
-                                            0.7,
-                                          ),
-                                      borderRadius: BorderRadius.circular(
-                                        20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // const Text(
-                              //   "  Select a filter",
-                              //   style: TextStyle(
-                              //     color: Color.fromARGB(
-                              //       255,
-                              //       106,
-                              //       78,
-                              //       179,
-                              //     ),
-                              //   ),
-                              // ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              DropdownButtonFormField(
-                                hint: const Text("Select Search by"),
-                                value: initialSearchBy,
-                                decoration: textInputDecoration.copyWith(
-                                  labelText: 'Search by',
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                ),
-                                items: searchOptionsButton,
-                                onChanged: (LookupItem? item) {
-                                  setState(() {
-                                    initialSearchBy = item!;
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              DropdownButtonFormField(
-                                isDense: false,
-                                isExpanded: true,
-                                hint: const Text("Select Mandir Ji"),
-                                value: initialMandir,
-                                decoration: textInputDecoration.copyWith(
-                                  labelText: 'Nearby Mandir Ji',
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                ),
-                                items: mandirOptionsButton,
-                                onChanged: (LookupItem? item) {
-                                  setState(() {
-                                    initialMandir = item!;
-                                  });
-                                },
-                              ),
-                              // Center(
-                              //   child: SizedBox(
-                              //     width: double.infinity,
-                              //     child: ElevatedButton(
-                              //       onPressed: () {},
-                              //       style: ElevatedButton.styleFrom(
-                              //         shape: RoundedRectangleBorder(
-                              //           borderRadius: BorderRadius.circular(14),
-                              //         ),
-                              //         fixedSize: const Size(170, 45),
-                              //         backgroundColor: const Color.fromARGB(
-                              //           255,
-                              //           106,
-                              //           78,
-                              //           179,
-                              //         ),
-                              //       ),
-                              //       child: const Text(
-                              //         "Apply Filter",
-                              //         style: TextStyle(
-                              //           color: Colors.white,
-                              //           fontSize: 20,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      );
-                    });
+                fnShowBottomSheet(context);
               },
               icon: Icon(
-                Icons.tune,
+                Icons.filter_alt,
                 size: 28,
                 color: themeVeryLightColor,
               ))
@@ -317,73 +142,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
-                  child: Text('Search by ${initialSearchBy!.displayText}'),
+                  child: Text('${SearchByItem?.displayText}'),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //     horizontal: 20,
-                //   ),
-                //   child: GestureDetector(
-                //     onTap: () {
-                //       showMenu(
-                //         constraints: const BoxConstraints(
-                //           minWidth: 150,
-                //         ),
-                //         context: context,
-                //         position: const RelativeRect.fromLTRB(10, 120, 10, 10),
-                //         items: List.generate(searchOptions.length, (index) {
-                //           return PopupMenuItem(
-                //             onTap: () {
-                //               setState(() {
-                //                 filterValue = searchOptions[index];
-                //               });
-                //             },
-                //             value: searchOptions[index],
-                //             child: Text(searchOptions[index].displayText),
-                //           );
-                //         }),
-                //       );
-                //     },
-                //     child: Row(
-                //       children: [
-                //         Text(
-                //           'Search by ${filterValue.displayText}',
-                //         ),
-                //         const SizedBox(
-                //           width: 5,
-                //         ),
-                //         GestureDetector(
-                //           onTap: () {
-                //             showMenu(
-                //               constraints: const BoxConstraints(
-                //                 minWidth: 150,
-                //               ),
-                //               context: context,
-                //               position:
-                //                   const RelativeRect.fromLTRB(10, 120, 10, 10),
-                //               items:
-                //                   List.generate(searchOptions.length, (index) {
-                //                 return PopupMenuItem(
-                //                   onTap: () {
-                //                     setState(() {
-                //                       filterValue = searchOptions[index];
-                //                     });
-                //                   },
-                //                   value: searchOptions[index],
-                //                   child: Text(searchOptions[index].displayText),
-                //                 );
-                //               }),
-                //             );
-                //           },
-                //           child: const Icon(
-                //             FontAwesomeIcons.caretDown,
-                //             size: 15,
-                //           ),
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -419,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
-                                getMembers();
+                                loadMembers();
                               },
                             ),
                           ),
@@ -565,5 +325,69 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
     );
+  }
+
+  void fnShowBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                ),
+                child: Center(
+                  child: Container(
+                    height: 6,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(
+                            0.7,
+                          ),
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "     Select an action",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              SizedBox(
+                height: SearchByList.length * 60.0,
+                child: ListView.builder(
+                  itemCount: SearchByList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(SearchByList[index].displayText),
+                      onTap: () {
+                        setState(() {
+                          SearchByItem = SearchByList[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      leading: Icon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Theme.of(context).primaryColor,
+                        size: 20,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

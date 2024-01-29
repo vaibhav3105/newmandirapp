@@ -10,6 +10,7 @@ import 'package:mandir_app/screens/discrepancy.dart';
 import 'package:mandir_app/screens/editScreen.dart';
 import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
+import 'package:mandir_app/screens/todo.dart';
 import 'package:mandir_app/services/advertisementService.dart';
 
 import 'package:mandir_app/utils/utils.dart';
@@ -120,7 +121,7 @@ class _MyFamilyListState extends State<MyFamilyList> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(
-              right: 20,
+              right: 15,
             ),
             child: GestureDetector(
               onTap: () {
@@ -131,6 +132,23 @@ class _MyFamilyListState extends State<MyFamilyList> {
               },
               child: Icon(
                 FontAwesomeIcons.bell,
+                color: themeVeryLightColor,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 15,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                nextScreen(
+                  context,
+                  const TodoScreen(),
+                );
+              },
+              child: Icon(
+                FontAwesomeIcons.squareCheck,
                 color: themeVeryLightColor,
               ),
             ),
@@ -441,15 +459,10 @@ class _MyFamilyListState extends State<MyFamilyList> {
             const SizedBox(
               height: 5,
             ),
-            const Text(
+            Text(
               "     Select an action",
               style: TextStyle(
-                color: Color.fromARGB(
-                  255,
-                  106,
-                  78,
-                  179,
-                ),
+                color: Theme.of(context).primaryColor,
               ),
             ),
             SizedBox(

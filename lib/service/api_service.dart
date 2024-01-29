@@ -48,6 +48,8 @@ class ApiService {
   }
 
   static Future<void> ResolveApiBaseUrl() async {
+    // apiBaseUrl = dotenv.env['LOCAL_API_BASE_URL'];
+    // apiBaseUrl = dotenv.env['PRIVATE_API_BASE_URL'];
     if (apiBaseUrl == null) {
       var ipFromIpfi = await ApiService().getIpFromIpfi();
       if (ipFromIpfi == '122.160.175.36') {
@@ -71,7 +73,6 @@ class ApiService {
     await Helper.saveUserAccessToken('');
     await Helper.saveUserType(0);
     await Helper.saveUserTypeText('');
-    await Helper.saveUserSsnCode('');
     await Helper.saveUserLoginName('');
     await Helper.saveUserPassword('');
     await Helper.showBiometricLogin(false);
@@ -172,13 +173,11 @@ class ApiService {
       EasyLoading.show(status: 'Logging you in...');
       await ResolveApiBaseUrl();
       var ip = apiBaseUrl!.split(':')[1].replaceAll('//', '');
-      showToast(context, ToastTypes.SUCCESS, 'Connecting to $ip...');
-      var ssnCode = randomAlphaNumeric(62);
+      showToast(context, ToastTypes.SUCCESS, 'Connecting to Server $ip...');
       var url = "/api/account/login";
       Map<String?, String?> body = {
         'loginName': loginName,
         'password': password,
-        'ssnCode': ssnCode,
       };
       ApiResult result = await ApiService().post2(context, url, body, headers);
       EasyLoading.dismiss();
@@ -193,7 +192,6 @@ class ApiService {
       await Helper.saveUserAccessToken(result.data['accessToken']);
       await Helper.saveUserType(result.data['userType']);
       await Helper.saveUserTypeText(result.data['userTypeText']);
-      await Helper.saveUserSsnCode(ssnCode);
       await Helper.saveUserLoginName(loginName);
       await Helper.saveUserPassword(password);
       await Helper.showBiometricLogin(true);
@@ -236,7 +234,7 @@ class ApiService {
     } on SocketException catch (e) {
       switch (e.message) {
         case 'Connection refused':
-          showToast(context, ToastTypes.WARN, 'Server connection failed.');
+          showToast(context, ToastTypes.WARN, 'Connection with Server failed.');
           break;
         default:
           showToast(context, ToastTypes.ERROR, e.toString());
