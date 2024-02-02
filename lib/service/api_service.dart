@@ -23,9 +23,11 @@ final Map<String, String> headers = {
 const double appVersion = -1.0;
 
 updateHeaders() async {
-  String? ssnCode = await Helper.getUserSsnCode();
+  // String? ssnCode = await Helper.getUserSsnCode();
+  // print(ssnCode);
   String? accessToken = await Helper.getUserAccessToken();
-  headers['SsnCode'] = ssnCode!;
+
+  // headers['SsnCode'] = ssnCode!;
   headers['Authorization'] = "bearer $accessToken";
 }
 
@@ -190,14 +192,23 @@ class ApiService {
       showToast(context, ToastTypes.INFO, "You have logged-in");
 
       await Helper.saveUserAccessToken(result.data['accessToken']);
+      print('vaibhav1');
       await Helper.saveUserType(result.data['userType']);
+      print('vaibhav2');
       await Helper.saveUserTypeText(result.data['userTypeText']);
+      print('vaibhav3');
       await Helper.saveUserLoginName(loginName);
+      print('vaibhav4');
       await Helper.saveUserPassword(password);
+      print('vaibhav5');
       await Helper.showBiometricLogin(true);
+      print('vaibhav6');
 
       await updateHeaders();
+      print('vaibhav7');
+      print(result.data);
       if (result.data['appVer'] < appVersion) {
+        print('vaibhav8');
         nextScreenReplace(
           context,
           UpdateAppScreen(
@@ -206,6 +217,7 @@ class ApiService {
           ),
         );
       } else {
+        print('vaibhav9');
         nextScreenReplace(context, MyFamilyList(code: ''));
       }
     } catch (e) {
@@ -249,7 +261,7 @@ class ApiService {
 
   Future<ApiResult> post2(
       BuildContext context, String url, var body, var headers) async {
-    var result = new ApiResult();
+    var result = ApiResult();
 
     try {
       await ResolveApiBaseUrl();

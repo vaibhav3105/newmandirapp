@@ -419,6 +419,25 @@ class _MyFamilyListState extends State<MyFamilyList> {
                         );
                       },
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        nextScreen(
+                          context,
+                          const ChangeAddressScreen(
+                            groupCode: '',
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          foregroundColor: Colors.white),
+                      child: const Text(
+                        "Add new Address",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),

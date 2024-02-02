@@ -34,10 +34,13 @@ class CustomTextField extends StatelessWidget {
 class CustomTextAreaField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
+  final void Function(String)? onChanged;
+
   const CustomTextAreaField({
     Key? key,
     required this.labelText,
     required this.controller,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -46,6 +49,7 @@ class CustomTextAreaField extends StatelessWidget {
       controller: controller,
       maxLines: 5,
       minLines: 3,
+      onChanged: onChanged,
       decoration: textInputDecoration.copyWith(
         filled: true,
         fillColor: Colors.white,
