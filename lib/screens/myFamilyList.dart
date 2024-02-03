@@ -241,48 +241,64 @@ class _MyFamilyListState extends State<MyFamilyList> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
                               ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      answer[outerIndex]['address'],
-                                      style: TextStyle(
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  if (menus[0].isNotEmpty)
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showMenuBottomSheet(
-                                            context, menus, outerIndex);
-                                        // nextScreen(
-                                        //   context,
-                                        //   ChangeAddressScreen(
-                                        //     groupCode: answer[outerIndex]['code'],
-                                        //   ),
-                                        // );
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(
-                                          5,
-                                        ),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              5,
-                                            ),
-                                            color: Colors.grey[300]),
+                              child: ListTile(
+                                title: Text(
+                                  answer[outerIndex]['address'],
+                                  style: const TextStyle(
+                                      // color: Colors.grey[700],
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                                trailing: (menus[0].isNotEmpty)
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _showMenuBottomSheet(
+                                              context, menus, outerIndex);
+                                        },
                                         child: FaIcon(
                                           FontAwesomeIcons.gear,
-                                          size: 18,
+                                          size: 20,
                                           color: Theme.of(context).primaryColor,
                                         ),
-                                      ),
-                                    )
-                                ],
+                                      )
+                                    : null,
                               ),
+                              // child: Row(
+                              //   children: [
+                              //     Expanded(
+                              //       child: Text(
+                              //         answer[outerIndex]['address'],
+                              //         style: TextStyle(
+                              //           color: Colors.grey[700],
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     if (menus[0].isNotEmpty)
+                              //       GestureDetector(
+                              //         onTap: () {
+                              //           _showMenuBottomSheet(
+                              //               context, menus, outerIndex);
+                              //         },
+                              //         child: Container(
+                              //           padding: const EdgeInsets.all(
+                              //             5,
+                              //           ),
+                              //           alignment: Alignment.center,
+                              //           decoration: BoxDecoration(
+                              //               borderRadius: BorderRadius.circular(
+                              //                 5,
+                              //               ),
+                              //               color: Colors.grey[300]),
+                              //           child: FaIcon(
+                              //             FontAwesomeIcons.gear,
+                              //             size: 18,
+                              //             color: Theme.of(context).primaryColor,
+                              //           ),
+                              //         ),
+                              //       )
+                              //   ],
+                              // ),
                             ),
                             const SizedBox(
                               height: 10,
