@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mandir_app/service/api_service.dart';
@@ -338,12 +338,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       const SizedBox(
                         height: 30,
                       ),
+                      const Text('Country'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       DropdownButtonFormField(
                         isExpanded: true,
                         hint: const Text("Select a country"),
                         value: initialCountry,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'Country',
+                          labelText: '',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -363,12 +367,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      const Text('State'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       DropdownButtonFormField(
                         isExpanded: true,
                         hint: const Text("Select a state"),
                         value: initialState,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'State',
+                          labelText: '',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -386,12 +394,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      const Text('City'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       DropdownButtonFormField(
                         isExpanded: true,
                         hint: const Text("Select a city"),
                         value: initialCity,
                         decoration: textInputDecoration.copyWith(
-                          labelText: 'City',
+                          labelText: '',
                           fillColor: Colors.white,
                           filled: true,
                         ),
@@ -406,9 +418,12 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-
+                      const Text('Address'),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       CustomTextAreaField(
-                        labelText: 'Address',
+                        labelText: '',
                         controller: addressController,
                         onChanged: (p0) {
                           setState(() {});
@@ -418,42 +433,39 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         height: 3,
                       ),
                       Text(
-                        'Note: Please enter your full address here.',
+                        'Note: Please enter your house no, floor, street, sector, etc.',
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[500],
                         ),
                       ),
-                      // DropdownButtonFormField(
-                      //   isExpanded: true,
-                      //   isDense: false,
-                      //   hint: const Text("Select Mandir Ji"),
-                      //   value: initialMandir,
-                      //   decoration: textInputDecoration.copyWith(
-                      //     labelText: 'Near by Jain Mandir',
-                      //     fillColor: Colors.white,
-                      //     filled: true,
-                      //   ),
-                      //   items: mandirOptionsButton,
-                      //   onChanged: (APIDropDownItem? item) {
-                      //     setState(() {
-                      //       initialMandir = item!;
-                      //     });
-                      //   },
-                      // ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text('Your full address will be:',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Theme.of(context).primaryColor,
+                          )),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       if (addressController.text.isNotEmpty)
                         Text(
-                          makeLabel(
-                            initialCountry,
-                            initialState,
-                            initialCity,
-                            addressController.text.trim(),
-                          ),
-                        ),
+                            makeLabel(
+                              initialCountry,
+                              initialState,
+                              initialCity,
+                              addressController.text.trim(),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 14,
+                            )),
                       const SizedBox(
-                        height: 40,
+                        height: 30,
                       ),
-                      Center(
+                      Align(
+                        alignment: Alignment.center,
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -461,24 +473,31 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                 updateAddress();
                               },
                               style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 35, vertical: 10),
+                                elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                fixedSize: const Size(170, 40),
-                                backgroundColor: const Color.fromARGB(
-                                  255,
-                                  106,
-                                  78,
-                                  179,
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                               ),
                               child: Text(
                                 widget.groupCode == '' ? 'Save' : "Update",
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 16,
                                 ),
                               )),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        'Note: if your city or state or country are not available, you can ask your mandir admin to add them.',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.red,
                         ),
                       ),
                     ],

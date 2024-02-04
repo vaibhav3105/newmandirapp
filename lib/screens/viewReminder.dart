@@ -61,19 +61,34 @@ class _ViewReminderState extends State<ViewReminder> {
     });
   }
 
+  Color? primaryColor = null;
+
   @override
   Widget build(BuildContext context) {
+    primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
         appBar: AppBar(
           title: const Text("View Reminder"),
           actions: [
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.more_vert,
+            //     size: 28,
+            //     color: themeVeryLightColor,
+            //   ),
+            //   onPressed: showAppBarContextMenu,
+            // ),
             IconButton(
               icon: Icon(
-                Icons.more_vert,
-                size: 28,
+                FontAwesomeIcons.pencil,
+                size: 20,
                 color: themeVeryLightColor,
               ),
-              onPressed: showAppBarContextMenu,
+              onPressed: () {
+                Navigator.pop(context);
+                nextScreen(context,
+                    AddReminderScreen(reminderCode: widget.reminderCode));
+              },
             )
           ],
         ),
@@ -289,186 +304,161 @@ class _ViewReminderState extends State<ViewReminder> {
   //   );
   // }
 
-  Function? showAppBarContextMenu() {
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 13,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "     Select an action",
-                    style: TextStyle(
-                      color: Color.fromARGB(
-                        255,
-                        106,
-                        78,
-                        179,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      nextScreen(
-                          context,
-                          NotesScreen(
-                            reminderCode: widget.reminderCode,
-                          ));
-                    },
-                    child: const ListTile(
-                      title: Text(
-                        "View Reminder Notes",
-                      ),
-                      leading: FaIcon(
-                        FontAwesomeIcons.noteSticky,
-                        color: Color.fromARGB(
-                          255,
-                          106,
-                          78,
-                          179,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      nextScreen(context,
-                          AddReminderScreen(reminderCode: widget.reminderCode));
-                    },
-                    child: const ListTile(
-                      title: Text(
-                        "Edit Reminder",
-                      ),
-                      leading: FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Color.fromARGB(
-                          255,
-                          106,
-                          78,
-                          179,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text(
-                                "Delete Reminder",
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      var response = await ApiService().post(
-                                        '/api/reminder/delete',
-                                        {'reminderCode': widget.reminderCode},
-                                        headers,
-                                        context,
-                                      );
+  // Function? showAppBarContextMenu() {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) {
+  //         return SizedBox(
+  //           height: MediaQuery.of(context).size.height * 0.3,
+  //           width: double.infinity,
+  //           child: Padding(
+  //             padding: const EdgeInsets.symmetric(
+  //               horizontal: 13,
+  //             ),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 const SizedBox(
+  //                   height: 10,
+  //                 ),
+  //                 Text(
+  //                   "     Select an action",
+  //                   style: TextStyle(
+  //                     color: primaryColor,
+  //                   ),
+  //                 ),
+  //                 GestureDetector(
+  //                   onTap: () {
+  //                     Navigator.pop(context);
+  //                     nextScreen(
+  //                         context,
+  //                         NotesScreen(
+  //                           reminderCode: widget.reminderCode,
+  //                         ));
+  //                   },
+  //                   child: ListTile(
+  //                     title: const Text(
+  //                       "View Reminder Notes",
+  //                     ),
+  //                     leading: FaIcon(
+  //                       FontAwesomeIcons.noteSticky,
+  //                       color: primaryColor,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 GestureDetector(
+  //                   onTap: () {
+  //                     Navigator.pop(context);
+  //                     nextScreen(context,
+  //                         AddReminderScreen(reminderCode: widget.reminderCode));
+  //                   },
+  //                   child: ListTile(
+  //                     title: const Text(
+  //                       "Edit Reminder",
+  //                     ),
+  //                     leading: FaIcon(
+  //                       FontAwesomeIcons.pencil,
+  //                       color: primaryColor,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 GestureDetector(
+  //                   onTap: () {
+  //                     Navigator.pop(context);
+  //                     showDialog(
+  //                         context: context,
+  //                         builder: (context) {
+  //                           return AlertDialog(
+  //                             title: const Text(
+  //                               "Delete Reminder",
+  //                             ),
+  //                             actions: [
+  //                               ElevatedButton(
+  //                                 style: ElevatedButton.styleFrom(
+  //                                   backgroundColor: Colors.red,
+  //                                 ),
+  //                                 onPressed: () async {
+  //                                   try {
+  //                                     var response = await ApiService().post(
+  //                                       '/api/reminder/delete',
+  //                                       {'reminderCode': widget.reminderCode},
+  //                                       headers,
+  //                                       context,
+  //                                     );
 
-                                      showCustomSnackbar(
-                                        context,
-                                        Colors.black,
-                                        response['message'],
-                                      );
+  //                                     showCustomSnackbar(
+  //                                       context,
+  //                                       Colors.black,
+  //                                       response['message'],
+  //                                     );
 
-                                      Navigator.pop(context);
-                                      //todo: we need to remove the "ReminderList" from the navigator history, so that we can reload the page.
-                                      nextScreen(context, const ReminderList());
-                                    } catch (e) {
-                                      showCustomSnackbar(
-                                        context,
-                                        Colors.black,
-                                        e.toString(),
-                                      );
-                                    }
-                                  },
-                                  child: const Text(
-                                    "Delete",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(
-                                      255,
-                                      106,
-                                      78,
-                                      179,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                              content: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "This will delete the reminder and all of its schedules. Do you want to continue?",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 13,
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
-                    },
-                    child: const ListTile(
-                      title: Text(
-                        "Delete Reminder",
-                      ),
-                      leading: FaIcon(
-                        FontAwesomeIcons.trash,
-                        color: Color.fromARGB(
-                          255,
-                          106,
-                          78,
-                          179,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-    return null;
-  }
+  //                                     Navigator.pop(context);
+  //                                     //todo: we need to remove the "ReminderList" from the navigator history, so that we can reload the page.
+  //                                     nextScreen(context, const ReminderList());
+  //                                   } catch (e) {
+  //                                     showCustomSnackbar(
+  //                                       context,
+  //                                       Colors.black,
+  //                                       e.toString(),
+  //                                     );
+  //                                   }
+  //                                 },
+  //                                 child: const Text(
+  //                                   "Delete",
+  //                                   style: TextStyle(
+  //                                     color: Colors.white,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                               ElevatedButton(
+  //                                 style: ElevatedButton.styleFrom(
+  //                                   backgroundColor: primaryColor,
+  //                                 ),
+  //                                 onPressed: () {
+  //                                   Navigator.pop(context);
+  //                                 },
+  //                                 child: const Text(
+  //                                   "Cancel",
+  //                                   style: TextStyle(
+  //                                     color: Colors.white,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ],
+  //                             content: const Column(
+  //                               mainAxisSize: MainAxisSize.min,
+  //                               children: [
+  //                                 Text(
+  //                                   "This will delete the reminder and all of its schedules. Do you want to continue?",
+  //                                   style: TextStyle(
+  //                                     fontSize: 15,
+  //                                   ),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: 13,
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           );
+  //                         });
+  //                   },
+  //                   child: ListTile(
+  //                     title: Text(
+  //                       "Delete Reminder",
+  //                     ),
+  //                     leading: FaIcon(
+  //                       FontAwesomeIcons.trash,
+  //                       color: primaryColor,
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  //   return null;
+  // }
 
   EdgeInsets getCardPaddingStyle() {
     return const EdgeInsets.only(top: 10, bottom: 15);

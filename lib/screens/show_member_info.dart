@@ -558,7 +558,8 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
                       nextScreen(
                         context,
                         LoginInfo(
-                          memberCode: widget.memberCode,
+                          familyMemberCode: widget.memberCode,
+                          familyGroupCode: '',
                         ),
                       );
                     };

@@ -729,7 +729,8 @@ class _EditScreenState extends State<EditScreen> {
                         height: 10,
                       ),
                       // --
-                      Center(
+                      Align(
+                        alignment: Alignment.center,
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -739,15 +740,12 @@ class _EditScreenState extends State<EditScreen> {
                                   : createMember();
                             },
                             style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 35, vertical: 10),
+                              elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              fixedSize: const Size(170, 45),
-                              backgroundColor: const Color.fromARGB(
-                                255,
-                                106,
-                                78,
-                                179,
+                                borderRadius: BorderRadius.circular(30),
                               ),
                             ),
                             child: widget.membercode != ''
@@ -755,14 +753,14 @@ class _EditScreenState extends State<EditScreen> {
                                     "Update",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 16,
                                     ),
                                   )
                                 : const Text(
                                     "Save",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 16,
                                     ),
                                   ),
                           ),

@@ -121,7 +121,7 @@ class _MyFamilyListState extends State<MyFamilyList> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(
-              right: 15,
+              right: 20,
             ),
             child: GestureDetector(
               onTap: () {
@@ -136,23 +136,23 @@ class _MyFamilyListState extends State<MyFamilyList> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 15,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                nextScreen(
-                  context,
-                  const TodoScreen(),
-                );
-              },
-              child: Icon(
-                FontAwesomeIcons.squareCheck,
-                color: themeVeryLightColor,
-              ),
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(
+          //     right: 15,
+          //   ),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       nextScreen(
+          //         context,
+          //         const TodoScreen(),
+          //       );
+          //     },
+          //     child: Icon(
+          //       FontAwesomeIcons.squareCheck,
+          //       color: themeVeryLightColor,
+          //     ),
+          //   ),
+          // )
         ],
       ),
       drawer: widget.code == '' ? const MyDrawer() : null,
@@ -242,12 +242,16 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                 horizontal: 20,
                               ),
                               child: ListTile(
+                                contentPadding: const EdgeInsets.only(
+                                    left: 0.0, right: 0.0),
                                 title: Text(
                                   answer[outerIndex]['address'],
-                                  style: const TextStyle(
-                                      // color: Colors.grey[700],
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                  style: TextStyle(
+                                    // color: Colors.grey[700],
+                                    color: Theme.of(context).primaryColor,
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
                                 ),
                                 trailing: (menus[0].isNotEmpty)
                                     ? GestureDetector(
@@ -263,42 +267,6 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                       )
                                     : null,
                               ),
-                              // child: Row(
-                              //   children: [
-                              //     Expanded(
-                              //       child: Text(
-                              //         answer[outerIndex]['address'],
-                              //         style: TextStyle(
-                              //           color: Colors.grey[700],
-                              //           fontWeight: FontWeight.bold,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     if (menus[0].isNotEmpty)
-                              //       GestureDetector(
-                              //         onTap: () {
-                              //           _showMenuBottomSheet(
-                              //               context, menus, outerIndex);
-                              //         },
-                              //         child: Container(
-                              //           padding: const EdgeInsets.all(
-                              //             5,
-                              //           ),
-                              //           alignment: Alignment.center,
-                              //           decoration: BoxDecoration(
-                              //               borderRadius: BorderRadius.circular(
-                              //                 5,
-                              //               ),
-                              //               color: Colors.grey[300]),
-                              //           child: FaIcon(
-                              //             FontAwesomeIcons.gear,
-                              //             size: 18,
-                              //             color: Theme.of(context).primaryColor,
-                              //           ),
-                              //         ),
-                              //       )
-                              //   ],
-                              // ),
                             ),
                             const SizedBox(
                               height: 10,
@@ -315,116 +283,146 @@ class _MyFamilyListState extends State<MyFamilyList> {
                                 margin: EdgeInsets.zero,
                                 color: Colors.white,
                                 child: Column(
-                                  children: List.generate(
-                                    answer[outerIndex]['familyMembers'].length,
-                                    (innerIndex) {
-                                      return Column(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => nextScreen(
-                                                context,
-                                                ShowMemberInfo(
-                                                    memberCode: answer[
-                                                                outerIndex]
-                                                            ['familyMembers']
-                                                        [innerIndex]['code'])),
-                                            child: ListTile(
-                                              leading: CircleAvatar(
-                                                backgroundColor: colors[
-                                                    innerIndex % colors.length],
-                                                child: Text(
-                                                  answer[outerIndex]
-                                                              ['familyMembers']
-                                                          [innerIndex]['name']
-                                                      .toString()[0],
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              title: Text(answer[outerIndex]
-                                                      ['familyMembers']
-                                                  [innerIndex]['name']),
-                                              trailing: Container(
-                                                alignment: Alignment.center,
-                                                color: Colors.white,
-                                                width: 30,
-                                                child: FaIcon(
-                                                  FontAwesomeIcons.angleRight,
-                                                  color: Colors.grey[350],
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              subtitle: RichText(
-                                                text: TextSpan(
-                                                  children: [
-                                                    TextSpan(
-                                                      text: answer[outerIndex]
-                                                              ['familyMembers']
-                                                          [innerIndex]['age'],
-                                                      style: const TextStyle(
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                    if (answer[outerIndex][
+                                  children: (answer[outerIndex]['familyMembers']
+                                              .length >
+                                          0)
+                                      ? List.generate(
+                                          answer[outerIndex]['familyMembers']
+                                              .length,
+                                          (innerIndex) {
+                                            return Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () => nextScreen(
+                                                      context,
+                                                      ShowMemberInfo(
+                                                          memberCode: answer[
+                                                                      outerIndex]
+                                                                  [
+                                                                  'familyMembers']
+                                                              [
+                                                              innerIndex]['code'])),
+                                                  child: ListTile(
+                                                    leading: CircleAvatar(
+                                                      backgroundColor: colors[
+                                                          innerIndex %
+                                                              colors.length],
+                                                      child: Text(
+                                                        answer[outerIndex][
                                                                     'familyMembers']
                                                                 [
-                                                                innerIndex]['desc']
-                                                            .length >
-                                                        0)
-                                                      const WidgetSpan(
-                                                        alignment:
-                                                            PlaceholderAlignment
-                                                                .middle,
-                                                        child: SizedBox(
-                                                          width:
-                                                              10, // Adjust the width of the dot separator
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(
-                                                              '·',
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    20, // Adjust the font size of the dot separator
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900,
-                                                              ),
-                                                            ),
-                                                          ),
+                                                                innerIndex]['name']
+                                                            .toString()[0],
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
                                                         ),
                                                       ),
-                                                    TextSpan(
-                                                      text: answer[outerIndex]
-                                                              ['familyMembers']
-                                                          [innerIndex]['desc'],
-                                                      style: const TextStyle(
-                                                        color: Colors.grey,
+                                                    ),
+                                                    title: Text(answer[
+                                                                outerIndex]
+                                                            ['familyMembers']
+                                                        [innerIndex]['name']),
+                                                    trailing: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      color: Colors.white,
+                                                      width: 30,
+                                                      child: FaIcon(
+                                                        FontAwesomeIcons
+                                                            .angleRight,
+                                                        color: Colors.grey[350],
+                                                        size: 20,
                                                       ),
                                                     ),
-                                                  ],
+                                                    subtitle: RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: answer[
+                                                                        outerIndex]
+                                                                    [
+                                                                    'familyMembers']
+                                                                [
+                                                                innerIndex]['age'],
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                          ),
+                                                          if (answer[outerIndex]
+                                                                          [
+                                                                          'familyMembers']
+                                                                      [
+                                                                      innerIndex]['desc']
+                                                                  .length >
+                                                              0)
+                                                            const WidgetSpan(
+                                                              alignment:
+                                                                  PlaceholderAlignment
+                                                                      .middle,
+                                                              child: SizedBox(
+                                                                width:
+                                                                    10, // Adjust the width of the dot separator
+                                                                child: Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                    '·',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          20, // Adjust the font size of the dot separator
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          TextSpan(
+                                                            text: answer[
+                                                                        outerIndex]
+                                                                    [
+                                                                    'familyMembers']
+                                                                [
+                                                                innerIndex]['desc'],
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 70,
-                                              right: 20,
-                                            ),
-                                            child: Divider(
-                                              height: 0,
-                                              thickness: 1,
-                                              color: Color(0xFFF0F1F3),
-                                            ),
-                                          )
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 70,
+                                                    right: 20,
+                                                  ),
+                                                  child: Divider(
+                                                    height: 0,
+                                                    thickness: 1,
+                                                    color: Color(0xFFF0F1F3),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        )
+                                      : [
+                                          const ListTile(
+                                              title: Text(
+                                            "No records found.",
+                                          ))
                                         ],
-                                      );
-                                    },
-                                  ),
                                 ),
                               ),
                             ),
@@ -448,7 +446,7 @@ class _MyFamilyListState extends State<MyFamilyList> {
                           backgroundColor: Theme.of(context).primaryColor,
                           foregroundColor: Colors.white),
                       child: const Text(
-                        "Add new Address",
+                        "+ Add new Address",
                       ),
                     ),
                     const SizedBox(

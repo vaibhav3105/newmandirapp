@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mandir_app/screens/assistant.dart';
 
@@ -75,7 +76,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
     getCategoryControls();
   }
 
-  final List<bool> _isCheckedList = List.generate(12, (index) => false);
+  List<bool> _isCheckedList = List.generate(12, (index) => false);
 
   updateReminder() async {
     try {
@@ -303,6 +304,14 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // _isCheckedList = List.generate(12, (index) {
+    //   if (widget.reminderCode != '') {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // });
+    // _isCheckedList = List.generate(12, (index) => false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -403,7 +412,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text('Remind On'),
+                      const Text('Remind me on'),
                       const SizedBox(
                         height: 5,
                       ),
@@ -433,16 +442,23 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text('Remind Till'),
+                      const Text('Remind me till'),
                       const SizedBox(
                         height: 5,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         controller: remindTillController,
                         decoration: textInputDecoration.copyWith(
                           fillColor: Colors.white,
                           filled: true,
+                          suffix: Text('Years',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              )),
                         ),
                       ),
                       // CustomTextField(
@@ -497,15 +513,12 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                                   : createReminder();
                             },
                             style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 35, vertical: 10),
+                              elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              fixedSize: const Size(170, 45),
-                              backgroundColor: const Color.fromARGB(
-                                255,
-                                106,
-                                78,
-                                179,
+                                borderRadius: BorderRadius.circular(30),
                               ),
                             ),
                             child: !isClickedButton
@@ -514,14 +527,14 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                                         "Update",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: 16,
                                         ),
                                       )
                                     : const Text(
                                         'Create',
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: 16,
                                         ),
                                       )
                                 : const Center(
