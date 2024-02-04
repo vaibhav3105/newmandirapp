@@ -75,14 +75,14 @@ class ApiService {
           ),
           (route) => false);
     } else {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(
-              loginName: '',
-              password: '',
-            ),
-          ),
-          (route) => false);
+      // Navigator.of(context).pushAndRemoveUntil(
+      //     MaterialPageRoute(
+      //       builder: (context) => const LoginScreen(
+      //         loginName: '',
+      //         password: '',
+      //       ),
+      //     ),
+      //     (route) => false);
     }
 
     if (clearSessionData == true) {

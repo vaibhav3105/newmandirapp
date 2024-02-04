@@ -20,6 +20,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   final LocalAuthentication auth = LocalAuthentication();
   bool isLoading = false;
+  bool showBiometric = false;
 
   @override
   void initState() {
@@ -58,42 +59,51 @@ class _AccountScreenState extends State<AccountScreen> {
                   if (AccountList.isEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 19),
-                      child: GestureDetector(
-                        onTap: () {
-                          nextScreen(context,
-                              const LoginScreen(loginName: '', password: ''));
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 1,
-                            ),
-                            leading: CircleAvatar(
-                                backgroundColor: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.1),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Theme.of(context).primaryColor,
-                                )),
-                            title: const Text(
-                              "Add new account",
-                              style: TextStyle(),
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.angleRight,
-                                  color: Colors.grey[350],
-                                  size: 20,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              nextScreen(
+                                  context,
+                                  const LoginScreen(
+                                      loginName: '', password: ''));
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 1,
                                 ),
-                              ],
+                                leading: CircleAvatar(
+                                    backgroundColor: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Theme.of(context).primaryColor,
+                                    )),
+                                title: const Text(
+                                  "Add new account",
+                                  style: TextStyle(),
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.angleRight,
+                                      color: Colors.grey[350],
+                                      size: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   Expanded(
@@ -188,46 +198,50 @@ class _AccountScreenState extends State<AccountScreen> {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 19),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    nextScreen(
-                                        context,
-                                        const LoginScreen(
-                                            loginName: '', password: ''));
-                                  },
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 1,
-                                      ),
-                                      leading: CircleAvatar(
-                                          backgroundColor: Theme.of(context)
-                                              .primaryColor
-                                              .withOpacity(0.1),
-                                          child: Icon(
-                                            Icons.add,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          )),
-                                      title: const Text(
-                                        "Add new account",
-                                        style: TextStyle(),
-                                      ),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.angleRight,
-                                            color: Colors.grey[350],
-                                            size: 20,
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        nextScreen(
+                                            context,
+                                            const LoginScreen(
+                                                loginName: '', password: ''));
+                                      },
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                            horizontal: 15,
+                                            vertical: 1,
                                           ),
-                                        ],
+                                          leading: CircleAvatar(
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor
+                                                  .withOpacity(0.1),
+                                              child: Icon(
+                                                Icons.add,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                          title: const Text(
+                                            "Add new account",
+                                            style: TextStyle(),
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              FaIcon(
+                                                FontAwesomeIcons.angleRight,
+                                                color: Colors.grey[350],
+                                                size: 20,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
                           ],
@@ -235,7 +249,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       }),
                     ),
                   ),
-                  Text('ver 1.0'),
+                  const Text('ver 1.0'),
                 ],
               ),
             );
@@ -246,6 +260,9 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Future<bool> _authenticateWithBiometric() async {
+    if (showBiometric == true) {
+      return true;
+    }
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(
@@ -254,6 +271,11 @@ class _AccountScreenState extends State<AccountScreen> {
           stickyAuth: true,
         ),
       );
+      if (authenticated) {
+        setState(() {
+          showBiometric = true;
+        });
+      }
     } on PlatformException {
       return true;
     }
