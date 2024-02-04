@@ -47,6 +47,42 @@ class _AccountScreenState extends State<AccountScreen> {
                 const SizedBox(
                   height: 30,
                 ),
+                if (AccountList.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 19),
+                    child: GestureDetector(
+                      onTap: () {
+                        nextScreen(context,
+                            const LoginScreen(loginName: '', password: ''));
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 1,
+                          ),
+                          leading: CircleAvatar(
+                              backgroundColor: colors[3],
+                              child: const Icon(Icons.add)),
+                          title: const Text(
+                            "Add new account",
+                            style: TextStyle(),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.angleRight,
+                                color: Colors.grey[350],
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: AccountList.length,
