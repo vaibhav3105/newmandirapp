@@ -45,66 +45,79 @@ class _AccountScreenState extends State<AccountScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             return Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(25),
               child: Column(
                 children: [
                   const SizedBox(
                     height: 100,
                   ),
-                  const Text('Welcome! Please Login to Your Account.',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 18,
-                      )),
+                  const Text(
+                    "Login",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  if (AccountList.isEmpty == true)
+                    const Text('Please add an account to continue.',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
+                  if (AccountList.isEmpty == false)
+                    const Text('Please select or add an account to continue.',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
                   if (AccountList.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 19),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              nextScreen(
-                                  context,
-                                  const LoginScreen(
-                                      loginName: '', password: ''));
-                            },
-                            child: Container(
-                              color: Colors.white,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 1,
-                                ),
-                                leading: CircleAvatar(
-                                    backgroundColor: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.1),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Theme.of(context).primaryColor,
-                                    )),
-                                title: const Text(
-                                  "Add new account",
-                                  style: TextStyle(),
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.angleRight,
-                                      color: Colors.grey[350],
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            nextScreen(context,
+                                const LoginScreen(loginName: '', password: ''));
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 1,
+                              ),
+                              leading: CircleAvatar(
+                                  backgroundColor: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(0.1),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Theme.of(context).primaryColor,
+                                  )),
+                              title: const Text(
+                                "Add new account",
+                                style: TextStyle(),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.angleRight,
+                                    color: Colors.grey[350],
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   Expanded(
                     child: ListView.builder(
@@ -112,79 +125,71 @@ class _AccountScreenState extends State<AccountScreen> {
                       itemBuilder: ((context, index) {
                         return Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 19,
-                              ),
-                              child: Dismissible(
-                                key: Key(AccountList[index]['loginName']),
-                                direction: DismissDirection.startToEnd,
-                                onDismissed: (direction) {
-                                  _removeAccount(index);
-                                },
-                                background: Container(
-                                  color: Colors.red[400],
-                                  padding: const EdgeInsets.only(left: 16),
-                                  alignment: Alignment.centerLeft,
-                                  child: const Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.trashAlt,
-                                        color: Colors.white,
+                            Dismissible(
+                              key: Key(AccountList[index]['loginName']),
+                              direction: DismissDirection.startToEnd,
+                              onDismissed: (direction) {
+                                _removeAccount(index);
+                              },
+                              background: Container(
+                                color: Colors.red[400],
+                                padding: const EdgeInsets.only(left: 16),
+                                alignment: Alignment.centerLeft,
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.trashAlt,
+                                      color: Colors.white,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Swipe right to delete',
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.white),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Swipe right to delete',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    nextScreen(
-                                        context,
-                                        LoginScreen(
-                                            loginName: AccountList[index]
-                                                ['loginName'],
-                                            password: AccountList[index]
-                                                ['password']));
-                                  },
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 1,
-                                      ),
-                                      leading: CircleAvatar(
-                                          backgroundColor:
-                                              colors[index % colors.length]
-                                                  .withOpacity(0.1),
-                                          child: Icon(
-                                            FontAwesomeIcons.userLarge,
-                                            color:
-                                                colors[index % colors.length],
-                                          )),
-                                      title: Text(
-                                        AccountList[index]['loginName'],
-                                        style: const TextStyle(),
-                                      ),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.angleRight,
-                                            color: Colors.grey[350],
-                                            size: 20,
-                                          ),
-                                        ],
-                                      ),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  nextScreen(
+                                      context,
+                                      LoginScreen(
+                                          loginName: AccountList[index]
+                                              ['loginName'],
+                                          password: AccountList[index]
+                                              ['password']));
+                                },
+                                child: Container(
+                                  color: Colors.white,
+                                  child: ListTile(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 1,
+                                    ),
+                                    leading: CircleAvatar(
+                                        backgroundColor:
+                                            colors[index % colors.length]
+                                                .withOpacity(0.1),
+                                        child: Icon(
+                                          FontAwesomeIcons.userLarge,
+                                          color: colors[index % colors.length],
+                                        )),
+                                    title: Text(
+                                      AccountList[index]['loginName'],
+                                      style: const TextStyle(),
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.angleRight,
+                                          color: Colors.grey[350],
+                                          size: 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -195,54 +200,50 @@ class _AccountScreenState extends State<AccountScreen> {
                               height: 5,
                             ),
                             if (index == AccountList.length - 1)
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 19),
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        nextScreen(
-                                            context,
-                                            const LoginScreen(
-                                                loginName: '', password: ''));
-                                      },
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: ListTile(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                            horizontal: 15,
-                                            vertical: 1,
-                                          ),
-                                          leading: CircleAvatar(
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor
-                                                  .withOpacity(0.1),
-                                              child: Icon(
-                                                Icons.add,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              )),
-                                          title: const Text(
-                                            "Add new account",
-                                            style: TextStyle(),
-                                          ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              FaIcon(
-                                                FontAwesomeIcons.angleRight,
-                                                color: Colors.grey[350],
-                                                size: 20,
-                                              ),
-                                            ],
-                                          ),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      nextScreen(
+                                          context,
+                                          const LoginScreen(
+                                              loginName: '', password: ''));
+                                    },
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal: 15,
+                                          vertical: 1,
+                                        ),
+                                        leading: CircleAvatar(
+                                            backgroundColor: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.1),
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            )),
+                                        title: const Text(
+                                          "Add new account",
+                                          style: TextStyle(),
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            FaIcon(
+                                              FontAwesomeIcons.angleRight,
+                                              color: Colors.grey[350],
+                                              size: 20,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                           ],
                         );
