@@ -37,14 +37,12 @@ class TodoService {
       );
 
       if (response.success == true) {
-        showCustomSnackbar(
-          context,
-          Colors.black,
-          response.data['message'],
-        );
+        showToast(context, ToastTypes.SUCCESS, response.data['message']);
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         nextScreen(context, const TodoScreen());
+      } else {
+        showToast(context, ToastTypes.WARN, response.data['errorMessage']);
       }
 
       // if (response['errorCode'] == 0) {
