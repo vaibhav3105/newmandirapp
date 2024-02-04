@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 import 'package:mandir_app/auth/login_screen.dart';
+import 'package:mandir_app/screens/accountScreen.dart';
 import 'package:mandir_app/screens/myFamilyList.dart';
 import 'package:mandir_app/screens/updateAppScreen.dart';
 import 'package:mandir_app/utils/app_enums.dart';
@@ -65,7 +66,12 @@ class ApiService {
   }
 
   logOut(BuildContext context, bool clearSessionData) async {
-    nextScreenReplace(context, const LoginScreen());
+    // nextScreenReplace(context, const LoginScreen());
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const AccountScreen(),
+        ),
+        (route) => false);
     if (clearSessionData == true) {
       await clearSession();
     }
@@ -92,7 +98,12 @@ class ApiService {
       case 401:
       case 403:
         showToast(context, ToastTypes.ERROR, 'Unauthorized');
-        nextScreenReplace(context, const LoginScreen());
+        // nextScreenReplace(context, const LoginScreen());
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const AccountScreen(),
+            ),
+            (route) => false);
         break;
       default:
         var streamedBytes = await response.stream.toBytes();
@@ -146,7 +157,12 @@ class ApiService {
       case 401:
       case 403:
         showToast(context, ToastTypes.ERROR, 'Unauthorized');
-        nextScreenReplace(context, const LoginScreen());
+        // nextScreenReplace(context, const LoginScreen());
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const AccountScreen(),
+            ),
+            (route) => false);
         break;
       default:
         dynamic responseBody = jsonDecode(response.body);
@@ -188,27 +204,25 @@ class ApiService {
         await ApiService().clearSession();
         return;
       }
+      updateAuthListOnSuccLogin(loginName, password);
 
       showToast(context, ToastTypes.INFO, "You have logged-in");
 
       await Helper.saveUserAccessToken(result.data['accessToken']);
-      print('vaibhav1');
+
       await Helper.saveUserType(result.data['userType']);
-      print('vaibhav2');
+
       await Helper.saveUserTypeText(result.data['userTypeText']);
-      print('vaibhav3');
+
       await Helper.saveUserLoginName(loginName);
-      print('vaibhav4');
+
       await Helper.saveUserPassword(password);
-      print('vaibhav5');
+
       await Helper.showBiometricLogin(true);
-      print('vaibhav6');
 
       await updateHeaders();
-      print('vaibhav7');
-      print(result.data);
+
       if (result.data['appVer'] < appVersion) {
-        print('vaibhav8');
         nextScreenReplace(
           context,
           UpdateAppScreen(

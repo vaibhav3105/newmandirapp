@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mandir_app/screens/accountScreen.dart';
 import 'package:mandir_app/services/account_service.dart';
 
 import '../auth/login_screen.dart';
@@ -37,8 +38,11 @@ class _ChangeLoginNameState extends State<ChangeLoginName> {
         await Helper.saveUserType(0);
         await Helper.saveUserTypeText('');
         await Helper.showBiometricLogin(false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+        //     (route) => false);
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            MaterialPageRoute(builder: (context) => const AccountScreen()),
             (route) => false);
         setState(() {
           isLoading = false;

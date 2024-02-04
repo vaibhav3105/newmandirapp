@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:mandir_app/utils/app_enums.dart';
+import 'package:mandir_app/utils/helper.dart';
 
 nextScreenReplace(BuildContext context, Widget screen) {
   Navigator.of(context)
@@ -81,4 +85,65 @@ showToast(
       elevation: 10, // Increase the elevation for an elevated effect
     ),
   );
+}
+
+getAccountList() async {
+  String? accountStr = await Helper.readAccountList();
+
+  if (accountStr == null) {
+    return [];
+  }
+  try {
+    List<dynamic> accountJson = jsonDecode(accountStr);
+    return accountJson;
+  } catch (e) {
+    return [];
+  }
+}
+
+updateAuthListOnSuccLogin(String loginName, String password) async {
+  // var accountJson = await Helper.readAccountList();
+  List<dynamic> accountList = await getAccountList();
+  print(accountList);
+  // bool loginExists =
+  //     accountList.any((account) => account['loginName'] == loginName);
+  var acc = accountList.firstWhere(
+    (x) => x['loginName'] == loginName,
+    orElse: () {
+      return null;
+    },
+  );
+  if (acc == null) {
+    var newAccount = {'loginName': loginName, 'password': password};
+    accountList.add(newAccount);
+    await Helper.saveAccountList(jsonEncode(accountList));
+  } else {
+    if (acc['password'] != password) {
+      acc['password'] = password;
+      await Helper.saveAccountList(jsonEncode(accountList));
+    }
+  }
+  await Helper.saveAccountList(jsonEncode(accountList));
+  // if (acc) {
+  //   // var existingAccount = accountList.firstWhere(
+  //   //     (account) => account['loginName'] == loginName,
+  //   //     orElse: () => {});
+
+  //   if (existingAccount.isNotEmpty && existingAccount['password'] != password) {
+  //     existingAccount['password'] = password;
+
+  //     await Helper.saveAccountList(jsonEncode(accountList));
+
+  //     print('Password updated for loginName: $loginName');
+  //   } else {
+  //     print('LoginName already exists, and password matches.');
+  //   }
+  // } else {
+  //   var newAccount = {'loginName': loginName, 'password': password};
+  //   accountList.add(newAccount);
+
+  //   await Helper.saveAccountList(jsonEncode(accountList));
+
+  //   print('New loginName added: $loginName');
+  // }
 }

@@ -39,39 +39,60 @@ class _ReminderListState extends State<ReminderList>
       <DropdownMenuItem<APIDropDownItem>>[];
 
   TabBar get myTabBar => TabBar(
-        tabs: const [
-          Tab(
+        isScrollable: true,
+        tabs: [
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 5) * 1.65,
+            child: const Tab(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Upcoming  ',
-                // style: TextStyle(color: Colors.orange),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Upcoming  ',
+                    // style: TextStyle(color: Colors.orange),
+                  ),
+                  Icon(
+                    FontAwesomeIcons.clock,
+                    size: 20,
+                    color: Colors.orange,
+                  ),
+                ],
               ),
-              Icon(
-                FontAwesomeIcons.clock,
-                size: 20,
-                color: Colors.orange,
-              ),
-            ],
-          )),
-          Tab(
+            ),
+          ),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 5) * 1.65,
+            child: const Tab(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Missed  ',
-                // style: TextStyle(color: Colors.red),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Missed  ',
+                    // style: TextStyle(color: Colors.red),
+                  ),
+                  Icon(
+                    FontAwesomeIcons.circleXmark,
+                    size: 20,
+                    color: Colors.red,
+                  ),
+                ],
               ),
-              Icon(
-                FontAwesomeIcons.circleXmark,
-                size: 20,
-                color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 10),
+            child: const Tab(
+              child: Center(
+                child: Icon(
+                  FontAwesomeIcons.book,
+                  size: 30,
+                  color: Colors.blue, // Adjust color as needed
+                ),
               ),
-            ],
-          )),
+            ),
+          ),
         ],
         controller: myTabController,
       );
@@ -85,7 +106,7 @@ class _ReminderListState extends State<ReminderList>
   }
 
   void initScreen() async {
-    myTabController = TabController(vsync: this, length: 2);
+    myTabController = TabController(vsync: this, length: 3);
     myTabController!.index = 0;
     myTabBarView = [
       const Center(
@@ -93,7 +114,7 @@ class _ReminderListState extends State<ReminderList>
       ),
       const Center(
         child: CircularProgressIndicator(),
-      )
+      ),
     ];
     await LoadSearchByDropdown();
   }
@@ -367,6 +388,7 @@ class _ReminderListState extends State<ReminderList>
             preferredSize: myTabBar.preferredSize,
             child: Material(child: myTabBar),
           ),
+          // bottom: myTabBar,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -858,7 +880,7 @@ class _ReminderListState extends State<ReminderList>
         showLoader = true;
       });
 
-      var _data = {
+      var data0 = {
         "reminderCode": data['code'],
         "schedule": data['schedule'],
         'remark': markAsCompletePopup_remark.text.trim(),
@@ -867,7 +889,7 @@ class _ReminderListState extends State<ReminderList>
       // print(_data);
 
       ApiResult result = await ApiService()
-          .post2(context, '/api/reminder/mark-as-complete', _data, headers);
+          .post2(context, '/api/reminder/mark-as-complete', data0, headers);
       print(result);
 
       if (result.success == false) {

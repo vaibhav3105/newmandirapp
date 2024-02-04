@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:mandir_app/screens/accountScreen.dart';
 import 'package:mandir_app/screens/addTodo.dart';
+import 'package:mandir_app/service/api_service.dart';
+import 'package:mandir_app/utils/helper.dart';
 
 import 'auth/login_screen.dart';
 
@@ -40,7 +45,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool? showBiometric;
   @override
   void initState() {
     // TODO: implement initState
@@ -66,8 +70,8 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: const LoginScreen(),
-      // home: const AddTodo(),
+      // home: const LoginScreen(),
+      home: const AccountScreen(),
     );
   }
 }

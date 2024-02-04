@@ -1,17 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:random_string/random_string.dart';
-
 import 'package:mandir_app/service/api_service.dart';
-import 'package:mandir_app/utils/helper.dart';
 
 import '../utils/styling.dart';
 
 class LoginScreen extends StatefulWidget {
+  final String loginName;
+  final String password;
   const LoginScreen({
     Key? key,
+    required this.loginName,
+    required this.password,
   }) : super(key: key);
 
   @override
@@ -23,65 +22,25 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getShowBiometricFlag();
-  }
-
-  bool? showBiometric;
-  getShowBiometricFlag() async {
-    bool? flag = await Helper.getShowBiometricLogin();
-    print(flag);
-    setState(() {
-      showBiometric = flag;
-    });
-    if (flag != null && flag != false) {
-      _authenticateWithBiometric();
+    if (widget.loginName.isNotEmpty) {
+      setState(() {
+        emailController.text = widget.loginName;
+      });
+    }
+    if (widget.password.isNotEmpty) {
+      setState(() {
+        passwordController.text = widget.password;
+      });
     }
   }
 
-  final LocalAuthentication auth = LocalAuthentication();
-
-  final String _authorized = 'Not Authorized';
-  final bool _isAuthenticating = false;
   final formKey = GlobalKey<FormState>();
   String? email = "";
   String? password = "";
   bool isLoading = false;
   bool isVisible = false;
-
-  Future<void> _authenticateWithBiometric() async {
-    bool authenticated = false;
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      authenticated = await auth.authenticate(
-        localizedReason: 'Login with fingerprint, face, pattern or PIN',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-        ),
-      );
-      if (authenticated) {
-        var loginName = await Helper.getUserLoginName();
-        var password = await Helper.getUserPassword();
-        ApiService.login(context, loginName!, password!);
-      }
-      setState(() {
-        isLoading = false;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-    if (!mounted) {
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-  }
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future login(String loginName, String password) async {
     if (formKey.currentState!.validate()) {
@@ -142,9 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 20,
                           ),
                           TextFormField(
-                            onChanged: (newValue) {
-                              email = newValue;
-                            },
+                            controller: emailController,
                             validator: (val) {
                               if (val!.length < 3) {
                                 return "Please enter a valid login name";
@@ -181,9 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 35,
                           ),
                           TextFormField(
-                            onChanged: (newValue) {
-                              password = newValue;
-                            },
+                            controller: passwordController,
                             validator: (val) {
                               if (val!.length < 6) {
                                 return "Password should be at least 6 characters long";
@@ -259,40 +214,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                             onPressed: () {
                               FocusScope.of(context).unfocus();
-                              login(email!.trim(), password!.trim());
+                              login(emailController.text.trim(),
+                                  passwordController.text.trim());
                             },
                           ),
                           const SizedBox(
                             height: 0,
                           ),
-                          if (showBiometric != null && showBiometric != false)
-                            TextButton(
-                              child: const Text('Login with Biometric'),
-                              // style: ElevatedButton.styleFrom(
-                              //   backgroundColor: Theme.of(context).primaryColor,
-                              //   padding: const EdgeInsets.symmetric(
-                              //       horizontal: 35, vertical: 10),
-                              //   elevation: 0,
-                              //   shape: RoundedRectangleBorder(
-                              //     borderRadius: BorderRadius.circular(30),
-                              //   ),
-                              // ),
-                              // child: isLoading
-                              //     ? const CircularProgressIndicator(
-                              //         color: Colors.white,
-                              //       )
-                              //     : const Text(
-                              //         "Login with biometric",
-                              //         style: TextStyle(
-                              //           color: Colors.white,
-                              //           fontSize: 16,
-                              //         ),
-                              //       ),
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                _authenticateWithBiometric();
-                              },
-                            ),
                           const SizedBox(
                             height: 20,
                           ),

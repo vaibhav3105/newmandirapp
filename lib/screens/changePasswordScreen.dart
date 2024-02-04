@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mandir_app/auth/login_screen.dart';
+import 'package:mandir_app/screens/accountScreen.dart';
 import 'package:mandir_app/service/api_service.dart';
 import 'package:mandir_app/utils/utils.dart';
 
@@ -42,8 +43,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         await Helper.saveUserType(0);
         await Helper.saveUserTypeText('');
         await Helper.showBiometricLogin(false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+        //     (route) => false);
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            MaterialPageRoute(builder: (context) => const AccountScreen()),
             (route) => false);
         setState(() {
           isLoading = false;

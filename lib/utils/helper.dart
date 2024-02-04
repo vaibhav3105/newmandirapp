@@ -1,46 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Helper {
-  // static Future<bool?> saveUserAccessToken(String token) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return await sp.setString("userAccessToken", token);
-  // }
-
-  // static Future<bool?> saveUserTypeText(String userTypeText) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return await sp.setString("userTypeText", userTypeText);
-  // }
-
-  // static Future<bool?> saveUserTypeCode(int code) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return await sp.setInt("userTypeCode", code);
-  // }
-
-  // static Future<bool?> saveUserSsnCode(String ssn) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return await sp.setString("userSsnCode", ssn);
-  // }
-
-  // static Future<String?> getUserAccessToken() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return sp.getString("userAccessToken");
-  // }
-
-  // static Future<String?> getUserSsnCode() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return sp.getString("userSsnCode");
-  // }
-
-  // static Future<String?> getUserTypeText() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return sp.getString("userTypeText");
-  // }
-
-  // static Future<int?> getUserTypeCode() async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   return sp.getInt("userTypeCode");
-  // }
-
   static Future<bool?> saveLss(String key, String value) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return await sp.setString(key, value);
@@ -105,5 +65,15 @@ class Helper {
   static Future<bool?> getShowBiometricLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.getBool('showBiometric');
+  }
+
+  static Future<bool?> saveAccountList(String json) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return await sp.setString('accountList', json);
+  }
+
+  static Future<String?> readAccountList() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.getString('accountList');
   }
 }

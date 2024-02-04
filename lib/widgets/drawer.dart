@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mandir_app/auth/login_screen.dart';
+import 'package:mandir_app/screens/accountScreen.dart';
 import 'package:mandir_app/screens/birthdayScreen.dart';
 import 'package:mandir_app/screens/changeLoginName.dart';
 import 'package:mandir_app/screens/changePasswordScreen.dart';
@@ -250,9 +251,14 @@ class _MyDrawerState extends State<MyDrawer> {
               await Helper.saveUserType(0);
               await Helper.saveUserTypeText('');
               await Helper.showBiometricLogin(false);
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(
+              //       builder: (context) => const LoginScreen(),
+              //     ),
+              //     (route) => false);
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
+                    builder: (context) => const AccountScreen(),
                   ),
                   (route) => false);
             },
