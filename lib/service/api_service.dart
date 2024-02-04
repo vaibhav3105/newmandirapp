@@ -65,13 +65,26 @@ class ApiService {
     }
   }
 
-  logOut(BuildContext context, bool clearSessionData) async {
+  logOut(BuildContext context, bool clearSessionData,
+      bool redirectToLoginList) async {
     // nextScreenReplace(context, const LoginScreen());
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const AccountScreen(),
-        ),
-        (route) => false);
+    if (redirectToLoginList) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const AccountScreen(),
+          ),
+          (route) => false);
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(
+              loginName: '',
+              password: '',
+            ),
+          ),
+          (route) => false);
+    }
+
     if (clearSessionData == true) {
       await clearSession();
     }
@@ -265,7 +278,7 @@ class ApiService {
         default:
           showToast(context, ToastTypes.ERROR, e.toString());
       }
-      await logOut(context, false);
+      await logOut(context, false, false);
     } catch (e) {
       print(e.toString());
       showToast(context, ToastTypes.ERROR, e.toString());
@@ -292,9 +305,12 @@ class ApiService {
           result.data = jsonDecode(response.body);
           break;
         case 401:
+          result.data = jsonDecode(response.body);
+          await logOut(context, false, false);
+          break;
         case 403:
           result.data = jsonDecode(response.body);
-          await logOut(context, false);
+          await logOut(context, false, true);
           break;
         default:
           result.data = jsonDecode(response.body);
@@ -310,7 +326,7 @@ class ApiService {
         default:
           showToast(context, ToastTypes.ERROR, e.toString());
       }
-      await logOut(context, false);
+      await logOut(context, false, false);
     } catch (e) {
       print(e.toString());
     }
@@ -353,7 +369,7 @@ class ApiService {
         default:
           showToast(context, ToastTypes.ERROR, e.toString());
       }
-      await logOut(context, false);
+      await logOut(context, false, false);
     } catch (e) {
       print(e.toString());
       showToast(context, ToastTypes.ERROR, e.toString());
