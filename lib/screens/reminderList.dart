@@ -121,15 +121,6 @@ class _ReminderListState extends State<ReminderList>
       const Center(
         child: CircularProgressIndicator(),
       ),
-      const Center(
-        child: CircularProgressIndicator(),
-      ),
-      const Center(
-        child: CircularProgressIndicator(),
-      ),
-      const Center(
-        child: CircularProgressIndicator(),
-      ),
     ];
     await LoadSearchByDropdown();
   }

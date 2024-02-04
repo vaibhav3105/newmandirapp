@@ -58,16 +58,12 @@ class _AddTodoState extends State<AddTodo> {
             ? () async {
                 await TodoService().addTodo(
                   context,
-                  _controller.document.getPlainText(0, 10),
                   jsonEncode(_controller.document.toDelta().toJson()),
                 );
               }
             : () async {
-                await TodoService().modifyTodo(
-                    context,
-                    _controller.document.getPlainText(0, 10),
-                    jsonEncode(_controller.document.toDelta().toJson()),
-                    widget.todoCode);
+                await TodoService().modifyTodo(context, widget.todoCode,
+                    jsonEncode(_controller.document.toDelta().toJson()));
               },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Text(

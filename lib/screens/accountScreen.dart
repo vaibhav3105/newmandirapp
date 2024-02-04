@@ -31,9 +31,10 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select account'),
-      ),
+      // backgroundColor: Theme.of(context).primaryColor.withOpacity(0.4),
+      // appBar: AppBar(
+      //   title: const Text('Directory App'),
+      // ),
       body: FutureBuilder(
         future: _authenticateWithBiometric(), // your authentication function
         builder: (context, snapshot) {
@@ -42,169 +43,201 @@ class _AccountScreenState extends State<AccountScreen> {
           } else if (snapshot.hasError || !snapshot.data!) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                if (AccountList.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 19),
-                    child: GestureDetector(
-                      onTap: () {
-                        nextScreen(context,
-                            const LoginScreen(loginName: '', password: ''));
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 1,
-                          ),
-                          leading: CircleAvatar(
-                              backgroundColor: colors[3],
-                              child: const Icon(Icons.add)),
-                          title: const Text(
-                            "Add new account",
-                            style: TextStyle(),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.angleRight,
-                                color: Colors.grey[350],
-                                size: 20,
-                              ),
-                            ],
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  const Text('Welcome! Please Login to Your Account.',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 18,
+                      )),
+                  if (AccountList.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 19),
+                      child: GestureDetector(
+                        onTap: () {
+                          nextScreen(context,
+                              const LoginScreen(loginName: '', password: ''));
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 1,
+                            ),
+                            leading: CircleAvatar(
+                                backgroundColor: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Theme.of(context).primaryColor,
+                                )),
+                            title: const Text(
+                              "Add new account",
+                              style: TextStyle(),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.angleRight,
+                                  color: Colors.grey[350],
+                                  size: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: AccountList.length,
-                    itemBuilder: ((context, index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 19,
-                            ),
-                            child: Dismissible(
-                              key: Key(AccountList[index]['loginName']),
-                              direction: DismissDirection.startToEnd,
-                              onDismissed: (direction) {
-                                _removeAccount(index);
-                              },
-                              background: Container(
-                                color: Colors.red[400],
-                                padding: const EdgeInsets.only(left: 16),
-                                alignment: Alignment.centerLeft,
-                                child: const Icon(
-                                  FontAwesomeIcons.trashAlt,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  nextScreen(
-                                      context,
-                                      LoginScreen(
-                                          loginName: AccountList[index]
-                                              ['loginName'],
-                                          password: AccountList[index]
-                                              ['password']));
-                                },
-                                child: Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 1,
-                                    ),
-                                    leading: CircleAvatar(
-                                      backgroundColor:
-                                          colors[index % colors.length],
-                                      // child: Text(
-                                      //   AccountList[index]['loginName'][0],
-                                      //   style: const TextStyle(
-                                      //     color: Colors.white,
-                                      //   ),
-                                      // ),
-                                      child: const Icon(Icons.person),
-                                    ),
-                                    title: Text(
-                                      AccountList[index]['loginName'],
-                                      style: const TextStyle(),
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.angleRight,
-                                          color: Colors.grey[350],
-                                          size: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Divider(
-                            color: Colors.transparent,
-                            height: 5,
-                          ),
-                          if (index == AccountList.length - 1)
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: AccountList.length,
+                      itemBuilder: ((context, index) {
+                        return Column(
+                          children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 19),
-                              child: GestureDetector(
-                                onTap: () {
-                                  nextScreen(
-                                      context,
-                                      const LoginScreen(
-                                          loginName: '', password: ''));
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 19,
+                              ),
+                              child: Dismissible(
+                                key: Key(AccountList[index]['loginName']),
+                                direction: DismissDirection.startToEnd,
+                                onDismissed: (direction) {
+                                  _removeAccount(index);
                                 },
-                                child: Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 1,
-                                    ),
-                                    leading: CircleAvatar(
-                                        backgroundColor:
-                                            colors[index % colors.length],
-                                        child: const Icon(Icons.add)),
-                                    title: const Text(
-                                      "Add new account",
-                                      style: TextStyle(),
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.angleRight,
-                                          color: Colors.grey[350],
-                                          size: 20,
+                                background: Container(
+                                  color: Colors.red[400],
+                                  padding: const EdgeInsets.only(left: 16),
+                                  alignment: Alignment.centerLeft,
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.trashAlt,
+                                        color: Colors.white,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Swipe right to delete',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.white),
                                         ),
-                                      ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    nextScreen(
+                                        context,
+                                        LoginScreen(
+                                            loginName: AccountList[index]
+                                                ['loginName'],
+                                            password: AccountList[index]
+                                                ['password']));
+                                  },
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 1,
+                                      ),
+                                      leading: CircleAvatar(
+                                          backgroundColor:
+                                              colors[index % colors.length]
+                                                  .withOpacity(0.1),
+                                          child: Icon(
+                                            FontAwesomeIcons.userLarge,
+                                            color:
+                                                colors[index % colors.length],
+                                          )),
+                                      title: Text(
+                                        AccountList[index]['loginName'],
+                                        style: const TextStyle(),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.angleRight,
+                                            color: Colors.grey[350],
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                        ],
-                      );
-                    }),
+                            const Divider(
+                              color: Colors.transparent,
+                              height: 5,
+                            ),
+                            if (index == AccountList.length - 1)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 19),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    nextScreen(
+                                        context,
+                                        const LoginScreen(
+                                            loginName: '', password: ''));
+                                  },
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 1,
+                                      ),
+                                      leading: CircleAvatar(
+                                          backgroundColor: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.1),
+                                          child: Icon(
+                                            Icons.add,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          )),
+                                      title: const Text(
+                                        "Add new account",
+                                        style: TextStyle(),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.angleRight,
+                                            color: Colors.grey[350],
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      }),
+                    ),
                   ),
-                ),
-              ],
+                  Text('ver 1.0'),
+                ],
+              ),
             );
           }
         },

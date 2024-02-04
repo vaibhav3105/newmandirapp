@@ -27,53 +27,73 @@ class TodoService {
     }
   }
 
-  Future<dynamic> addTodo(
-      BuildContext context, String title, String desc) async {
+  Future<dynamic> addTodo(BuildContext context, String noteDesc) async {
     try {
-      var response = await ApiService().post(
-        addTodoUrl,
-        {'title': title, 'desc': desc},
-        headers,
+      var response = await ApiService().post2(
         context,
+        addTodoUrl,
+        {'desc': noteDesc},
+        headers,
       );
-      if (response['errorCode'] == 0) {
+
+      if (response.success == true) {
         showCustomSnackbar(
           context,
           Colors.black,
-          response['message'],
+          response.data['message'],
         );
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        nextScreen(context, const TodoScreen());
       }
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      nextScreen(context, const TodoScreen());
+
+      // if (response['errorCode'] == 0) {
+      //   showCustomSnackbar(
+      //     context,
+      //     Colors.black,
+      //     response['message'],
+      //   );
+      // }
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // nextScreen(context, const TodoScreen());
     } catch (e) {
       print(e.toString());
     }
   }
 
   Future<dynamic> modifyTodo(
-      BuildContext context, String title, String desc, String noteCode) async {
+      BuildContext context, String noteCode, String noteDesc) async {
     try {
-      var response = await ApiService().post(
+      var response = await ApiService().post2(
+        context,
         updateTodoUrl,
         {
           'noteCode': noteCode,
-          'title': title,
-          'desc': desc,
+          'desc': noteDesc,
         },
         headers,
-        context,
       );
-      if (response['errorCode'] == 0) {
-        showCustomSnackbar(
-          context,
-          Colors.black,
-          response['message'],
-        );
+
+      if (response.success == true) {
+        showToast(context, ToastTypes.SUCCESS, response.data['message']);
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        nextScreen(context, const TodoScreen());
+      } else {
+        showToast(context, ToastTypes.WARN, response.data['errorMessage']);
       }
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-      nextScreen(context, const TodoScreen());
+
+      // if (response['errorCode'] == 0) {
+      //   showCustomSnackbar(
+      //     context,
+      //     Colors.black,
+      //     response['message'],
+      //   );
+      // }
+      // Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+      // nextScreen(context, const TodoScreen());
     } catch (e) {
       print(e.toString());
     }

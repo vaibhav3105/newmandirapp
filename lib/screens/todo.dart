@@ -174,10 +174,13 @@ class _TodoScreenState extends State<TodoScreen>
                                     ),
                                     leading: CircleAvatar(
                                       backgroundColor:
-                                          colors[index % colors.length],
-                                      child: const Icon(
+                                          colors[index % colors.length]
+                                              .withOpacity(0.1),
+                                      // backgroundColor: Colors.white,
+                                      child: Icon(
                                         FontAwesomeIcons.solidNoteSticky,
-                                        color: Colors.white,
+                                        // color: Colors.white,
+                                        color: colors[index % colors.length],
                                       ),
                                     ),
                                     trailing: Container(
