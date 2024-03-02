@@ -31,12 +31,22 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         passwordController.text = widget.password;
       });
+      setState(() {
+        isLoading = true;
+      });
+      ApiService.login(
+          context, emailController.text.trim(), passwordController.text.trim());
+
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   final formKey = GlobalKey<FormState>();
   String? email = "";
   String? password = "";
+
   bool isLoading = false;
   bool isVisible = false;
   final emailController = TextEditingController();
@@ -219,11 +229,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           const SizedBox(
-                            height: 0,
-                          ),
-                          const SizedBox(
                             height: 20,
                           ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("< back to account list"),
+                          )
                         ],
                       ),
                     ),

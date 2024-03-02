@@ -50,15 +50,18 @@ class _SearchScreenState extends State<SearchScreen> {
         },
         headers,
       );
-      print(response);
-
-      var _result = (response.success == true && response.data.length > 0)
-          ? response.data
-          : [];
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        setState(() {
+          isLoadingMembers = false;
+          members = [];
+        });
+        return;
+      }
 
       setState(() {
         isLoadingMembers = false;
-        members = _result;
+        members = response.data;
       });
     } catch (e) {
       setState(() {
@@ -93,10 +96,13 @@ class _SearchScreenState extends State<SearchScreen> {
       {'keyName': "SEARCH_MEMBER_BY"},
       headers,
     );
+    if (response.success == false) {
+      ApiService().handleApiResponse2(context, response.data);
+    }
 
-    List<LookupItem> _result = [];
+    List<LookupItem> result = [];
     if (response.success == true && response.data.length > 0) {
-      _result = (response.data as List<dynamic>)
+      result = (response.data as List<dynamic>)
           .map((lookUpItem) => LookupItem(
               displayText: lookUpItem["displayText"],
               actualValue: lookUpItem["actualValue"]))
@@ -105,8 +111,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
     setState(() {
       isLoading = false;
-      SearchByList = _result;
-      if (SearchByList.length > 0) {
+      SearchByList = result;
+      if (SearchByList.isNotEmpty) {
         SearchByItem = SearchByList[0];
       }
     });

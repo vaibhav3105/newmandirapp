@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mandir_app/auth/login_screen.dart';
@@ -47,13 +48,13 @@ class _AccountScreenState extends State<AccountScreen> {
             return Padding(
               padding: const EdgeInsets.all(25),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 100,
                   ),
                   const Text(
                     "Login",
-                    textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -250,7 +251,17 @@ class _AccountScreenState extends State<AccountScreen> {
                       }),
                     ),
                   ),
-                  const Text('ver 1.0'),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "ver ${dotenv.env['APP_VERSION']}.0",
+                    ),
+                  ),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       SystemNavigator.pop();
+                  //     },
+                  //     child: const Text("Exit"))
                 ],
               ),
             );

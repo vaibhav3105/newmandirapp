@@ -7,11 +7,14 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
   final FocusNode? focus;
+  final void Function(String)? onChanged;
   final Icon? suffixIcon;
+
   const CustomTextField(
       {Key? key,
       required this.labelText,
       required this.controller,
+      this.onChanged,
       this.focus,
       this.suffixIcon})
       : super(key: key);
@@ -19,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       focusNode: focus,
       controller: controller,
       decoration: textInputDecoration.copyWith(

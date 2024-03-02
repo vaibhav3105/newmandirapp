@@ -182,18 +182,19 @@ class _MyDrawerState extends State<MyDrawer> {
               trailing: Icon(Icons.chevron_right),
             ),
           ),
-          const Divider(),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-              nextScreen(context, const CreateNewLogin());
-            },
-            child: const ListTile(
-              leading: Icon(FontAwesomeIcons.plus),
-              title: Text("Add New Login"),
-              trailing: Icon(Icons.chevron_right),
+          if (userType == 99) const Divider(),
+          if (userType == 99)
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                nextScreen(context, const CreateNewLogin());
+              },
+              child: const ListTile(
+                leading: Icon(FontAwesomeIcons.plus),
+                title: Text("Add New Login"),
+                trailing: Icon(Icons.chevron_right),
+              ),
             ),
-          ),
           const Divider(),
           ExpansionTile(
             // tilePadding: const EdgeInsets.symmetric(

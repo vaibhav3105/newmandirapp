@@ -148,7 +148,7 @@ class ApiService {
       } else if (apiResult.containsKey("errors")) {
         Map<String, dynamic> errors = apiResult["errors"];
         for (var key in errors.keys) {
-          if (errors[key] is List<String> && errors[key].isNotEmpty) {
+          if (errors[key].isNotEmpty) {
             showToast(context, ToastTypes.WARN, errors[key][0]);
             break;
           }
@@ -234,21 +234,23 @@ class ApiService {
       await Helper.showBiometricLogin(true);
 
       await updateHeaders();
-
-      if (result.data['appVer'] < appVersion) {
+      print(result.data['appDownloadUrl']);
+      // print(result.data['appVer'] <= dotenv.env['APP_VERSION']);
+      if (result.data['appVer'] > int.parse(dotenv.env['APP_VERSION']!)) {
         nextScreenReplace(
           context,
           UpdateAppScreen(
             url: result.data['appDownloadUrl'],
+            // url: 'https://aurabyte.in/gj-upload/directory.apk',
             message: result.data['appDownloadMsg'],
+            // message: 'hi',
           ),
         );
       } else {
-        print('vaibhav9');
         nextScreenReplace(context, MyFamilyList(code: ''));
       }
     } catch (e) {
-      showToast(context, ToastTypes.ERROR, e.toString());
+      // showToast(context, ToastTypes.ERROR, e.toString());
     }
   }
 

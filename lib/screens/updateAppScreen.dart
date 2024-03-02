@@ -1,7 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:mandir_app/screens/myFamilyList.dart';
+import 'package:mandir_app/utils/utils.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UpdateAppScreen extends StatefulWidget {
   final String url;
@@ -18,23 +24,62 @@ class UpdateAppScreen extends StatefulWidget {
 
 class _UpdateAppScreenState extends State<UpdateAppScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // FlutterDownloader.registerCallback((taskId, status, progress) async {
+    //   if (status == DownloadTaskStatus.complete) {
+    //     OpenResult result =
+    //         await OpenFile.open('${directory.path}/$fileName.jpg');
+    //     print(result.message);
+    //   }
+    // });
+  }
+
+  @override
   void _downloadApp() async {
-    final externalDir = await getExternalStorageDirectory();
+    Directory? directory = Directory('/storage/emulated/0/Download');
+
     String downloadUrl = widget.url; // Replace with the actual URL
+    // String fileName = 'Directory${DateTime.now().toString()}';
+    String fileName = 'Directory';
     final taskId = await FlutterDownloader.enqueue(
+      fileName: fileName,
       saveInPublicStorage: true,
       url: downloadUrl,
-      savedDir:
-          externalDir!.path, // Replace with your desired download directory
+      savedDir: directory.path, // Replace with your desired download directory
       showNotification: true,
       openFileFromNotification: true,
     );
+    await Permission.storage.request();
+    // if (Permission.manageExternalStorage.isGranted == false) {
+    //   await Permission.manageExternalStorage.request();
+    // }
+
+    // FlutterDownloader.registerCallback((taskId, status, progress) async {
+    //   if (status == DownloadTaskStatus.complete) {
+    //     OpenResult result =
+    //         await OpenFile.open('${directory.path}/$fileName.jpg');
+    //     print(result.message);
+    //   }
+    // });
+    // OpenResult result =
+    //     await OpenFile.open('/storage/emulated/0/Download/Directory.jpg');
+    // print(result.message);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            nextScreenReplace(context, MyFamilyList(code: ''));
+          },
+          icon: const Icon(
+            Icons.close,
+          ),
+        ),
         title: const Text(
           'Version Update',
         ),
@@ -64,13 +109,17 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
                 ),
               ),
               child: const Text(
-                "Update",
+                "Download",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),
               ),
               onPressed: () async {
+                if (await Permission.notification.isGranted == false) {
+                  await Permission.notification.request();
+                }
+
                 _downloadApp();
               },
             ),

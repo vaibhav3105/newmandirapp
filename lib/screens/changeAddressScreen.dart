@@ -73,16 +73,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
         },
         headers,
       );
-      print(response.success);
-      print(response.data);
-      if (response.success == true) {
-        showToast(context, ToastTypes.SUCCESS, "Address Updated Successfully");
-
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) {
-          return MyFamilyList(code: '');
-        }), (route) => false);
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        return;
       }
+      showToast(context, ToastTypes.SUCCESS, "Address Updated Successfully");
+
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) {
+        return MyFamilyList(code: '');
+      }), (route) => false);
     } catch (e) {
       print(
         e.toString(),
@@ -124,7 +124,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
         {"familyGroupCode": widget.groupCode},
         headers,
       );
-
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
       setState(() {
         EditData = response.data;
         isLoading = false;
@@ -207,6 +213,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
           .toList();
       setState(() {
         CountryDropDownList = countryDropDownList;
+        initialCountry = result[0];
+        getStateList();
         isLoading = false;
       });
     } catch (e) {

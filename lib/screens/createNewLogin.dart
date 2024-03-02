@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mandir_app/utils/app_enums.dart';
+import 'package:mandir_app/utils/utils.dart';
 import 'package:mandir_app/widgets/custom_textfield.dart';
 
 import '../service/api_service.dart';
@@ -15,14 +17,18 @@ class CreateNewLogin extends StatefulWidget {
 }
 
 class _CreateNewLoginState extends State<CreateNewLogin> {
+  APIDropDownItem? initialCountry;
+  APIDropDownItem? initialState;
+  APIDropDownItem? initialCity;
+  List<DropdownMenuItem<APIDropDownItem>> CountryDropDownList =
+      <DropdownMenuItem<APIDropDownItem>>[];
+  List<DropdownMenuItem<APIDropDownItem>> StateDropDownList =
+      <DropdownMenuItem<APIDropDownItem>>[];
+  List<DropdownMenuItem<APIDropDownItem>> CityDropDownList =
+      <DropdownMenuItem<APIDropDownItem>>[];
   bool gotResponse = false;
   FocusNode loginNameFocus = FocusNode();
-  APIDropDownItem? initialArea;
-  APIDropDownItem? initialMandir;
-  List<DropdownMenuItem<APIDropDownItem>> areaOptionsButton =
-      <DropdownMenuItem<APIDropDownItem>>[];
-  List<DropdownMenuItem<APIDropDownItem>> mandirOptionsButton =
-      <DropdownMenuItem<APIDropDownItem>>[];
+
   final loginNameController = TextEditingController();
   final memberNameController = TextEditingController();
   final mobileController = TextEditingController();
@@ -41,30 +47,167 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
         checkLoginNameAvailability();
       }
     });
-    getAreaAndMandirList();
+    getCountryList();
+  }
+
+  getCountryList() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await ApiService().post2(
+        context,
+        '/api/master-data/country/list',
+        {},
+        headers,
+      );
+      List<APIDropDownItem> result = [];
+      if (response.success == true && response.data.length > 0) {
+        result = (response.data as List<dynamic>)
+            .map(
+              (apiItem) => APIDropDownItem(
+                displayText: apiItem['name'],
+                actualValue: apiItem['id'].toString(),
+              ),
+            )
+            .toList();
+      }
+
+      var countryDropDownList = result
+          .map(
+            (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+              value: item,
+              child: Text(
+                item.displayText,
+                style: const TextStyle(fontWeight: FontWeight.normal),
+              ),
+            ),
+          )
+          .toList();
+      setState(() {
+        CountryDropDownList = countryDropDownList;
+        // initialCountry = result[0];
+        // getStateList();
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getStateList() async {
+    // setState(() {
+    //   isLoading = true;
+    // });
+    try {
+      var response = await ApiService().post2(
+        context,
+        '/api/master-data/state/list',
+        {'countryId': initialCountry!.actualValue},
+        headers,
+      );
+      List<APIDropDownItem> result = [];
+      if (response.success == true && response.data.length > 0) {
+        result = (response.data as List<dynamic>)
+            .map(
+              (apiItem) => APIDropDownItem(
+                displayText: apiItem['name'],
+                actualValue: apiItem['id'].toString(),
+              ),
+            )
+            .toList();
+      }
+
+      var stateDropDownList = result
+          .map(
+            (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+              value: item,
+              child: Text(
+                item.displayText,
+                style: const TextStyle(fontWeight: FontWeight.normal),
+              ),
+            ),
+          )
+          .toList();
+      setState(() {
+        StateDropDownList = stateDropDownList;
+        // isLoading = false;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getCityList() async {
+    // setState(() {
+    //   isLoading = true;
+    // });
+    try {
+      var response = await ApiService().post2(
+        context,
+        '/api/master-data/city/list',
+        {'stateId': initialState!.actualValue},
+        headers,
+      );
+      List<APIDropDownItem> result = [];
+      if (response.success == true && response.data.length > 0) {
+        result = (response.data as List<dynamic>)
+            .map(
+              (apiItem) => APIDropDownItem(
+                displayText: apiItem['name'],
+                actualValue: apiItem['id'].toString(),
+              ),
+            )
+            .toList();
+      }
+
+      var cityDropDownList = result
+          .map(
+            (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
+              value: item,
+              child: Text(
+                item.displayText,
+                style: const TextStyle(fontWeight: FontWeight.normal),
+              ),
+            ),
+          )
+          .toList();
+      setState(() {
+        CityDropDownList = cityDropDownList;
+        // isLoading = false;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   createMember() async {
     try {
-      var response = await ApiService().post(
+      var response = await ApiService().post2(
+        context,
         '/api/family-member/create-with-login',
         {
           'loginName': loginNameController.text.trim(),
           'name': memberNameController.text.trim(),
           'mobile': mobileController.text.trim(),
           'address': addressController.text.trim(),
-          'areaCode': initialArea!.actualValue,
-          'mandirCode': initialMandir!.actualValue
+          'countryId':
+              initialCountry == null ? null : initialCountry!.actualValue,
+          'stateId': initialState == null ? null : initialState!.actualValue,
+          'cityId': initialCity == null ? null : initialCity!.actualValue,
         },
         headers,
-        context,
       );
 
-      var cats = List.from(Set.from(response.map((e) => e['c'])));
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        return;
+      }
+      var cats = List.from(Set.from(response.data.map((e) => e['c'])));
       var data = [];
       for (var cat in cats) {
         var item = {"cat": cat};
-        item['items'] = response.where((x) => x['c'] == cat).toList();
+        item['items'] = response.data.where((x) => x['c'] == cat).toList();
         data.add(item);
       }
       setState(() {
@@ -72,7 +215,7 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
         gotResponse = true;
       });
     } catch (e) {
-      // print(e.toString());
+      print(e.toString());
     }
   }
 
@@ -89,82 +232,6 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
         loginNameAvailable = response;
       });
       print(loginNameAvailable);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  getAreaAndMandirList() async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      var response = await ApiService().post(
-        '/api/master-data/area/list',
-        {},
-        headers,
-        context,
-      );
-      var areaItems = (response as List<dynamic>)
-          .map(
-            (apiItem) => APIDropDownItem(
-              displayText: apiItem['name'],
-              actualValue: apiItem['code'],
-            ),
-          )
-          .toList();
-      setState(() {
-        areaOptionsButton = areaItems
-            .map(
-              (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
-                value: item,
-                child: Text(
-                  item.displayText,
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-            )
-            .toList();
-        initialArea = areaItems[0];
-
-        getMandirList();
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  getMandirList() async {
-    try {
-      var response = await ApiService().post(
-        '/api/master-data/mandir-ji/list',
-        {},
-        headers,
-        context,
-      );
-      var mandirItems = (response as List<dynamic>)
-          .map(
-            (apiItem) => APIDropDownItem(
-              displayText: apiItem['name'],
-              actualValue: apiItem['mandirCode'],
-            ),
-          )
-          .toList();
-      setState(() {
-        mandirOptionsButton = mandirItems
-            .map(
-              (APIDropDownItem item) => DropdownMenuItem<APIDropDownItem>(
-                value: item,
-                child: Text(
-                  item.displayText,
-                  style: const TextStyle(fontWeight: FontWeight.normal),
-                ),
-              ),
-            )
-            .toList();
-        initialMandir = mandirItems[0];
-        isLoading = false;
-      });
     } catch (e) {
       print(e.toString());
     }
@@ -196,6 +263,10 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
                           const SizedBox(
                             height: 20,
                           ),
+                          const Text('Login Name'),
+                          const SizedBox(
+                            height: 5,
+                          ),
                           CustomTextField(
                               suffixIcon: loginNameAvailable == null
                                   ? null
@@ -209,7 +280,7 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
                                           color: Colors.red,
                                         ),
                               focus: loginNameFocus,
-                              labelText: 'Login Name',
+                              labelText: '',
                               controller: loginNameController),
                           const SizedBox(
                             height: 5,
@@ -233,14 +304,22 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
                               ),
                             ),
                           const SizedBox(
-                            height: 17,
+                            height: 20,
+                          ),
+                          const Text('Famly Member Name'),
+                          const SizedBox(
+                            height: 5,
                           ),
                           CustomTextField(
                             controller: memberNameController,
-                            labelText: 'Family Member Name',
+                            labelText: '',
                           ),
                           const SizedBox(
                             height: 20,
+                          ),
+                          const Text('Mobile'),
+                          const SizedBox(
+                            height: 5,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.phone,
@@ -252,56 +331,101 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
                             decoration: textInputDecoration.copyWith(
                               filled: true,
                               fillColor: Colors.white,
-                              labelText: 'Mobile',
+                              labelText: '',
                             ),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
+                          const Text('Country'),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Select a country"),
+                            value: initialCountry,
+                            decoration: textInputDecoration.copyWith(
+                              labelText: '',
+                              fillColor: Colors.white,
+                              filled: true,
+                            ),
+                            items: CountryDropDownList,
+                            onChanged: (APIDropDownItem? item) {
+                              setState(() {
+                                initialCountry = item!;
+
+                                initialState = null;
+                                initialCity = null;
+                                StateDropDownList.clear();
+                                CityDropDownList.clear();
+                              });
+                              getStateList();
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text('State'),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Select a state"),
+                            value: initialState,
+                            decoration: textInputDecoration.copyWith(
+                              labelText: '',
+                              fillColor: Colors.white,
+                              filled: true,
+                            ),
+                            items: StateDropDownList,
+                            onChanged: (APIDropDownItem? item) {
+                              setState(() {
+                                initialState = item!;
+
+                                initialCity = null;
+                                CityDropDownList.clear();
+                              });
+                              getCityList();
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text('City'),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Select a city"),
+                            value: initialCity,
+                            decoration: textInputDecoration.copyWith(
+                              labelText: '',
+                              fillColor: Colors.white,
+                              filled: true,
+                            ),
+                            items: CityDropDownList,
+                            onChanged: (APIDropDownItem? item) {
+                              setState(() {
+                                initialCity = item!;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text('Address'),
+                          const SizedBox(
+                            height: 5,
+                          ),
                           CustomTextAreaField(
-                            labelText: 'Residential Address',
+                            labelText: '',
                             controller: addressController,
                           ),
                           const SizedBox(
                             height: 20,
-                          ),
-                          DropdownButtonFormField(
-                            hint: const Text("Select an Area"),
-                            value: initialArea,
-                            decoration: textInputDecoration.copyWith(
-                              labelText: 'Area',
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            items: areaOptionsButton,
-                            onChanged: (APIDropDownItem? item) {
-                              setState(() {
-                                initialArea = item!;
-                              });
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          DropdownButtonFormField(
-                            isExpanded: true,
-                            isDense: false,
-                            hint: const Text("Select Mandir Ji"),
-                            value: initialMandir,
-                            decoration: textInputDecoration.copyWith(
-                              labelText: 'Nearby Jain Mandir',
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            items: mandirOptionsButton,
-                            onChanged: (APIDropDownItem? item) {
-                              setState(() {
-                                initialMandir = item!;
-                              });
-                            },
-                          ),
-                          const SizedBox(
-                            height: 30,
                           ),
                           Center(
                             child: SizedBox(
@@ -331,6 +455,9 @@ class _CreateNewLoginState extends State<CreateNewLogin> {
                                 ),
                               ),
                             ),
+                          ),
+                          const SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),

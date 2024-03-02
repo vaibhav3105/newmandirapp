@@ -49,12 +49,12 @@ class _LoginInfoState extends State<LoginInfo> {
             'familyGroupCode': widget.familyGroupCode,
           },
           headers);
-
-      if (response.success == true) {
-        showToast(context, ToastTypes.INFO, response.data['message']);
-      } else {
-        showToast(context, ToastTypes.WARN, response.data['errorMessage']);
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        return;
       }
+
+      showToast(context, ToastTypes.INFO, response.data['message']);
     } catch (e) {
       print(e.toString());
     }
@@ -82,10 +82,16 @@ class _LoginInfoState extends State<LoginInfo> {
 
       var loginInfoMsg = '';
       var loginInfoList = [];
-      if (response.success == true) {
-        loginInfoMsg = response.data['message'];
-        loginInfoList = response.data['loginList'];
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        setState(() {
+          isLoading = false;
+        });
+        return;
       }
+
+      loginInfoMsg = response.data['message'];
+      loginInfoList = response.data['loginList'];
 
       setState(() {
         isLoading = false;
@@ -178,7 +184,7 @@ class _LoginInfoState extends State<LoginInfo> {
                                       Padding(
                                         // padding: const EdgeInsets.symmetric(
                                         //     horizontal: 20, vertical: 12),
-                                        padding: EdgeInsets.all(6.0),
+                                        padding: const EdgeInsets.all(6.0),
                                         child: Table(
                                           // border: TableBorder.all(),
                                           // border: TableBorder.lerp(a, b, t)

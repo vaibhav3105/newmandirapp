@@ -12,6 +12,7 @@ import 'package:mandir_app/screens/reminderList.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/screens/todo.dart';
 import 'package:mandir_app/services/advertisementService.dart';
+import 'package:mandir_app/utils/app_enums.dart';
 
 import 'package:mandir_app/utils/utils.dart';
 import 'package:mandir_app/widgets/drawer.dart';
@@ -64,6 +65,28 @@ class _MyFamilyListState extends State<MyFamilyList> {
     remarkController.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  deleteAddress(String groupCode) async {
+    try {
+      var response = await ApiService().post2(
+        context,
+        '/api/family-group/delete',
+        {
+          'familyGroupCode': groupCode,
+        },
+        headers,
+      );
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        return;
+      }
+
+      showToast(context, ToastTypes.SUCCESS, response.data['message']);
+      getMyFamily();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void getMyFamily() async {
@@ -503,6 +526,7 @@ class _MyFamilyListState extends State<MyFamilyList> {
               child: ListView.builder(
                 itemCount: menuItems.length,
                 itemBuilder: (BuildContext context, int index) {
+                  print(menuItems);
                   final menuItem = menuItems[index];
                   String title = '';
                   Function? onTap;
@@ -544,6 +568,17 @@ class _MyFamilyListState extends State<MyFamilyList> {
                           membercode: '',
                         ),
                       );
+                    };
+                  } else if (menuItem == 'DELETE_ADDRESS') {
+                    title = 'Delete Address';
+                    icon = Icon(
+                      Icons.delete,
+                      color: Theme.of(context).primaryColor,
+                      size: 30,
+                    );
+                    onTap = () async {
+                      Navigator.pop(context);
+                      deleteAddress(answer[outerIndex]['code']);
                     };
                   }
 

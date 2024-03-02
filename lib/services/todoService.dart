@@ -35,15 +35,16 @@ class TodoService {
         {'desc': noteDesc},
         headers,
       );
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
 
-      if (response.success == true) {
-        showToast(context, ToastTypes.SUCCESS, response.data['message']);
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        nextScreen(context, const TodoScreen());
-      } else {
-        showToast(context, ToastTypes.WARN, response.data['errorMessage']);
+        return;
       }
+
+      showToast(context, ToastTypes.SUCCESS, response.data['message']);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      nextScreen(context, const TodoScreen());
 
       // if (response['errorCode'] == 0) {
       //   showCustomSnackbar(
@@ -72,15 +73,16 @@ class TodoService {
         },
         headers,
       );
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
 
-      if (response.success == true) {
-        showToast(context, ToastTypes.SUCCESS, response.data['message']);
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        nextScreen(context, const TodoScreen());
-      } else {
-        showToast(context, ToastTypes.WARN, response.data['errorMessage']);
+        return;
       }
+
+      showToast(context, ToastTypes.SUCCESS, response.data['message']);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      nextScreen(context, const TodoScreen());
 
       // if (response['errorCode'] == 0) {
       //   showCustomSnackbar(

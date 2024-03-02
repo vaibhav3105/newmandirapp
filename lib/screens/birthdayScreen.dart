@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mandir_app/screens/search_screen.dart';
 import 'package:mandir_app/screens/show_member_info.dart';
 import 'package:mandir_app/service/api_service.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
-import '../utils/styling.dart';
 import '../utils/utils.dart';
 
 class BirthdayScreen extends StatefulWidget {

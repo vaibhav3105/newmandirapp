@@ -72,6 +72,15 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.reminderCode.isNotEmpty) {
+      setState(() {
+        _isCheckedList = List.generate(12, (index) => false);
+      });
+    } else {
+      setState(() {
+        _isCheckedList = List.generate(12, (index) => true);
+      });
+    }
     getRepeatControls();
     getCategoryControls();
   }
