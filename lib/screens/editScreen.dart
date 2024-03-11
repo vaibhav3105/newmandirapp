@@ -45,11 +45,11 @@ class _EditScreenState extends State<EditScreen> {
   );
   bool isLoading = false;
   bool? isFamilyHead = false;
-  bool? showMobileFlag = true;
-  bool? showEmailFlag = true;
-  bool? showDobFlag = true;
-  bool? showProfilePhotoFlag = true;
-  bool? showFamilyViewFlag = true;
+  bool? hideMobileFlag = false;
+  bool? hideEmailFlag = false;
+  bool? hideDobFlag = false;
+  bool? hideProfilePhotoFlag = false;
+  bool? hideProfileViewFlag = false;
   APIDropDownItem? initialGender;
   APIDropDownItem? initialOccupation;
   APIDropDownItem? initialMaritalStatus;
@@ -74,11 +74,11 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "showMobile": showMobileFlag,
-          "showEmail": showEmailFlag,
-          "showDob": showDobFlag,
-          "showProfilePhoto": showProfilePhotoFlag,
-          "showFamilyView": showFamilyViewFlag,
+          "hideMobile": hideMobileFlag,
+          "hideEmail": hideEmailFlag,
+          "hideDob": hideDobFlag,
+          "hideProfilePhoto": hideProfilePhotoFlag,
+          "hideProfileView": hideProfileViewFlag,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -126,11 +126,11 @@ class _EditScreenState extends State<EditScreen> {
           "name": nameController.text.trim(),
           "relationship": relationshipController.text.trim(),
           "mobile": mobileController.text.trim(),
-          "showMobile": showMobileFlag,
-          "showEmail": showEmailFlag,
-          "showDob": showDobFlag,
-          "showProfilePhoto": showProfilePhotoFlag,
-          "showFamilyView": showFamilyViewFlag,
+          "hideMobile": hideMobileFlag,
+          "hideEmail": hideEmailFlag,
+          "hideDob": hideDobFlag,
+          "hideProfilePhoto": hideProfilePhotoFlag,
+          "hideProfileView": hideProfileViewFlag,
           "email": emailController.text.trim(),
           "gender": initialGender != null ? initialGender!.actualValue : null,
           "phone": otherPhoneController.text.trim(),
@@ -247,11 +247,11 @@ class _EditScreenState extends State<EditScreen> {
             initialOccupation = ocuupationItems[2];
           }
 
-          showMobileFlag = response['info'][0]['showMobile'];
-          showEmailFlag = response['info'][0]['showEmail'];
-          showDobFlag = response['info'][0]['showDob'];
-          showProfilePhotoFlag = response['info'][0]['showProfilePhoto'];
-          showFamilyViewFlag = response['info'][0]['showFamilyView'];
+          hideMobileFlag = response['info'][0]['hideMobile'];
+          hideEmailFlag = response['info'][0]['hideEmail'];
+          hideDobFlag = response['info'][0]['hideDob'];
+          hideProfilePhotoFlag = response['info'][0]['hideProfilePhoto'];
+          hideProfileViewFlag = response['info'][0]['hideProfileView'];
 
           result = response;
           genderOptionsButton = genderItems
@@ -431,9 +431,9 @@ class _EditScreenState extends State<EditScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.only(left: 0.0, right: 0.0),
-                        title: const Text("Show your mobile to others?"),
+                        title: const Text("Hide your mobile from others?"),
                         subtitle: Text(
-                          "Using this switch, you can show or hide your mobile number with others.",
+                          "Using this option, you can hide or show your mobile number from others.",
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 13,
@@ -441,10 +441,10 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         trailing: Switch(
                           thumbIcon: thumbIcon,
-                          value: showMobileFlag!,
+                          value: hideMobileFlag!,
                           onChanged: (bool value) {
                             setState(() {
-                              showMobileFlag = value;
+                              hideMobileFlag = value;
                             });
                           },
                         ),
@@ -464,9 +464,9 @@ class _EditScreenState extends State<EditScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.only(left: 0.0, right: 0.0),
-                        title: const Text("Show your email to others?"),
+                        title: const Text("Hide your email from others?"),
                         subtitle: Text(
-                          "Using this switch, you can show or hide your email address with others.",
+                          "Using this option, you can hide or show your email address from others.",
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 13,
@@ -474,10 +474,10 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         trailing: Switch(
                           thumbIcon: thumbIcon,
-                          value: showEmailFlag!,
+                          value: hideEmailFlag!,
                           onChanged: (bool value) {
                             setState(() {
-                              showEmailFlag = value;
+                              hideEmailFlag = value;
                             });
                           },
                         ),
@@ -595,9 +595,9 @@ class _EditScreenState extends State<EditScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.only(left: 0.0, right: 0.0),
-                        title: const Text("Show your DOB to others?"),
+                        title: const Text("Hide your DOB from others?"),
                         subtitle: Text(
-                          "Using this switch, you can show or hide your date of birth with others.",
+                          "Using this option, you can hide or show your date of birth from others.",
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 13,
@@ -605,10 +605,10 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         trailing: Switch(
                           thumbIcon: thumbIcon,
-                          value: showDobFlag!,
+                          value: hideDobFlag!,
                           onChanged: (bool value) {
                             setState(() {
-                              showDobFlag = value;
+                              hideDobFlag = value;
                             });
                           },
                         ),
@@ -685,9 +685,10 @@ class _EditScreenState extends State<EditScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.only(left: 0.0, right: 0.0),
-                        title: const Text("Show your profile photo to others?"),
+                        title:
+                            const Text("Hide your profile photo from others?"),
                         subtitle: Text(
-                          "Using this switch, you can show or hide your profile photo with others.",
+                          "Using this option, you can hide or show your profile photo from others.",
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 13,
@@ -695,21 +696,22 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         trailing: Switch(
                           thumbIcon: thumbIcon,
-                          value: showProfilePhotoFlag!,
+                          value: hideProfilePhotoFlag!,
                           onChanged: (bool value) {
                             setState(() {
-                              showProfilePhotoFlag = value;
+                              hideProfilePhotoFlag = value;
                             });
                           },
                         ),
                       ),
-                      // -- Show your family view to others?
+                      // -- Hide this member from others?
                       ListTile(
                         contentPadding:
                             const EdgeInsets.only(left: 0.0, right: 0.0),
-                        title: const Text("Show your family view to others?"),
+                        title:
+                            const Text("Hide my profile details from others?"),
                         subtitle: Text(
-                          "Using this switch, you can show or hide your family view with others.",
+                          "Using this option, you can hide or show your profile view/details from others.",
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontSize: 13,
@@ -717,10 +719,10 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         trailing: Switch(
                           thumbIcon: thumbIcon,
-                          value: showFamilyViewFlag!,
+                          value: hideProfileViewFlag!,
                           onChanged: (bool value) {
                             setState(() {
-                              showFamilyViewFlag = value;
+                              hideProfileViewFlag = value;
                             });
                           },
                         ),

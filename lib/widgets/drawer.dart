@@ -6,6 +6,7 @@ import 'package:mandir_app/screens/birthdayScreen.dart';
 import 'package:mandir_app/screens/changeLoginName.dart';
 import 'package:mandir_app/screens/changePasswordScreen.dart';
 import 'package:mandir_app/screens/createNewLogin.dart';
+import 'package:mandir_app/screens/loginInfo.dart';
 import 'package:mandir_app/screens/myFamilyList.dart';
 import 'package:mandir_app/screens/assistant.dart';
 import 'package:mandir_app/screens/reminderList.dart';
@@ -179,6 +180,25 @@ class _MyDrawerState extends State<MyDrawer> {
                   // Icons.checklist,
                   ),
               title: Text("My Todo List"),
+              trailing: Icon(Icons.chevron_right),
+            ),
+          ),
+          const Divider(),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+              nextScreen(
+                context,
+                const LoginInfo(
+                  familyMemberCode: '',
+                ),
+              );
+            },
+            child: const ListTile(
+              leading: Icon(FontAwesomeIcons.key
+                  // Icons.checklist,
+                  ),
+              title: Text("View Login Info"),
               trailing: Icon(Icons.chevron_right),
             ),
           ),

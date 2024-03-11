@@ -559,7 +559,7 @@ class _ShowMemberInfoState extends State<ShowMemberInfo> {
                         context,
                         LoginInfo(
                           familyMemberCode: widget.memberCode,
-                          familyGroupCode: '',
+                          // familyGroupCode: '',
                         ),
                       );
                     };

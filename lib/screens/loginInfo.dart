@@ -14,12 +14,11 @@ import '../service/api_service.dart';
 
 class LoginInfo extends StatefulWidget {
   final String familyMemberCode;
-  final String familyGroupCode;
-  const LoginInfo({
-    Key? key,
-    required this.familyMemberCode,
-    required this.familyGroupCode,
-  }) : super(key: key);
+  // final String familyGroupCode;
+  const LoginInfo({Key? key, required this.familyMemberCode
+      // required this.familyGroupCode,
+      })
+      : super(key: key);
 
   @override
   State<LoginInfo> createState() => _LoginInfoState();
@@ -36,7 +35,53 @@ class _LoginInfoState extends State<LoginInfo> {
     getLoginInfo();
   }
 
-  void generateNewLogin() async {
+  void copyLoginInfo(item) async {
+    var copyText =
+        'Login for: ${item['name']}\nLogin name: ${item['loginName']}\nPassword: ${item['password']}';
+    Clipboard.setData(
+      ClipboardData(
+        text: copyText,
+      ),
+    );
+  }
+
+  void shareLoginInfo(item) async {
+    var shareText =
+        'Login for: ${item['name']}\nLogin name: ${item['loginName']}\nPassword: ${item['password']}';
+    await Share.share(shareText);
+  }
+
+  void deleteLoginInfo(item) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await ApiService().post2(
+          context,
+          "/api/account/delete-login-info",
+          {'familyMemberCode': item['familyMemberCode']},
+          headers);
+      if (response.success == false) {
+        ApiService().handleApiResponse2(context, response.data);
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
+
+      showToast(context, ToastTypes.INFO, response.data['message']);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+
+    getLoginInfo();
+  }
+
+  void generateLogin(item) async {
     setState(() {
       isLoading = true;
     });
@@ -44,13 +89,13 @@ class _LoginInfoState extends State<LoginInfo> {
       var response = await ApiService().post2(
           context,
           "/api/account/create-login-info",
-          {
-            'familyMemberCode': widget.familyMemberCode,
-            'familyGroupCode': widget.familyGroupCode,
-          },
+          {'familyMemberCode': item['familyMemberCode']},
           headers);
       if (response.success == false) {
         ApiService().handleApiResponse2(context, response.data);
+        setState(() {
+          isLoading = false;
+        });
         return;
       }
 
@@ -76,7 +121,7 @@ class _LoginInfoState extends State<LoginInfo> {
           "/api/account/get-login-info",
           {
             'familyMemberCode': widget.familyMemberCode,
-            'familyGroupCode': widget.familyGroupCode,
+            // 'familyGroupCode': widget.familyGroupCode,
           },
           headers);
 
@@ -92,7 +137,10 @@ class _LoginInfoState extends State<LoginInfo> {
 
       loginInfoMsg = response.data['message'];
       loginInfoList = response.data['loginList'];
-
+      loginInfoList.forEach((item) {
+        item['hasLogin'] = (item['loginName'] != '');
+      });
+      print(loginInfoList);
       setState(() {
         isLoading = false;
         LoginInfoMsg = loginInfoMsg;
@@ -195,7 +243,7 @@ class _LoginInfoState extends State<LoginInfo> {
                                                     child: Padding(
                                                   padding: EdgeInsets.all(6.0),
                                                   child: Text(
-                                                    "User Type",
+                                                    "Login for",
                                                     style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 14,
@@ -208,7 +256,7 @@ class _LoginInfoState extends State<LoginInfo> {
                                                       const EdgeInsets.all(6.0),
                                                   child: Text(
                                                     LoginInfoList[index]
-                                                        ['userTypeText'],
+                                                        ['name'],
                                                     style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 16),
@@ -216,60 +264,70 @@ class _LoginInfoState extends State<LoginInfo> {
                                                 )),
                                               ],
                                             ),
-                                            TableRow(
-                                              children: [
-                                                const TableCell(
-                                                    child: Padding(
-                                                  padding: EdgeInsets.all(6.0),
-                                                  child: Text(
-                                                    "Login Name",
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14,
+                                            if (LoginInfoList[index]
+                                                    ['hasLogin'] ==
+                                                true)
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                      child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(6.0),
+                                                    child: Text(
+                                                      "Login name",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
-                                                  ),
-                                                )),
-                                                TableCell(
-                                                    child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(6.0),
-                                                  child: Text(
-                                                    LoginInfoList[index]
-                                                        ['loginName'],
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16),
-                                                  ),
-                                                )),
-                                              ],
-                                            ),
-                                            TableRow(
-                                              children: [
-                                                const TableCell(
-                                                    child: Padding(
-                                                  padding: EdgeInsets.all(6.0),
-                                                  child: Text(
-                                                    "Password",
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14,
+                                                  )),
+                                                  TableCell(
+                                                      child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            6.0),
+                                                    child: Text(
+                                                      LoginInfoList[index]
+                                                          ['loginName'],
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16),
                                                     ),
-                                                  ),
-                                                )),
-                                                TableCell(
-                                                    child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(6.0),
-                                                  child: Text(
-                                                    LoginInfoList[index]
-                                                        ['password'],
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16),
-                                                  ),
-                                                )),
-                                              ],
-                                            ),
+                                                  )),
+                                                ],
+                                              ),
+                                            if (LoginInfoList[index]
+                                                    ['hasLogin'] ==
+                                                true)
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                      child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(6.0),
+                                                    child: Text(
+                                                      "Password",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  )),
+                                                  TableCell(
+                                                      child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            6.0),
+                                                    child: Text(
+                                                      LoginInfoList[index]
+                                                          ['password'],
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16),
+                                                    ),
+                                                  )),
+                                                ],
+                                              ),
                                           ],
                                         ),
                                       ),
@@ -288,20 +346,49 @@ class _LoginInfoState extends State<LoginInfo> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Clipboard.setData(
-                                                ClipboardData(
-                                                  text:
-                                                      'Login Name: ${LoginInfoList[index]['loginName']}\nPassword: ${LoginInfoList[index]['password']}',
-                                                ),
-                                              );
-                                            },
-                                            // child: const Icon(
-                                            //   Icons.copy,
-                                            // ),
-                                            child: const Text("Copy"),
-                                          ),
+                                          if (LoginInfoList[index]
+                                                  ['hasLogin'] ==
+                                              true)
+                                            TextButton(
+                                              onPressed: () {
+                                                copyLoginInfo(
+                                                    LoginInfoList[index]);
+                                              },
+                                              // child: const Icon(
+                                              //   Icons.copy,
+                                              // ),
+                                              child: const Text("Copy"),
+                                            ),
+                                          if (LoginInfoList[index]
+                                                  ['hasLogin'] ==
+                                              true)
+                                            TextButton(
+                                              onPressed: () {
+                                                shareLoginInfo(
+                                                    LoginInfoList[index]);
+                                              },
+                                              child: const Text("Share"),
+                                            ),
+                                          if (LoginInfoList[index]
+                                                  ['hasLogin'] ==
+                                              true)
+                                            TextButton(
+                                              onPressed: () {
+                                                deleteLoginInfo(
+                                                    LoginInfoList[index]);
+                                              },
+                                              child: const Text("Delete"),
+                                            ),
+                                          if (LoginInfoList[index]
+                                                  ['hasLogin'] ==
+                                              false)
+                                            TextButton(
+                                              onPressed: () {
+                                                generateLogin(
+                                                    LoginInfoList[index]);
+                                              },
+                                              child: const Text("Create Login"),
+                                            ),
                                         ],
                                       ),
                                     ],
@@ -320,39 +407,6 @@ class _LoginInfoState extends State<LoginInfo> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 35, vertical: 10),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : const Text(
-                                "Generate new Login",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          generateNewLogin();
-                        },
-                      ),
-                    ),
-                    // const Divider(
-                    //   color: Colors.transparent,
-                    //   height: 3,
-                    // ),
                   ],
                 ),
               ),
